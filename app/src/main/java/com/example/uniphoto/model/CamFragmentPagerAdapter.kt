@@ -1,9 +1,8 @@
-package com.mobapptuts.kotlin_camera2.Adapters
+package com.example.uniphoto.model
 
-import androidx.core.app.Fragment
-import androidx.core.app.FragmentManager
-import androidx.core.app.FragmentPagerAdapter
-import com.mobapptuts.kotlin_camera2.Fragments.PreviewFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 
 /**
  * Created by nigelhenshaw on 2018/01/24.
