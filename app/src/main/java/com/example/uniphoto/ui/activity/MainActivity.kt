@@ -18,9 +18,6 @@ class MainActivity : KodeinActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.navigateHostFragment)
-//        MainFragment
-//            .newInstance(intent?.extras)
-//            .showAllowingStateLoss(supportFragmentManager)
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -33,5 +30,4 @@ class MainActivity : KodeinActivity() {
 //            mainFragment?.onNotificationClicked(it)
 //        }
     }
-
 }

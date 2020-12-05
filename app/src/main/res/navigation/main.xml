@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/previewFragment"
-        android:name="com.example.uniphoto.ui.PreviewFragment"
+        android:name="com.example.uniphoto.ui.CameraFragment"
         android:label="PreviewFragment" />
 </navigation>
