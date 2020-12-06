@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_camera.*
 class CameraFragment : KodeinFragment() {
     companion object {
         private const val cameraPermissionRequestCode = 45
+        const val MIN_OPENGL_VERSION = 3.0
     }
 
     private var imageCapture: ImageCapture? = null
@@ -56,12 +57,23 @@ class CameraFragment : KodeinFragment() {
 
         if (isAllPermissionsGranted()) {
             // Wait for the view to be properly laid out
-            cameraPreviewView.postDelayed({ startCamera(ImageCapture.FLASH_MODE_OFF) }, 500)
+//            cameraPreviewView.postDelayed({ startCamera(ImageCapture.FLASH_MODE_OFF) }, 500)
+            setTextureFragment()
         } else {
             requestPermissions(arrayOf(Manifest.permission.CAMERA), cameraPermissionRequestCode)
         }
 
     }
+
+    private fun setTextureFragment() {
+        val arFragment = FaceArFragment()
+        childFragmentManager.beginTransaction().apply {
+            add(R.id.textureFragment, arFragment)
+            commit()
+        }
+
+    }
+
     private fun startCamera(flashMode: Int, cameraMode: Int? = null) {
         if (imageCapture != null) {
             if (cameraMode == null) {
