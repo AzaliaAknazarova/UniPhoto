@@ -22,6 +22,10 @@ import kotlin.properties.Delegates
 abstract class KodeinFragment<T : KodeinViewModel> : Fragment(), FragmentScene, CoroutineScope by MainScope() {
     protected abstract val viewModel: T
     protected inline fun <reified T : KodeinViewModel> viewModel(type: Class<T>): Lazy<T> = lazy { provide(type) }
+    inline fun <reified T> Fragment.castChild(): T? = child as? T
+
+    val Fragment.child: Any?
+        get() = childFragmentManager.fragments.firstOrNull() ?: activity
 
     private var viewModelFactory: KodeinViewModelFactory by Delegates.notNull()
 

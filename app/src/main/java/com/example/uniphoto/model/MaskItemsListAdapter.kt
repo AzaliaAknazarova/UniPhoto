@@ -21,7 +21,6 @@ class MaskItemsListAdapter: RecyclerView.Adapter<MaskItemsListViewHolder>() {
             LayoutInflater.from(parent.context).inflate(R.layout.item_mask, parent, false)
         )
 
-
     override fun onBindViewHolder(holder: MaskItemsListViewHolder, position: Int) {
         holder.bind(items[position])
     }
@@ -35,5 +34,9 @@ class MaskItemsListViewHolder(view: View) :
     fun bind(item: CameraViewModel.MaskListItem) {
         Log.d("tag", "on MaskItemsListViewHolder bind $item")
         itemView.textView.text = item.id.toString()
+
+        itemView.setOnClickListener {
+            item.onItemClicked?.invoke(adapterPosition)
+        }
     }
 }

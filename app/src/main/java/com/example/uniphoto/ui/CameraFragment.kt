@@ -76,14 +76,24 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
 
     private fun initViews() {
         masksRecyclerView.adapter = maskItemsAdapter
+        bottomSheetActionImageView.setOnClickListener {
+            viewModel.masksItemsRecyclerVisible.value =
+                viewModel.masksItemsRecyclerVisible.value != true
+        }
     }
 
     private fun bindViewModel() {
+        bindVisible(viewModel.masksItemsRecyclerVisible, masksRecyclerView)
+
         bind(viewModel.masksItemsList) {
             Log.d("tag", "on bindViewModel $it")
 
             maskItemsAdapter.items = it
             maskItemsAdapter.notifyDataSetChanged()
+        }
+        bindCommand(viewModel.maskSelectedCommand) {
+            Log.d("tag", "on bindViewModel $child")
+            castChild<MaskSelectedListener>()?.maskSelected(it)
         }
     }
 
@@ -93,7 +103,6 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
             add(R.id.textureFragment, arFragment)
             commit()
         }
-
     }
 
     private fun startCamera(flashMode: Int, cameraMode: Int? = null) {

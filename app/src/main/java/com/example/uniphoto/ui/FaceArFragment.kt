@@ -2,6 +2,7 @@ package com.example.uniphoto.ui
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +17,12 @@ import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.AugmentedFaceNode
 import java.util.*
 
-class FaceArFragment : ArFragment() {
+class FaceArFragment : ArFragment(), MaskSelectedListener {
     private var faceRegionsRenderable: ModelRenderable? = null
 
     var faceNodeMap = HashMap<AugmentedFace, AugmentedFaceNode>()
     private var changeModel: Boolean = false
+    private var glasses: ArrayList<ModelRenderable> = ArrayList()
 
     override fun getSessionConfiguration(session: Session?): Config {
         val config = Config(session)
@@ -42,20 +44,49 @@ class FaceArFragment : ArFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setMask()
+    }
+
+    private fun initRenderable() {
         ModelRenderable.builder()
-            .setSource(requireContext(), Uri.parse("hypno_glasses.sfb"))
+            .setSource(requireContext(), Uri.parse(
+                    "sunglasses.sfb"))
             .build()
             .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
                 faceRegionsRenderable = modelRenderable
                 modelRenderable.isShadowCaster = false
                 modelRenderable.isShadowReceiver = false
             }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                "yellow_sunglasses.sfb" ))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                    "hypno_glasses.sfb"))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
+    }
+
+    private fun setMask() {
+        initRenderable()
 
         val sceneView = this.arSceneView
         sceneView?.cameraStreamRenderPriority = Renderable.RENDER_PRIORITY_FIRST
         val scene = sceneView?.scene
 
         scene?.addOnUpdateListener {
+            Log.d("tag", "on scene?.addOnUpdateListener ${faceRegionsRenderable != null}")
             if (faceRegionsRenderable != null) {
                 sceneView.session
                     ?.getAllTrackables(AugmentedFace::class.java)?.let {
@@ -84,5 +115,11 @@ class FaceArFragment : ArFragment() {
                     }
             }
         }
+    }
+
+    override fun maskSelected(maskId: Int) {
+        Log.d("tag", "on maskSelected $maskId $faceRegionsRenderable $glasses")
+        changeModel = true
+        faceRegionsRenderable = glasses.get(maskId - 1)
     }
 }
