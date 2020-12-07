@@ -19,7 +19,9 @@ import org.kodein.di.generic.instance
 import kotlin.coroutines.CoroutineContext
 import kotlin.properties.Delegates
 
-abstract class KodeinFragment : Fragment(), CoroutineScope by MainScope() {
+abstract class KodeinFragment<T : KodeinViewModel> : Fragment(), FragmentScene, CoroutineScope by MainScope() {
+    protected abstract val viewModel: T
+    protected inline fun <reified T : KodeinViewModel> viewModel(type: Class<T>): Lazy<T> = lazy { provide(type) }
 
     private var viewModelFactory: KodeinViewModelFactory by Delegates.notNull()
 

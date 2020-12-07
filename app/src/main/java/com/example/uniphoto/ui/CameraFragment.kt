@@ -1,8 +1,10 @@
 package com.example.uniphoto.ui
 
 import android.Manifest
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,17 +14,21 @@ import androidx.core.content.ContextCompat
 import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
+import com.example.uniphoto.model.MaskItemsListAdapter
 import kotlinx.android.synthetic.main.fragment_camera.*
 
 /**
  * Created by nigelhenshaw on 2018/01/23.
  */
-class CameraFragment : KodeinFragment() {
+class CameraFragment : KodeinFragment<CameraViewModel>() {
     companion object {
         private const val cameraPermissionRequestCode = 45
         const val MIN_OPENGL_VERSION = 3.0
     }
 
+    override val viewModel by viewModel(CameraViewModel::class.java)
+
+    val maskItemsAdapter = MaskItemsListAdapter()
     private var imageCapture: ImageCapture? = null
     private var camera: Camera? = null
 
@@ -63,6 +69,22 @@ class CameraFragment : KodeinFragment() {
             requestPermissions(arrayOf(Manifest.permission.CAMERA), cameraPermissionRequestCode)
         }
 
+        initViews()
+        bindViewModel()
+        viewModel.init()
+    }
+
+    private fun initViews() {
+        masksRecyclerView.adapter = maskItemsAdapter
+    }
+
+    private fun bindViewModel() {
+        bind(viewModel.masksItemsList) {
+            Log.d("tag", "on bindViewModel $it")
+
+            maskItemsAdapter.items = it
+            maskItemsAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun setTextureFragment() {

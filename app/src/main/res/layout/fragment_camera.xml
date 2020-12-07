@@ -45,8 +45,9 @@
             android:id="@+id/takePhotoImageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="60dp"
+            android:layout_centerHorizontal="true"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_camera_button"
@@ -59,13 +60,52 @@
         android:layout_marginStart="50dp"
         android:scaleType="center"
         android:src="@drawable/ic_camera_swap"
-        android:translationZ="1dp"
+        android:layout_alignTop="@+id/takePhotoImageView"
+        android:layout_alignBottom="@+id/takePhotoImageView"
         android:layout_toEndOf="@id/takePhotoImageView"
-        android:layout_centerVertical="true"
         tools:ignore="ContentDescription" />
 </RelativeLayout>
 
-<!--    <androidx.appcompat.widget.AppCompatButton-->
+    <RelativeLayout
+        android:id="@+id/masksRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.8"
+        android:background="@drawable/rounded_dialog_fragment"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:windowBackground="@null"
+        android:translationZ="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:rippleColor="@color/transparent">
+
+        <ImageView
+            android:id="@+id/bottomSheetActionImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_bottom_sheet_action"
+            tools:ignore="ContentDescription" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/masksRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bottomSheetActionImageView"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_mask"/>
+
+    </RelativeLayout>
+
+
+    <!--    <androidx.appcompat.widget.AppCompatButton-->
 <!--        android:id="@+id/declinePhotoImageView"-->
 <!--        android:layout_width="0dp"-->
 <!--        android:layout_height="wrap_content"-->

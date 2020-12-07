@@ -43,7 +43,7 @@ class FaceArFragment : ArFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         ModelRenderable.builder()
-            .setSource(requireContext(), Uri.parse("yellow_sunglasses.sfb"))
+            .setSource(requireContext(), Uri.parse("hypno_glasses.sfb"))
             .build()
             .thenAccept { modelRenderable ->
                 faceRegionsRenderable = modelRenderable
