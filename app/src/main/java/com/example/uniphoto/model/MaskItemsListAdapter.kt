@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.uniphoto.R
-import com.example.uniphoto.ui.CameraViewModel
+import com.example.uniphoto.ui.camera.CameraViewModel
 import kotlinx.android.synthetic.main.item_mask.view.*
 
 /**

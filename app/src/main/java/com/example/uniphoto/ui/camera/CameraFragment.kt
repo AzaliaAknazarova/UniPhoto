@@ -1,7 +1,6 @@
-package com.example.uniphoto.ui
+package com.example.uniphoto.ui.camera
 
 import android.Manifest
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -23,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_camera.*
 class CameraFragment : KodeinFragment<CameraViewModel>() {
     companion object {
         private const val cameraPermissionRequestCode = 45
-        const val MIN_OPENGL_VERSION = 3.0
     }
 
     override val viewModel by viewModel(CameraViewModel::class.java)
@@ -61,17 +59,19 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViews()
+        bindViewModel()
+        viewModel.init()
+
         if (isAllPermissionsGranted()) {
             // Wait for the view to be properly laid out
 //            cameraPreviewView.postDelayed({ startCamera(ImageCapture.FLASH_MODE_OFF) }, 500)
             setTextureFragment()
         } else {
-            requestPermissions(arrayOf(Manifest.permission.CAMERA), cameraPermissionRequestCode)
+            requestPermissions(arrayOf(Manifest.permission.CAMERA),
+                cameraPermissionRequestCode
+            )
         }
-
-        initViews()
-        bindViewModel()
-        viewModel.init()
     }
 
     private fun initViews() {

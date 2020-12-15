@@ -6,4 +6,5 @@
     <color name="colorAccent2">#FFAD62</color>
 
     <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>

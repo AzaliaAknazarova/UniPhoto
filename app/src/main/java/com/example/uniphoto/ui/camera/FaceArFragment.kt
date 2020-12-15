@@ -1,4 +1,4 @@
-package com.example.uniphoto.ui
+package com.example.uniphoto.ui.camera
 
 import android.net.Uri
 import android.os.Bundle

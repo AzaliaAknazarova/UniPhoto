@@ -1,8 +1,7 @@
-package com.example.uniphoto.ui
+package com.example.uniphoto.ui.camera
 
 import android.graphics.drawable.Drawable
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import com.example.uniphoto.base.lifecycle.LiveArgEvent
@@ -26,7 +25,7 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
             MaskListItem(
                 id = pair.first,
                 mask = pair.second,
-                onItemClicked = {maskSelectedCommand(pair.first)}
+                onItemClicked = { maskSelectedCommand(pair.first) }
             )
         }
         Log.d("tag", "on init ${masksItemsList.value}")
