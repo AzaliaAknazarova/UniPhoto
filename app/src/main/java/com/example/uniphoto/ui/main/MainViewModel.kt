@@ -1,6 +1,5 @@
-package com.example.uniphoto.ui
+package com.example.uniphoto.ui.main
 
-import com.example.uniphoto.base.kodein.KodeinFragment
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import org.kodein.di.Kodein
 

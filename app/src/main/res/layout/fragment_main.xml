@@ -3,8 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.uniphoto.ui.activity.MainActivity">
+    tools:context="com.example.uniphoto.ui.activity.MainActivity"
+    android:background="@color/white">
 
+    <TextView
+        android:id="@+id/toGalleryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="40dp"
+        android:text="TO GALLERY BUTTON"
+        android:clickable="true"
+        android:focusable="true"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/toOnboardingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/toGalleryButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="40dp"
+        android:text="TO ONBOARDING BUTTON"
+        android:clickable="true"
+        android:focusable="true"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/toReadyPhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/toOnboardingButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="40dp"
+        android:text="TO READY PHOTO BUTTON"
+        android:clickable="true"
+        android:focusable="true"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="THIS IS MAIN FRAGMENT"
+        android:textStyle="bold"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addNewPhotoButton"

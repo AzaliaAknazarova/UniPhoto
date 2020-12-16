@@ -22,7 +22,10 @@
 
         <meta-data android:name="com.google.ar.core" android:value="required" />
 
-        <activity android:name="com.example.uniphoto.ui.activity.MainActivity">
+        <activity android:name="com.example.uniphoto.ui.activity.MainActivity"
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

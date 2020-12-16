@@ -7,15 +7,48 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.uniphoto.ui.MainFragment"
+        android:name="com.example.uniphoto.ui.main.MainFragment"
         android:label="MainFragment" >
         <action
             android:id="@+id/action_mainFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_readyPhotoFragment"
+            app:destination="@id/readyPhotoFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
         android:name="com.example.uniphoto.ui.camera.CameraFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" />
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_cameraFragment_to_readyPhotoFragment"
+            app:destination="@id/readyPhotoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.example.uniphoto.ui.galery.GalleryFragment"
+        android:label="GalleryFragment" >
+        <action
+            android:id="@+id/action_galleryFragment_to_photoViewFragment"
+            app:destination="@id/photoViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.example.uniphoto.ui.onboarding.OnboardingFragment"
+        android:label="OnboardingFragment" />
+    <fragment
+        android:id="@+id/photoViewFragment"
+        android:name="com.example.uniphoto.ui.photoView.PhotoViewFragment"
+        android:label="PhotoViewFragment" />
+    <fragment
+        android:id="@+id/readyPhotoFragment"
+        android:name="com.example.uniphoto.ui.readyPhoto.ReadyPhotoFragment"
+        android:label="ReadyPhotoFragment" />
 </navigation>

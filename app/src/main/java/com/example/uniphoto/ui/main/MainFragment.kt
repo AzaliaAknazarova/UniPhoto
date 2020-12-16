@@ -1,13 +1,11 @@
-package com.example.uniphoto.ui
+package com.example.uniphoto.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinFragment
-import com.example.uniphoto.ui.camera.CameraViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment: KodeinFragment<MainViewModel>() {
@@ -31,6 +29,15 @@ class MainFragment: KodeinFragment<MainViewModel>() {
     fun initViews() {
         addNewPhotoButton.setOnClickListener {
             navigate(R.id.action_mainFragment_to_cameraFragment)
+        }
+        toGalleryButton.setOnClickListener {
+            navigate(R.id.action_mainFragment_to_galleryFragment)
+        }
+        toOnboardingButton.setOnClickListener {
+            navigate(R.id.action_mainFragment_to_onboardingFragment)
+        }
+        toReadyPhotoButton.setOnClickListener {
+            navigate(R.id.action_mainFragment_to_readyPhotoFragment)
         }
     }
 }
