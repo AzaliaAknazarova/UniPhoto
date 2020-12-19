@@ -6,4 +6,7 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="preview">Camera Preview</string>
     <string name="text_uniphoto">uniphoto</string>
+    <string name="my_galery">Моя галерея</string>
+    <string name="vse_iso">Все изображения</string>
+    <string name="kol_iso">5</string>
 </resources>
