@@ -27,12 +27,11 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
-        android:id="@+id/Text_uniphoto"
+        android:id="@+id/text_uniphoto"
         android:layout_width="242dp"
         android:layout_height="92dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="40dp"
-        android:text="uniphoto"
         android:textColor="#ffffff"
         android:textSize="55sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,57 +73,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="218dp"
-        android:alpha="0.5"
-        android:rotation="-17"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="232dp"
-        android:alpha="0.8"
-        android:rotation="-8"
-        android:rotationY="11"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="220dp"
-        android:alpha="0.8"
-        android:rotation="21"
-        android:rotationX="4"
-        android:rotationY="-32"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="230dp"
-        android:layout_marginEnd="70dp"
-        android:rotation="6"
-        android:rotationY="-30"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/hearticons08" />
-
-    <ImageView
         android:id="@+id/toGalleryButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -137,12 +85,11 @@
         app:srcCompat="@drawable/galereya" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/my_galery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="310dp"
-        android:text="Моя галарея"
         android:textColor="#243c8a"
         android:textSize="28sp"
         android:textStyle="bold"
