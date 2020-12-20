@@ -3,63 +3,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.uniphoto.ui.activity.MainActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context="com.example.uniphoto.ui.activity.MainActivity">
 
-    <TextView
-        android:id="@+id/toGalleryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="40dp"
-        android:text="TO GALLERY BUTTON"
-        android:clickable="true"
-        android:focusable="true"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/toOnboardingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/toGalleryButton"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="40dp"
-        android:text="TO ONBOARDING BUTTON"
-        android:clickable="true"
-        android:focusable="true"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/toReadyPhotoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/toOnboardingButton"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="40dp"
-        android:text="TO READY PHOTO BUTTON"
-        android:clickable="true"
-        android:focusable="true"
-        android:textStyle="bold"/>
-
-    <TextView
+    <ImageView
+        android:id="@+id/backgroundImageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="THIS IS MAIN FRAGMENT"
-        android:textStyle="bold"
-        />
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_top_background_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageView
+        android:id="@+id/uniPhotoLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/uniphoto_logo"
+        android:layout_marginTop="@dimen/large_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/backgroundImageView"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/infoCloudImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:src="@drawable/ic_info_cloud"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uniPhotoLogo"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/myGalleryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/main_my_gallery"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/text_size_24"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/infoCloudImageView"
+        app:layout_constraintTop_toBottomOf="@id/infoCloudImageView" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toGalleryLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        app:layout_constraintStart_toStartOf="@id/myGalleryTextView"
+        app:layout_constraintTop_toBottomOf="@id/myGalleryTextView">
+
+        <ImageView
+            android:id="@+id/toGalleryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_gallery"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/allPicturesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:text="@string/main_all_pictures"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_size_18"
+            app:layout_constraintStart_toEndOf="@id/toGalleryButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/allPicturesValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:textColor="@color/textColorLight"
+            android:textSize="@dimen/text_size_18"
+            app:layout_constraintStart_toEndOf="@id/toGalleryButton"
+            app:layout_constraintTop_toBottomOf="@id/allPicturesTextView"
+            tools:text="5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
         android:id="@+id/addNewPhotoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/large_margin"
+        android:layout_marginBottom="@dimen/large_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_add_2"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="40dp"
-        android:src = "@drawable/ic_add"
-        android:tint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
