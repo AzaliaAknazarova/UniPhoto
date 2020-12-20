@@ -30,14 +30,14 @@ class MainFragment: KodeinFragment<MainViewModel>() {
         addNewPhotoButton.setOnClickListener {
             navigate(R.id.action_mainFragment_to_cameraFragment)
         }
-        toGalleryButton.setOnClickListener {
+        toGalleryLayout.setOnClickListener {
             navigate(R.id.action_mainFragment_to_galleryFragment)
         }
-        toOnboardingButton.setOnClickListener {
+        /*toOnboardingButton.setOnClickListener {
             navigate(R.id.action_mainFragment_to_onboardingFragment)
         }
         toReadyPhotoButton.setOnClickListener {
             navigate(R.id.action_mainFragment_to_readyPhotoFragment)
-        }
+        }*/
     }
 }
