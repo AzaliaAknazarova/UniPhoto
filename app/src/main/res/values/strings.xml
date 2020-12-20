@@ -1,9 +1,7 @@
 <resources>
-    <string name="app_name">Kotlin Camera2</string>
-    <string name="first_image">First Image Fragment</string>
-    <string name="second_image">Second Image Fragment</string>
-    <string name="drawer_open">Open Navigation Drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="app_name">UniPhoto</string>
     <string name="preview">Camera Preview</string>
+    <string name="main_my_gallery">Моя галерея</string>
+    <string name="main_all_pictures">Все изображения</string>
     <string name="textFoto">Фото</string>
 </resources>
