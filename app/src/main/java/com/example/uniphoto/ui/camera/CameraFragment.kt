@@ -1,13 +1,21 @@
 package com.example.uniphoto.ui.camera
 
 import android.Manifest
+import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
+import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.camera.core.*
+import androidx.camera.core.Camera
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.example.uniphoto.R
@@ -15,6 +23,8 @@ import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
 import com.example.uniphoto.model.MaskItemsListAdapter
 import kotlinx.android.synthetic.main.fragment_camera.*
+import java.io.FileOutputStream
+
 
 /**
  * Created by nigelhenshaw on 2018/01/23.
@@ -68,7 +78,7 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
 //            cameraPreviewView.postDelayed({ startCamera(ImageCapture.FLASH_MODE_OFF) }, 500)
             setTextureFragment()
         } else {
-            requestPermissions(arrayOf(Manifest.permission.CAMERA),
+            requestPermissions(arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 cameraPermissionRequestCode
             )
         }
@@ -76,6 +86,10 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
 
     private fun initViews() {
         masksRecyclerView.adapter = maskItemsAdapter
+        takePhotoImageView.setOnClickListener {
+            Log.d("tag", "on bindViewModel takePhotoImageView.setOnClickListener $child")
+            castChild<ImageCaptureListener>()?.takePhotoClicked()
+        }
         bottomSheetActionImageView.setOnClickListener {
             viewModel.masksItemsRecyclerVisible.value =
                 viewModel.masksItemsRecyclerVisible.value != true
@@ -153,6 +167,36 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
         }, ContextCompat.getMainExecutor(context))
     }
 
+        private fun captureScreen(view: View) : Bitmap {
+            Log.d("tag","on captureScreen")
+            val bitmap = Bitmap.createBitmap (view.width, view.height, Bitmap.Config.ARGB_8888);
+            val canvas = Canvas(bitmap)
+            canvas.drawColor(Color.TRANSPARENT)
+            view.draw(canvas)
+            return bitmap
+        }
+
+//    private fun captureScreen() {
+//        try {
+//            val rootView =  activity?.window!!.decorView.rootView
+//            rootView.isDrawingCacheEnabled = true
+//            val bmp = Bitmap.createBitmap(rootView.drawingCache)
+//            rootView.isDrawingCacheEnabled = false
+//            val fos = FileOutputStream(
+//                File(
+//                    Environment
+//                        .getExternalStorageDirectory().toString(), "SCREEN"
+//                            + System.currentTimeMillis() + ".png"
+//                )
+//            )
+//            bmp.compress(CompressFormat.JPEG, 100, fos)
+//            fos.flush()
+//            fos.close()
+//        } catch (e: java.lang.Exception) {
+//            e.printStackTrace()
+//        }
+//    }
+
 //    private fun takePhoto() {
 //        val imageCapture = imageCapture ?: return
 //        val file = createImageFile(requireContext())
@@ -186,6 +230,6 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
 
 //    private fun showSettingsDialog() = settingsAlertDialog.show()
     private fun isAllPermissionsGranted(): Boolean =
-        requireContext().isPermissionGranted(Manifest.permission.CAMERA)
+        requireContext().isPermissionGranted(Manifest.permission.CAMERA) && requireContext().isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
 }
