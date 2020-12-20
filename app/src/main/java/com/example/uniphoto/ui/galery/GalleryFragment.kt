@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinFragment
 import kotlinx.android.synthetic.main.fragment_gallery.*
@@ -28,8 +30,8 @@ class GalleryFragment: KodeinFragment<GalleryViewModel>() {
     }
 
     fun initViews() {
-        toPhotoView.setOnClickListener {
-            navigate(R.id.action_galleryFragment_to_photoViewFragment)
+        backpressedImageView.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 }
