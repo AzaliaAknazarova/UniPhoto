@@ -3,5 +3,5 @@
     <string name="preview">Camera Preview</string>
     <string name="main_my_gallery">Моя галерея</string>
     <string name="main_all_pictures">Все изображения</string>
-    <string name="textFoto">Фото</string>
+    <string name="gallery_photo">Фото</string>
 </resources>

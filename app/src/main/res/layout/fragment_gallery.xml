@@ -7,37 +7,39 @@
     tools:context="com.example.uniphoto.ui.activity.MainActivity">
 
     <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:id="@+id/backgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="fitXY"
+        android:background="@drawable/background_gallery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tema_galery" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/toPhotoView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/backpressedImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_backpressed_arrow"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/nazad" />
+        app:layout_constraintTop_toTopOf="@id/title"
+        app:layout_constraintBottom_toBottomOf="@id/title"
+        tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/textFoto"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textFoto"
+        android:text="@string/gallery_photo"
         android:textColor="@color/white"
-        android:textSize="40sp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="toPhotoView"
+        android:textSize="@dimen/text_size_24"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintStart_toEndOf="@+id/backpressedImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
