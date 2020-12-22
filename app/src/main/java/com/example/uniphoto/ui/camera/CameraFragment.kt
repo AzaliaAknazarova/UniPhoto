@@ -88,7 +88,7 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
         masksRecyclerView.adapter = maskItemsAdapter
         takePhotoImageView.setOnClickListener {
             Log.d("tag", "on bindViewModel takePhotoImageView.setOnClickListener $child")
-            castChild<ImageCaptureListener>()?.takePhotoClicked()
+            viewModel.cameraButtonClicked()
         }
         bottomSheetActionImageView.setOnClickListener {
             viewModel.masksItemsRecyclerVisible.value =
@@ -97,17 +97,28 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
     }
 
     private fun bindViewModel() {
-        bindVisible(viewModel.masksItemsRecyclerVisible, masksRecyclerView)
+        with(viewModel) {
+            bindVisible(masksItemsRecyclerVisible, masksRecyclerView)
 
-        bind(viewModel.masksItemsList) {
-            Log.d("tag", "on bindViewModel $it")
+            bind(masksItemsList) {
+                Log.d("tag", "on bindViewModel $it")
 
-            maskItemsAdapter.items = it
-            maskItemsAdapter.notifyDataSetChanged()
-        }
-        bindCommand(viewModel.maskSelectedCommand) {
-            Log.d("tag", "on bindViewModel $child")
-            castChild<MaskSelectedListener>()?.maskSelected(it)
+                maskItemsAdapter.items = it
+                maskItemsAdapter.notifyDataSetChanged()
+            }
+            bindCommand(maskSelectedCommand) {
+                Log.d("tag", "on bindViewModel $child")
+                castChild<MaskSelectedListener>()?.maskSelected(it)
+            }
+            bindCommand(takePictureCommand) {
+                castChild<ImageCaptureListener>()?.takePhotoClicked()
+            }
+            bindCommand(startRecordCommand) {
+                castChild<ImageCaptureListener>()?.startVideoClicked()
+            }
+            bindCommand(stopRecordCommand) {
+                castChild<ImageCaptureListener>()?.stopVideoClicked()
+            }
         }
     }
 
@@ -117,54 +128,6 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
             add(R.id.textureFragment, arFragment)
             commit()
         }
-    }
-
-    private fun startCamera(flashMode: Int, cameraMode: Int? = null) {
-        if (imageCapture != null) {
-            if (cameraMode == null) {
-                imageCapture!!.flashMode = flashMode
-                return
-            } else
-                camera = null
-        }
-
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-
-        cameraProviderFuture.addListener(Runnable {
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            val preview = Preview.Builder().build()
-
-            imageCapture = ImageCapture.Builder()
-                .setFlashMode(flashMode)
-                .build()
-
-            val cameraSelector =
-                if (cameraMode != CameraSelector.LENS_FACING_BACK) {
-//                    viewModel.isFrontCameraEnabled = true
-                    CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
-                        .build()
-                } else
-                    CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                        .build()
-
-            try {
-                cameraProvider.unbindAll()
-                if (camera == null) {
-                    camera =
-                        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
-                }
-                preview.setSurfaceProvider(cameraPreviewView.surfaceProvider)
-            } catch (exc: Exception) {
-
-            } finally {
-                Handler().postDelayed({
-//                    viewModel.antiGlitchLayoutVisible.value = false
-                }, 30)
-            }
-
-        }, ContextCompat.getMainExecutor(context))
     }
 
         private fun captureScreen(view: View) : Bitmap {

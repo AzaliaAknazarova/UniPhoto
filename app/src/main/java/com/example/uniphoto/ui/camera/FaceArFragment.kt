@@ -1,31 +1,28 @@
 package com.example.uniphoto.ui.camera
 
-import android.graphics.Bitmap
+import android.graphics.*
 import android.graphics.ImageFormat
-import android.graphics.Rect
-import android.graphics.YuvImage
+import android.media.CamcorderProfile
 import android.media.Image
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.Handler
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.PixelCopy
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.google.ar.core.AugmentedFace
-import com.google.ar.core.Config
-import com.google.ar.core.Session
-import com.google.ar.core.TrackingState
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
+import com.google.ar.core.*
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.AugmentedFaceNode
+import kotlinx.android.synthetic.main.fragment_camera.view.*
+import java.io.File
 import java.io.FileOutputStream
-import java.nio.ByteBuffer
 import java.util.*
 
 class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener {
@@ -35,7 +32,9 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
     private var changeModel: Boolean = false
     private var glasses: ArrayList<ModelRenderable> = ArrayList()
     lateinit var faceArView : View
+    var session : Session? = null
     var takePicture = false
+    val videoRecorder  = VideoRecorder()
 
     override fun getSessionConfiguration(session: Session?): Config {
         val config = Config(session)
@@ -90,6 +89,24 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
                 modelRenderable.isShadowCaster = false
                 modelRenderable.isShadowReceiver = false
             }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                "red_mask.sfb"))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                "blue_sunglasses.sfb"))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
     }
 
     private fun setMask() {
@@ -100,21 +117,18 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
         val scene = sceneView?.scene
         faceArView = sceneView
 
+//            session = Session(requireContext())
+//            val destination = File(requireContext().filesDir, "uni_recording.mp4").absolutePath
+//            val recordingConfig = RecordingConfig(session)
+//                .setMp4DatasetFilePath(destination)
+//                .setAutoStopOnPause(true)
+//            session?.startRecording(recordingConfig)
+
         scene?.addOnUpdateListener {
             Log.d("tag", "on scene?.addOnUpdateListener ${faceRegionsRenderable != null}")
             if (faceRegionsRenderable != null) {
                 sceneView.session
                     ?.getAllTrackables(AugmentedFace::class.java)?.let {
-                        if (takePicture) {
-                            val currentFrame = sceneView.arFrame
-                            val currentImage = currentFrame?.acquireCameraImage()
-                            if ( currentImage?.format == ImageFormat.YUV_420_888) {
-                                Log.d("ImageFormat", "Image format is YUV_420_888")
-                                YUV_420_888toNV21(currentImage)
-                            }
-                            takePicture = false
-                        }
-
                         for (f in it) {
                             if (!faceNodeMap.containsKey(f)) {
                                 val faceNode = AugmentedFaceNode(f)
@@ -125,7 +139,18 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
                                 faceNodeMap.getValue(f).faceRegionsRenderable = faceRegionsRenderable
                             }
                         }
-                        changeModel = false
+//                        changeModel = false
+//                        if (takePicture) {
+////                        val currentFrame = arSceneView.getWindowVisibleDisplayFrame(Rect(0, 0, arSceneView.width, arSceneView.height))
+//                            val currentFrame = arSceneView
+//                            sceneView.session.get
+//                        val currentImage = currentFrame?.acquireCameraImage()
+//                        if ( currentImage?.format == ImageFormat.YUV_420_888) {
+//                            Log.d("ImageFormat", "Image format is YUV_420_888")
+//                            saveImage(currentImage)
+//                        }
+//                        takePicture = false
+//                    }
                         // Remove any AugmentedFaceNodes associated with an AugmentedFace that stopped tracking.
                         val iter = faceNodeMap.entries.iterator()
                         while (iter.hasNext()) {
@@ -137,36 +162,42 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
                                 iter.remove()
                             }
                         }
+
                     }
             }
         }
     }
 
-    private fun YUV_420_888toNV21(image: Image) {
-        val nv21: ByteArray
-        val yBuffer: ByteBuffer = image.getPlanes().get(0).getBuffer()
-        val uBuffer: ByteBuffer = image.getPlanes().get(1).getBuffer()
-        val vBuffer: ByteBuffer = image.getPlanes().get(2).getBuffer()
-        val ySize: Int = yBuffer.remaining()
-        val uSize: Int = uBuffer.remaining()
-        val vSize: Int = vBuffer.remaining()
-        nv21 = ByteArray(ySize + uSize + vSize)
-
-        //U and V are swapped
-        yBuffer.get(nv21, 0, ySize)
-        vBuffer.get(nv21, ySize, vSize)
-        uBuffer.get(nv21, ySize + vSize, uSize)
-        saveImage(nv21)
-    }
-
-    fun saveImage(nv21: ByteArray) {
-        val yuv = YuvImage(nv21, ImageFormat.NV21, arSceneView.width, arSceneView.height, null)
+    fun saveImage(image: Image) {
+        val yuv = YuvImage(ImageConverter.YUV420toNV21(image), ImageFormat.NV21, image.width, image.height, null)
+        //                    Environment
+//                        .getExternalStorageDirectory().toString(), "SCREEN"
+//                            + System.currentTimeMillis() + ".png"
         val path =
-            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)}/pics23567.jpg"
+            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)}/unipic_${System.currentTimeMillis()}.jpg"
         Log.d("tag", "on initViews $path")
         val stream = FileOutputStream(path)
-        yuv.compressToJpeg(Rect(0, 0, arSceneView.width, arSceneView.height), 100, stream)
+        yuv.compressToJpeg(Rect(0, 0, image.width, image.height), 100, stream)
         stream.close()
+    }
+
+    private fun captureScreen(view: View){
+        Log.d("tag","on captureScreen")
+        val bitmap = Bitmap.createBitmap (view.width, view.height, Bitmap.Config.ARGB_8888);
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(Color.TRANSPARENT)
+        view.draw(canvas)
+        val fos = FileOutputStream(
+            File(
+                Environment
+                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                "unipic_${System.currentTimeMillis()}.jpg"
+            )
+        )
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+        fos.flush()
+        fos.close()
+        Toast.makeText(requireContext(), "Screen captured", LENGTH_SHORT).show()
     }
 
     override fun maskSelected(maskId: Int) {
@@ -176,6 +207,30 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
     }
 
     override fun takePhotoClicked() {
-        takePicture = true
+//        takePicture = true
+        captureScreen(arSceneView)
+    }
+
+    override fun startVideoClicked() {
+//        session?.resume()
+
+        videoRecorder.setSceneView(arSceneView)
+        val orientation = resources.configuration.orientation
+        videoRecorder.setVideoQuality(CamcorderProfile.QUALITY_HIGH, orientation)
+
+        videoRecorder.onToggleRecord()
+
+        Toast.makeText(requireContext(), "Recording is START", LENGTH_SHORT).show()
+    }
+
+    override fun stopVideoClicked() {
+//        session?.stopRecording()
+
+        videoRecorder.onToggleRecord()
+        Toast.makeText(requireContext(), "Recording is STOP", LENGTH_SHORT).show()
+
+//        if (session?.recordingStatus == RecordingStatus.OK) {
+//            Toast.makeText(requireContext(), "Recording is OK", LENGTH_SHORT).show()
+//        }
     }
 }
