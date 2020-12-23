@@ -6,7 +6,7 @@
   ],
   materials: [
     {
-      name: 'Material.002',
+      name: 'Material.003',
       parameters: [
         {
           baseColor: [

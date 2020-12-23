@@ -1,23 +1,38 @@
 package com.example.uniphoto.ui.camera
 
 import android.graphics.drawable.Drawable
+import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import com.example.uniphoto.base.lifecycle.LiveArgEvent
+import com.example.uniphoto.base.lifecycle.LiveEvent
 import org.kodein.di.Kodein
+import java.io.File
 import java.io.Serializable
 
 class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val masksItemsList = MutableLiveData<List<MaskListItem>>()
     val masksItemsRecyclerVisible = MutableLiveData<Boolean>(false)
+    val recordingIsStart = MutableLiveData<Boolean>(false)
+    val cameraFrameVisible = MutableLiveData<Boolean>(true)
+    val acceptLayoutVisible = MutableLiveData<Boolean>(false)
+
     val maskSelectedCommand = LiveArgEvent<Int>()
+    val takePictureCommand = LiveEvent()
+    val startRecordCommand = LiveEvent()
+    val stopRecordCommand = LiveEvent()
+    val launchPhotoCompleteViewCommand = LiveEvent()
+    val declineCommand = LiveEvent()
+
+    val mode = RecordType.Video
 
     private val masksList = listOf (
         Pair(1, "sunglasses.sfb"),
         Pair(2, "yellow_sunglasses.sfb"),
         Pair(3, "hypno_glasses.sfb"),
-        Pair(4, "hypno_glasses.sfb")
+        Pair(4, "red_mask.sfb"),
+        Pair(5, "blue_sunglasses.sfb")
     )
 
     fun init() {
@@ -29,6 +44,47 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
             )
         }
         Log.d("tag", "on init ${masksItemsList.value}")
+    }
+
+    fun cameraButtonClicked() {
+        when (mode) {
+            RecordType.Video -> {
+                startRecordCommand.call()
+                recordingIsStart.value = true
+                cameraFrameVisible.value = false
+            }
+            RecordType.Photo -> {
+                takePictureCommand.call()
+            }
+        }
+    }
+
+    fun completeRecordButtonClicked() {
+        stopRecordCommand.call()
+        recordingIsStart.value = false
+    }
+
+    fun acceptClicked() {
+        launchPhotoCompleteViewCommand.call()
+    }
+
+    fun declineClicked() {
+        cameraFrameVisible.value = true
+        acceptLayoutVisible.value = false
+        declineCommand.call()
+    }
+
+    fun recordCompleted() {
+        cameraFrameVisible.value = false
+        acceptLayoutVisible.value = true
+
+        val sd_main = File("${Environment.getDataDirectory()}/UniPhoto")
+        val sd = File("filename.txt")
+    }
+
+    enum class RecordType {
+        Video,
+        Photo
     }
 
     data class MaskListItem(

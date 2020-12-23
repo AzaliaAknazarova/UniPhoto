@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainPhotoConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     tools:context="com.example.uniphoto.ui.camera.CameraFragment">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/cameraPreviewView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="80dp"
-        app:layout_constraintBottom_toTopOf="@id/cameraRelativeLayout"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/backpressedImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_backpressed_arrow"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="@dimen/default_margin"
+        tools:ignore="ContentDescription" />
 
     <FrameLayout
         android:id="@+id/textureFragment"
@@ -29,8 +33,26 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="80dp"
-        app:layout_constraintBottom_toTopOf="@id/cameraRelativeLayout"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toTopOf="@id/acceptPhotoLayout"
+        android:layout_marginBottom="@dimen/default_margin"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/recordImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/default_margin"
+        android:paddingBottom="60dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_record"
+        tools:ignore="ContentDescription"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <RelativeLayout
         android:id="@+id/cameraRelativeLayout"
@@ -43,28 +65,28 @@
 
         <ImageView
             android:id="@+id/takePhotoImageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="60dp"
-            android:layout_centerHorizontal="true"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_camera_button"
             tools:ignore="ContentDescription" />
 
-    <ImageView
-        android:id="@+id/cameraSwipeImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="50dp"
-        android:scaleType="center"
-        android:src="@drawable/ic_camera_swap"
-        android:layout_alignTop="@+id/takePhotoImageView"
-        android:layout_alignBottom="@+id/takePhotoImageView"
-        android:layout_toEndOf="@id/takePhotoImageView"
-        tools:ignore="ContentDescription" />
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/cameraSwipeImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/takePhotoImageView"
+            android:layout_alignBottom="@+id/takePhotoImageView"
+            android:layout_marginStart="50dp"
+            android:layout_toEndOf="@id/takePhotoImageView"
+            android:scaleType="center"
+            android:src="@drawable/ic_camera_swap"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/masksRelativeLayout"
@@ -73,23 +95,23 @@
         android:alpha="0.8"
         android:background="@drawable/rounded_dialog_fragment"
         android:orientation="vertical"
-        android:windowBackground="@null"
-        android:translationZ="1dp"
         android:paddingBottom="10dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:translationZ="1dp"
+        android:windowBackground="@null"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/transparent">
 
         <ImageView
             android:id="@+id/bottomSheetActionImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:clickable="true"
-            android:focusable="true"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/small_margin"
+            android:scaleType="center"
             android:src="@drawable/ic_bottom_sheet_action"
             tools:ignore="ContentDescription" />
 
@@ -101,36 +123,48 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_mask"/>
+            tools:listitem="@layout/item_mask" />
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/acceptPhotoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/default_margin"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingTop="@dimen/default_margin"
+        android:paddingBottom="@dimen/large_margin"
+        android:gravity="center"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <!--    <androidx.appcompat.widget.AppCompatButton-->
-<!--        android:id="@+id/declinePhotoImageView"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="26dp"-->
-<!--        android:layout_marginEnd="5dp"-->
-<!--        android:text="reshoot"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/acceptPhotoImageView"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/acceptPhotoImageView"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        tools:visibility="gone" />-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/declinePhotoImageView"
+            style="@style/ClassicButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:background="@color/colorPrimaryDark"
+            android:drawableStart="@drawable/ic_decline_cross"
+            android:drawablePadding="@dimen/small_margin"
+            android:text="@string/camera_decline" />
 
-<!--    <androidx.appcompat.widget.AppCompatButton-->
-<!--        android:id="@+id/acceptPhotoImageView"-->
-<!--        style="@style/ClassicButton"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_marginStart="5dp"-->
-<!--        android:layout_marginEnd="26dp"-->
-<!--        android:layout_marginBottom="@dimen/camera_button_bottom_margin"-->
-<!--        android:background="@drawable/background_rounded_corners_detail2"-->
-<!--        android:text="@string/scr_camera_lbl_send"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/acceptDenyButtonsGuideline"-->
-<!--        tools:visibility="gone" />-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/acceptPhotoImageView"
+            style="@style/ClassicButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:background="@color/colorPrimaryDark"
+            android:drawableStart="@drawable/ic_accept_tick"
+            android:drawablePadding="@dimen/small_margin"
+            android:text="@string/camera_accept" />
+
+    </LinearLayout>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/acceptDenyButtonsGuideline"
