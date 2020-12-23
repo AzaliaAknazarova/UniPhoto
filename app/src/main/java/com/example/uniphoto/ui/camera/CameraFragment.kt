@@ -18,6 +18,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
@@ -29,7 +30,7 @@ import java.io.FileOutputStream
 /**
  * Created by nigelhenshaw on 2018/01/23.
  */
-class CameraFragment : KodeinFragment<CameraViewModel>() {
+class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listener {
     companion object {
         private const val cameraPermissionRequestCode = 45
     }
@@ -90,22 +91,40 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
             Log.d("tag", "on bindViewModel takePhotoImageView.setOnClickListener $child")
             viewModel.cameraButtonClicked()
         }
+        recordImageView.setOnClickListener { viewModel.completeRecordButtonClicked() }
         bottomSheetActionImageView.setOnClickListener {
             viewModel.masksItemsRecyclerVisible.value =
                 viewModel.masksItemsRecyclerVisible.value != true
         }
+
+        acceptPhotoImageView.setOnClickListener { viewModel.acceptClicked() }
+        declinePhotoImageView.setOnClickListener { viewModel.declineClicked() }
     }
 
     private fun bindViewModel() {
         with(viewModel) {
             bindVisible(masksItemsRecyclerVisible, masksRecyclerView)
+            bindVisible(recordingIsStart, recordImageView)
 
+            bind(cameraFrameVisible) {
+                if (recordingIsStart.value == true)
+                    textureFragment.isVisible = true
+                else
+                    textureFragment.isVisible = it
+                cameraRelativeLayout.isVisible = it
+                masksRelativeLayout.isVisible = it
+            }
+            bind(acceptLayoutVisible) {
+                previewImageView.isVisible = it
+                acceptPhotoLayout.isVisible = it
+            }
             bind(masksItemsList) {
                 Log.d("tag", "on bindViewModel $it")
 
                 maskItemsAdapter.items = it
                 maskItemsAdapter.notifyDataSetChanged()
             }
+
             bindCommand(maskSelectedCommand) {
                 Log.d("tag", "on bindViewModel $child")
                 castChild<MaskSelectedListener>()?.maskSelected(it)
@@ -119,6 +138,12 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
             bindCommand(stopRecordCommand) {
                 castChild<ImageCaptureListener>()?.stopVideoClicked()
             }
+            bindCommand(launchPhotoCompleteViewCommand) {
+                navigate(R.id.action_cameraFragment_to_readyPhotoFragment)
+            }
+            bindCommand(declineCommand) {
+                setTextureFragment()
+            }
         }
     }
 
@@ -130,68 +155,10 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
         }
     }
 
-        private fun captureScreen(view: View) : Bitmap {
-            Log.d("tag","on captureScreen")
-            val bitmap = Bitmap.createBitmap (view.width, view.height, Bitmap.Config.ARGB_8888);
-            val canvas = Canvas(bitmap)
-            canvas.drawColor(Color.TRANSPARENT)
-            view.draw(canvas)
-            return bitmap
-        }
+    override fun recordCompleted(fileName: String) {
+        viewModel.recordCompleted()
+    }
 
-//    private fun captureScreen() {
-//        try {
-//            val rootView =  activity?.window!!.decorView.rootView
-//            rootView.isDrawingCacheEnabled = true
-//            val bmp = Bitmap.createBitmap(rootView.drawingCache)
-//            rootView.isDrawingCacheEnabled = false
-//            val fos = FileOutputStream(
-//                File(
-//                    Environment
-//                        .getExternalStorageDirectory().toString(), "SCREEN"
-//                            + System.currentTimeMillis() + ".png"
-//                )
-//            )
-//            bmp.compress(CompressFormat.JPEG, 100, fos)
-//            fos.flush()
-//            fos.close()
-//        } catch (e: java.lang.Exception) {
-//            e.printStackTrace()
-//        }
-//    }
-
-//    private fun takePhoto() {
-//        val imageCapture = imageCapture ?: return
-//        val file = createImageFile(requireContext())
-//
-//        if (file != null) {
-//            val outputOptions = ImageCapture.OutputFileOptions.Builder(file).build()
-//
-//            imageCapture.takePicture(
-//                outputOptions,
-//                ContextCompat.getMainExecutor(context),
-//                object : ImageCapture.OnImageSavedCallback {
-//                    override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-////                        MediaPlayer.create(requireContext(), androidx.camera.core.R.raw.camera_sound).start()
-//
-////                        viewModel.photoTaken(file) {
-////                            //dirty temp hack
-////                            if (completedPhotosList != null) {
-////                                completedPhotosList.adapter!!.notifyItemInserted(viewModel.photoPaths.lastIndex)
-////                            }
-////                        }
-//                    }
-//
-//                    override fun onError(exc: ImageCaptureException) {
-//
-//                    }
-//                })
-//        } else {
-//
-//        }
-//    }
-
-//    private fun showSettingsDialog() = settingsAlertDialog.show()
     private fun isAllPermissionsGranted(): Boolean =
         requireContext().isPermissionGranted(Manifest.permission.CAMERA) && requireContext().isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 

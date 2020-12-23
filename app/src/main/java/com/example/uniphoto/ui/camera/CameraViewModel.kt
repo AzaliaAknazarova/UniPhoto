@@ -1,23 +1,29 @@
 package com.example.uniphoto.ui.camera
 
 import android.graphics.drawable.Drawable
+import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import com.example.uniphoto.base.lifecycle.LiveArgEvent
 import com.example.uniphoto.base.lifecycle.LiveEvent
 import org.kodein.di.Kodein
+import java.io.File
 import java.io.Serializable
 
 class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val masksItemsList = MutableLiveData<List<MaskListItem>>()
     val masksItemsRecyclerVisible = MutableLiveData<Boolean>(false)
     val recordingIsStart = MutableLiveData<Boolean>(false)
+    val cameraFrameVisible = MutableLiveData<Boolean>(true)
+    val acceptLayoutVisible = MutableLiveData<Boolean>(false)
 
     val maskSelectedCommand = LiveArgEvent<Int>()
     val takePictureCommand = LiveEvent()
     val startRecordCommand = LiveEvent()
     val stopRecordCommand = LiveEvent()
+    val launchPhotoCompleteViewCommand = LiveEvent()
+    val declineCommand = LiveEvent()
 
     val mode = RecordType.Video
 
@@ -43,18 +49,37 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     fun cameraButtonClicked() {
         when (mode) {
             RecordType.Video -> {
-                if (recordingIsStart.value == true) {
-                    stopRecordCommand.call()
-                    recordingIsStart.value = false
-                } else {
-                    startRecordCommand.call()
-                    recordingIsStart.value = true
-                }
+                startRecordCommand.call()
+                recordingIsStart.value = true
+                cameraFrameVisible.value = false
             }
             RecordType.Photo -> {
                 takePictureCommand.call()
             }
         }
+    }
+
+    fun completeRecordButtonClicked() {
+        stopRecordCommand.call()
+        recordingIsStart.value = false
+    }
+
+    fun acceptClicked() {
+        launchPhotoCompleteViewCommand.call()
+    }
+
+    fun declineClicked() {
+        cameraFrameVisible.value = true
+        acceptLayoutVisible.value = false
+        declineCommand.call()
+    }
+
+    fun recordCompleted() {
+        cameraFrameVisible.value = false
+        acceptLayoutVisible.value = true
+
+        val sd_main = File("${Environment.getDataDirectory()}/UniPhoto")
+        val sd = File("filename.txt")
     }
 
     enum class RecordType {

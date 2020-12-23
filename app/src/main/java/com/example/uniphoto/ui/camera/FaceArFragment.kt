@@ -7,7 +7,6 @@ import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.AugmentedFaceNode
-import kotlinx.android.synthetic.main.fragment_camera.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -117,13 +115,6 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
         val scene = sceneView?.scene
         faceArView = sceneView
 
-//            session = Session(requireContext())
-//            val destination = File(requireContext().filesDir, "uni_recording.mp4").absolutePath
-//            val recordingConfig = RecordingConfig(session)
-//                .setMp4DatasetFilePath(destination)
-//                .setAutoStopOnPause(true)
-//            session?.startRecording(recordingConfig)
-
         scene?.addOnUpdateListener {
             Log.d("tag", "on scene?.addOnUpdateListener ${faceRegionsRenderable != null}")
             if (faceRegionsRenderable != null) {
@@ -139,18 +130,6 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
                                 faceNodeMap.getValue(f).faceRegionsRenderable = faceRegionsRenderable
                             }
                         }
-//                        changeModel = false
-//                        if (takePicture) {
-////                        val currentFrame = arSceneView.getWindowVisibleDisplayFrame(Rect(0, 0, arSceneView.width, arSceneView.height))
-//                            val currentFrame = arSceneView
-//                            sceneView.session.get
-//                        val currentImage = currentFrame?.acquireCameraImage()
-//                        if ( currentImage?.format == ImageFormat.YUV_420_888) {
-//                            Log.d("ImageFormat", "Image format is YUV_420_888")
-//                            saveImage(currentImage)
-//                        }
-//                        takePicture = false
-//                    }
                         // Remove any AugmentedFaceNodes associated with an AugmentedFace that stopped tracking.
                         val iter = faceNodeMap.entries.iterator()
                         while (iter.hasNext()) {
@@ -170,9 +149,6 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
 
     fun saveImage(image: Image) {
         val yuv = YuvImage(ImageConverter.YUV420toNV21(image), ImageFormat.NV21, image.width, image.height, null)
-        //                    Environment
-//                        .getExternalStorageDirectory().toString(), "SCREEN"
-//                            + System.currentTimeMillis() + ".png"
         val path =
             "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)}/unipic_${System.currentTimeMillis()}.jpg"
         Log.d("tag", "on initViews $path")
@@ -200,6 +176,10 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
         Toast.makeText(requireContext(), "Screen captured", LENGTH_SHORT).show()
     }
 
+    interface Listener {
+        fun recordCompleted(fileName: String)
+    }
+
     override fun maskSelected(maskId: Int) {
         Log.d("tag", "on maskSelected $maskId $faceRegionsRenderable $glasses")
         changeModel = true
@@ -207,13 +187,10 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
     }
 
     override fun takePhotoClicked() {
-//        takePicture = true
         captureScreen(arSceneView)
     }
 
     override fun startVideoClicked() {
-//        session?.resume()
-
         videoRecorder.setSceneView(arSceneView)
         val orientation = resources.configuration.orientation
         videoRecorder.setVideoQuality(CamcorderProfile.QUALITY_HIGH, orientation)
@@ -224,13 +201,9 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
     }
 
     override fun stopVideoClicked() {
-//        session?.stopRecording()
-
         videoRecorder.onToggleRecord()
         Toast.makeText(requireContext(), "Recording is STOP", LENGTH_SHORT).show()
-
-//        if (session?.recordingStatus == RecordingStatus.OK) {
-//            Toast.makeText(requireContext(), "Recording is OK", LENGTH_SHORT).show()
-//        }
+        (parentFragment as CameraFragment).recordCompleted("")
+        childFragmentManager.popBackStack()
     }
 }

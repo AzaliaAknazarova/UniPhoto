@@ -74,7 +74,7 @@ public class VideoRecorder {
         return recordingVideoFlag;
     }
 
-    private void startRecordingVideo() {
+    private void  startRecordingVideo() {
         if (mediaRecorder == null) {
             mediaRecorder = new MediaRecorder();
         }
@@ -100,15 +100,15 @@ public class VideoRecorder {
         if (videoDirectory == null) {
             videoDirectory =
                     new File(
-                            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                                    + "/Sceneform");
+                            Environment.getDataDirectory()
+                                    + "/UniPhoto");
         }
         if (videoBaseName == null || videoBaseName.isEmpty()) {
-            videoBaseName = "UniPhoto";
+            videoBaseName = "snapshot_";
         }
         videoPath =
                 new File(
-                        videoDirectory, videoBaseName + Long.toHexString(System.currentTimeMillis()) + ".mp4");
+                        videoDirectory, videoBaseName + System.currentTimeMillis() + ".mp4");
         File dir = videoPath.getParentFile();
         if (!dir.exists()) {
             dir.mkdirs();
