@@ -8,6 +8,18 @@
     android:background="@color/colorPrimaryDark"
     tools:context="com.example.uniphoto.ui.camera.CameraFragment">
 
+    <ImageView
+        android:id="@+id/backpressedImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_backpressed_arrow"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="@dimen/default_margin"
+        tools:ignore="ContentDescription" />
+
     <FrameLayout
         android:id="@+id/textureFragment"
         android:layout_width="match_parent"
@@ -21,21 +33,23 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="80dp"
+        android:translationZ="1dp"
         app:layout_constraintBottom_toTopOf="@id/acceptPhotoLayout"
         android:layout_marginBottom="@dimen/default_margin"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/recordImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="60dp"
+        android:paddingTop="@dimen/default_margin"
+        android:paddingBottom="60dp"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_record"
         tools:ignore="ContentDescription"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -51,8 +65,8 @@
 
         <ImageView
             android:id="@+id/takePhotoImageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="60dp"
@@ -117,10 +131,12 @@
         android:id="@+id/acceptPhotoLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="@dimen/default_margin"
+        android:paddingStart="@dimen/default_margin"
+        android:paddingEnd="@dimen/default_margin"
+        android:paddingTop="@dimen/default_margin"
+        android:paddingBottom="@dimen/large_margin"
         android:gravity="center"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -132,7 +148,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/default_margin"
             android:background="@color/colorPrimaryDark"
-            android:text="Reshoot" />
+            android:drawableStart="@drawable/ic_decline_cross"
+            android:drawablePadding="@dimen/small_margin"
+            android:text="@string/camera_decline" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/acceptPhotoImageView"
@@ -141,7 +159,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
             android:background="@color/colorPrimaryDark"
-            android:text="Done" />
+            android:drawableStart="@drawable/ic_accept_tick"
+            android:drawablePadding="@dimen/small_margin"
+            android:text="@string/camera_accept" />
 
     </LinearLayout>
 

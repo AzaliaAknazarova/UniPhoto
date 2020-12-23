@@ -195,13 +195,13 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
         val orientation = resources.configuration.orientation
         videoRecorder.setVideoQuality(CamcorderProfile.QUALITY_HIGH, orientation)
 
-        videoRecorder.onToggleRecord()
+        videoRecorder.onToggleRecord(requireContext())
 
         Toast.makeText(requireContext(), "Recording is START", LENGTH_SHORT).show()
     }
 
     override fun stopVideoClicked() {
-        videoRecorder.onToggleRecord()
+        videoRecorder.onToggleRecord(requireContext())
         Toast.makeText(requireContext(), "Recording is STOP", LENGTH_SHORT).show()
         (parentFragment as CameraFragment).recordCompleted("")
         childFragmentManager.popBackStack()

@@ -19,6 +19,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
@@ -99,6 +100,8 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
 
         acceptPhotoImageView.setOnClickListener { viewModel.acceptClicked() }
         declinePhotoImageView.setOnClickListener { viewModel.declineClicked() }
+
+        backpressedImageView.setOnClickListener { findNavController().navigateUp() }
     }
 
     private fun bindViewModel() {

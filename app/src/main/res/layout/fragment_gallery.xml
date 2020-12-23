@@ -22,7 +22,7 @@
         android:id="@+id/backpressedImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:padding="@dimen/default_margin"
         android:src="@drawable/ic_backpressed_arrow"
         android:clickable="true"
         android:focusable="true"

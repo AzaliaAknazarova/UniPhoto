@@ -1,9 +1,9 @@
 package com.example.uniphoto.ui.camera;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
@@ -65,22 +65,22 @@ public class VideoRecorder {
      *
      * @return true if recording is now active.
      */
-    public boolean onToggleRecord() {
+    public boolean onToggleRecord(Context context) {
         if (recordingVideoFlag) {
             stopRecordingVideo();
         } else {
-            startRecordingVideo();
+            startRecordingVideo(context);
         }
         return recordingVideoFlag;
     }
 
-    private void  startRecordingVideo() {
+    private void  startRecordingVideo(Context context) {
         if (mediaRecorder == null) {
             mediaRecorder = new MediaRecorder();
         }
 
         try {
-            buildFilename();
+            buildFilename(context);
             setUpMediaRecorder();
         } catch (IOException e) {
             Log.e(TAG, "Exception setting up recorder", e);
@@ -96,11 +96,11 @@ public class VideoRecorder {
         recordingVideoFlag = true;
     }
 
-    private void buildFilename() {
+    private void buildFilename(Context context) {
         if (videoDirectory == null) {
             videoDirectory =
                     new File(
-                            Environment.getDataDirectory()
+                            context.getFilesDir()
                                     + "/UniPhoto");
         }
         if (videoBaseName == null || videoBaseName.isEmpty()) {

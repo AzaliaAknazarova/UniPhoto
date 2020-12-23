@@ -4,4 +4,6 @@
     <string name="main_my_gallery">Моя галерея</string>
     <string name="main_all_pictures">Все изображения</string>
     <string name="gallery_photo">Фото</string>
+    <string name="camera_accept">Готово</string>
+    <string name="camera_decline">Переснять</string>
 </resources>
