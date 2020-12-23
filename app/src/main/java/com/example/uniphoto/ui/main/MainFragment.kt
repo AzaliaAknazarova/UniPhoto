@@ -35,9 +35,6 @@ class MainFragment: KodeinFragment<MainViewModel>() {
         }
         /*toOnboardingButton.setOnClickListener {
             navigate(R.id.action_mainFragment_to_onboardingFragment)
-        }
-        toReadyPhotoButton.setOnClickListener {
-            navigate(R.id.action_mainFragment_to_readyPhotoFragment)
         }*/
     }
 }

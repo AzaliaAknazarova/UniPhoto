@@ -6,4 +6,7 @@
     <string name="gallery_photo">Фото</string>
     <string name="camera_accept">Готово</string>
     <string name="camera_decline">Переснять</string>
+    <string name="ready_photo_social_networks"><u>социальных сетях</u></string>
+    <string name="ready_photo_share">Или \n\n поделиться в</string>
+    <string name="ready_photo_save">Сохранить</string>
 </resources>
