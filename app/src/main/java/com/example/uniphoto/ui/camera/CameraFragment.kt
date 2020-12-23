@@ -1,23 +1,13 @@
 package com.example.uniphoto.ui.camera
 
 import android.Manifest
-import android.graphics.Bitmap
-import android.graphics.Bitmap.CompressFormat
-import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Environment
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.Camera
-import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.uniphoto.R
@@ -25,7 +15,6 @@ import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
 import com.example.uniphoto.model.MaskItemsListAdapter
 import kotlinx.android.synthetic.main.fragment_camera.*
-import java.io.FileOutputStream
 
 
 /**
@@ -98,8 +87,8 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
                 viewModel.masksItemsRecyclerVisible.value != true
         }
 
-        acceptPhotoImageView.setOnClickListener { viewModel.acceptClicked() }
-        declinePhotoImageView.setOnClickListener { viewModel.declineClicked() }
+        acceptPhotoButton.setOnClickListener { viewModel.acceptClicked() }
+        declinePhotoButton.setOnClickListener { viewModel.declineClicked() }
 
         backpressedImageView.setOnClickListener { findNavController().navigateUp() }
     }

@@ -6,59 +6,73 @@
     android:background="@color/white"
     tools:context="com.example.uniphoto.ui.activity.MainActivity">
 
-
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/backgroundImageView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tema_galery" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="480dp"
-        android:gravity="center"
-        android:text="Или \n \n поделиться в  "
-        android:textColor="@color/white"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
-
-    <TextView
-        android:id="@+id/textView4"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="580dp"
-        android:clickable="true"
-        android:focusable="auto"
-        android:gravity="center"
-        android:text="@string/textView4"
-        android:textAllCaps="false"
-        android:textColor="@color/dustyRose"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
+        app:srcCompat="@drawable/background_gallery" />
 
     <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="wrap_content"
+        android:id="@+id/previewImageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintBottom_toTopOf="@id/actionLayout"
+        android:layout_marginBottom="@dimen/default_margin"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/actionLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="508dp"
-        android:clickable="true"
-        android:focusable="auto"
-        android:scaleType="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/save_button" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/extra_large_margin">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/savePhotoButton"
+            style="@style/ClassicButton"
+            android:layout_width="150dp"
+            android:layout_height="42dp"
+            android:textSize="@dimen/text_size_18"
+            android:background="@drawable/ic_top_background_main"
+            android:drawableEnd="@drawable/ic_download"
+            android:drawablePadding="@dimen/small_margin"
+            android:padding="@dimen/small_margin"
+            android:text="@string/ready_photo_save"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ready_photo_share"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/default_margin"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_18"/>
+
+        <TextView
+            android:id="@+id/shareInSocialNetworks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/ready_photo_social_networks"
+            android:textColor="@color/dustyRose"
+            android:textSize="@dimen/text_size_18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+    </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

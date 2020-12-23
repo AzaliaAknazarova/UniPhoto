@@ -142,7 +142,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/declinePhotoImageView"
+            android:id="@+id/declinePhotoButton"
             style="@style/ClassicButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
             android:text="@string/camera_decline" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/acceptPhotoImageView"
+            android:id="@+id/acceptPhotoButton"
             style="@style/ClassicButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
