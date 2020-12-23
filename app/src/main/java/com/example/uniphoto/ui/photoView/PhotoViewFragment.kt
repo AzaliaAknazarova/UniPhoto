@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinFragment
+import com.example.uniphoto.ui.galery.GalleryFragment.Companion.galleryFragmentArg
+import kotlinx.android.synthetic.main.fragment_photo_view.*
 
 class PhotoViewFragment: KodeinFragment<PhotoViewViewModel>() {
 
@@ -23,9 +26,30 @@ class PhotoViewFragment: KodeinFragment<PhotoViewViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+        bindViewModel()
+        viewModel.init(arguments?.getString(galleryFragmentArg), requireContext())
     }
 
     fun initViews() {
+        downloadImageView.setOnClickListener {
 
+        }
+        shareImageView.setOnClickListener {
+
+        }
+        deleteImageView.setOnClickListener {
+
+        }
+    }
+
+    fun bindViewModel() {
+        with(viewModel) {
+            bindCommand(setupVideoControllerCommand) {
+                videoView.setVideoURI(it)
+                videoView.setMediaController(MediaController(requireContext()))
+                videoView.requestFocus()
+                videoView.start()
+            }
+        }
     }
 }

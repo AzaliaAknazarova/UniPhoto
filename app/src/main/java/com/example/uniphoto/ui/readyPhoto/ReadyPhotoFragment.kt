@@ -22,7 +22,7 @@ class ReadyPhotoFragment: KodeinFragment<ReadyPhotoViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViews()
+//        initViews(arguments.getString())
     }
 
     fun initViews() {

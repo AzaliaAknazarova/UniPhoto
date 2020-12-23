@@ -7,10 +7,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
-
     <color name="textColor">#17212D</color>
     <color name="textColorLight">#8017212D</color>
-
-
     <color name="dustyRose">#f28f8f</color>
 </resources>
