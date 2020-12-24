@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
+import androidx.navigation.fragment.findNavController
 import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
 import com.example.uniphoto.ui.camera.CameraFragment
 import com.example.uniphoto.ui.galery.GalleryFragment.Companion.galleryFragmentArg
 import kotlinx.android.synthetic.main.fragment_photo_view.*
+import kotlinx.android.synthetic.main.fragment_photo_view.backpressedImageView
+import kotlinx.android.synthetic.main.fragment_ready_photo.*
 
 class PhotoViewFragment : KodeinFragment<PhotoViewViewModel>() {
     companion object {
@@ -38,10 +41,11 @@ class PhotoViewFragment : KodeinFragment<PhotoViewViewModel>() {
     }
 
     private fun initViews() {
+        backpressedImageView.setOnClickListener {
+            findNavController().navigateUp()
+        }
         downloadImageView.setOnClickListener {
             if (isAllPermissionsGranted()) {
-                // Wait for the view to be properly laid out
-//            cameraPreviewView.postDelayed({ startCamera(ImageCapture.FLASH_MODE_OFF) }, 500)
                 viewModel.onSavedClicked(requireContext())
             } else {
                 requestPermissions(
@@ -51,7 +55,7 @@ class PhotoViewFragment : KodeinFragment<PhotoViewViewModel>() {
             }
         }
         shareImageView.setOnClickListener { viewModel.onShareClicked(requireContext()) }
-        deleteImageView.setOnClickListener { }
+        deleteImageView.setOnClickListener { viewModel.onDeleteClicked() }
     }
 
     private fun bindViewModel() {
@@ -64,6 +68,9 @@ class PhotoViewFragment : KodeinFragment<PhotoViewViewModel>() {
             }
             bindCommand(shareIntentCommand) {
                 startActivity(Intent.createChooser(it, "Share"))
+            }
+            bindCommand(closeCommand) {
+                findNavController().navigateUp()
             }
         }
     }

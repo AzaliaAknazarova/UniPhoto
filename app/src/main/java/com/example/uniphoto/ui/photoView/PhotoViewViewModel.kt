@@ -11,6 +11,7 @@ import androidx.core.content.FileProvider
 import com.example.uniphoto.BuildConfig
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import com.example.uniphoto.base.lifecycle.LiveArgEvent
+import com.example.uniphoto.base.lifecycle.LiveEvent
 import org.kodein.di.Kodein
 import java.io.File
 import java.io.FileOutputStream
@@ -21,6 +22,7 @@ class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     lateinit var file : File
     val setupVideoControllerCommand = LiveArgEvent<Uri>()
     val shareIntentCommand = LiveArgEvent<Intent>()
+    val closeCommand = LiveEvent()
 
     fun init(name: String?, context: Context) {
         name?.let {
@@ -54,5 +56,10 @@ class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
         intent.type = "video/mp4"
         intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file))
         shareIntentCommand(intent)
+    }
+
+    fun onDeleteClicked() {
+        file.delete()
+        closeCommand.call()
     }
 }
