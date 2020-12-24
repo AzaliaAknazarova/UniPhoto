@@ -1,5 +1,6 @@
 package com.example.uniphoto.ui.photoView
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,25 +31,22 @@ class PhotoViewFragment: KodeinFragment<PhotoViewViewModel>() {
         viewModel.init(arguments?.getString(galleryFragmentArg), requireContext())
     }
 
-    fun initViews() {
-        downloadImageView.setOnClickListener {
-
-        }
-        shareImageView.setOnClickListener {
-
-        }
-        deleteImageView.setOnClickListener {
-
-        }
+    private fun initViews() {
+        downloadImageView.setOnClickListener { viewModel.onSavedClicked() }
+        shareImageView.setOnClickListener { viewModel.onShareClicked(requireContext()) }
+        deleteImageView.setOnClickListener {    }
     }
 
-    fun bindViewModel() {
+    private fun bindViewModel() {
         with(viewModel) {
             bindCommand(setupVideoControllerCommand) {
                 videoView.setVideoURI(it)
                 videoView.setMediaController(MediaController(requireContext()))
                 videoView.requestFocus()
                 videoView.start()
+            }
+            bindCommand(shareIntentCommand) {
+                startActivity(Intent.createChooser(it, "Share"))
             }
         }
     }

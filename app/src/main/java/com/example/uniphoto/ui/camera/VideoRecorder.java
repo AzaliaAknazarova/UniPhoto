@@ -104,7 +104,7 @@ public class VideoRecorder {
                                     + "/UniPhoto");
         }
         if (videoBaseName == null || videoBaseName.isEmpty()) {
-            videoBaseName = "snapshot_";
+            videoBaseName = "video_";
         }
         videoPath =
                 new File(

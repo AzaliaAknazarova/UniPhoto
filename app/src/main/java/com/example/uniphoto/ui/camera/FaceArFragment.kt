@@ -177,7 +177,7 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
     }
 
     interface Listener {
-        fun recordCompleted(fileName: String)
+        fun recordCompleted(file: File)
     }
 
     override fun maskSelected(maskId: Int) {
@@ -203,7 +203,7 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
     override fun stopVideoClicked() {
         videoRecorder.onToggleRecord(requireContext())
         Toast.makeText(requireContext(), "Recording is STOP", LENGTH_SHORT).show()
-        (parentFragment as CameraFragment).recordCompleted("")
+        (parentFragment as CameraFragment).recordCompleted(videoRecorder.videoPath)
         childFragmentManager.popBackStack()
     }
 }

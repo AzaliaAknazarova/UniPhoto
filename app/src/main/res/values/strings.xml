@@ -9,4 +9,5 @@
     <string name="ready_photo_social_networks"><u>социальных сетях</u></string>
     <string name="ready_photo_share">Или \n\n поделиться в</string>
     <string name="ready_photo_save">Сохранить</string>
+    <string name="ready_photo_to_main">на главную</string>
 </resources>

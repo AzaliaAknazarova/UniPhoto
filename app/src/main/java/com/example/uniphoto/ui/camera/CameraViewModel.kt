@@ -22,9 +22,10 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val takePictureCommand = LiveEvent()
     val startRecordCommand = LiveEvent()
     val stopRecordCommand = LiveEvent()
-    val launchPhotoCompleteViewCommand = LiveEvent()
+    val launchPhotoCompleteViewCommand = LiveArgEvent<String>()
     val declineCommand = LiveEvent()
 
+    var videoFile = File("")
     val mode = RecordType.Video
 
     private val masksList = listOf (
@@ -65,7 +66,9 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     }
 
     fun acceptClicked() {
-        launchPhotoCompleteViewCommand.call()
+        launchPhotoCompleteViewCommand(videoFile.name)
+        cameraFrameVisible.value = true
+        acceptLayoutVisible.value = false
     }
 
     fun declineClicked() {
@@ -74,12 +77,11 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
         declineCommand.call()
     }
 
-    fun recordCompleted() {
+    fun recordCompleted(file: File) {
+        videoFile = file
+
         cameraFrameVisible.value = false
         acceptLayoutVisible.value = true
-
-        val sd_main = File("${Environment.getDataDirectory()}/UniPhoto")
-        val sd = File("filename.txt")
     }
 
     enum class RecordType {

@@ -14,7 +14,9 @@ import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
 import com.example.uniphoto.model.MaskItemsListAdapter
+import com.example.uniphoto.ui.galery.GalleryFragment.Companion.galleryFragmentArg
 import kotlinx.android.synthetic.main.fragment_camera.*
+import java.io.File
 
 
 /**
@@ -131,7 +133,8 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
                 castChild<ImageCaptureListener>()?.stopVideoClicked()
             }
             bindCommand(launchPhotoCompleteViewCommand) {
-                navigate(R.id.action_cameraFragment_to_readyPhotoFragment)
+                val arg = Bundle().apply { putString(galleryFragmentArg, it) }
+                navigate(R.id.action_cameraFragment_to_readyPhotoFragment, arg)
             }
             bindCommand(declineCommand) {
                 setTextureFragment()
@@ -147,8 +150,8 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
         }
     }
 
-    override fun recordCompleted(fileName: String) {
-        viewModel.recordCompleted()
+    override fun recordCompleted(file: File) {
+        viewModel.recordCompleted(file)
     }
 
     private fun isAllPermissionsGranted(): Boolean =
