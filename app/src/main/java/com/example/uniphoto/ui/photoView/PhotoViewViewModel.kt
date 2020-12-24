@@ -3,7 +3,10 @@ package com.example.uniphoto.ui.photoView
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
+import android.util.Log
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.example.uniphoto.BuildConfig
 import com.example.uniphoto.base.kodein.KodeinViewModel
@@ -11,6 +14,7 @@ import com.example.uniphoto.base.lifecycle.LiveArgEvent
 import org.kodein.di.Kodein
 import java.io.File
 import java.io.FileOutputStream
+import java.nio.file.Files
 
 class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
 
@@ -25,16 +29,23 @@ class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
         }
     }
 
-    fun onSavedClicked() {
-        val file = File(Environment.getExternalStoragePublicDirectory("UniPhoto"), file.name)
-
-        if (!file.exists()) {
-            file.mkdirs()
+    fun onSavedClicked(context: Context) {
+        val externalDirectory = File("${Environment.getExternalStorageDirectory()}/UniPhoto")
+        if (!externalDirectory.exists()) {
+            externalDirectory.mkdirs()
         }
 
-        val fos = FileOutputStream(file)
+        Log.d("log", "on onSavedClicked ${file.name}")
+        val externalFile = File(externalDirectory, file.name.toString())
+
+        val fos = FileOutputStream(externalFile)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fos.write(Files.readAllBytes(file.toPath()))
+        }
         fos.flush()
         fos.close()
+
+        Toast.makeText(context, "File saved", Toast.LENGTH_SHORT).show()
     }
 
     fun onShareClicked(context: Context) {

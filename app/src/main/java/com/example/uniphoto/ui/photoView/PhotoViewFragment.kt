@@ -1,5 +1,6 @@
 package com.example.uniphoto.ui.photoView
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import com.example.uniphoto.R
+import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
+import com.example.uniphoto.ui.camera.CameraFragment
 import com.example.uniphoto.ui.galery.GalleryFragment.Companion.galleryFragmentArg
 import kotlinx.android.synthetic.main.fragment_photo_view.*
 
-class PhotoViewFragment: KodeinFragment<PhotoViewViewModel>() {
+class PhotoViewFragment : KodeinFragment<PhotoViewViewModel>() {
+    companion object {
+        private const val writePermissionRequestCode = 45
+    }
 
     override val viewModel by viewModel(PhotoViewViewModel::class.java)
 
@@ -32,9 +38,20 @@ class PhotoViewFragment: KodeinFragment<PhotoViewViewModel>() {
     }
 
     private fun initViews() {
-        downloadImageView.setOnClickListener { viewModel.onSavedClicked() }
+        downloadImageView.setOnClickListener {
+            if (isAllPermissionsGranted()) {
+                // Wait for the view to be properly laid out
+//            cameraPreviewView.postDelayed({ startCamera(ImageCapture.FLASH_MODE_OFF) }, 500)
+                viewModel.onSavedClicked(requireContext())
+            } else {
+                requestPermissions(
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    writePermissionRequestCode
+                )
+            }
+        }
         shareImageView.setOnClickListener { viewModel.onShareClicked(requireContext()) }
-        deleteImageView.setOnClickListener {    }
+        deleteImageView.setOnClickListener { }
     }
 
     private fun bindViewModel() {
@@ -50,4 +67,10 @@ class PhotoViewFragment: KodeinFragment<PhotoViewViewModel>() {
             }
         }
     }
+
+    private fun isAllPermissionsGranted(): Boolean =
+        requireContext().isPermissionGranted(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
 }

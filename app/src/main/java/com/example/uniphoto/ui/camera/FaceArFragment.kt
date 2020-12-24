@@ -196,13 +196,10 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
         videoRecorder.setVideoQuality(CamcorderProfile.QUALITY_HIGH, orientation)
 
         videoRecorder.onToggleRecord(requireContext())
-
-        Toast.makeText(requireContext(), "Recording is START", LENGTH_SHORT).show()
     }
 
     override fun stopVideoClicked() {
         videoRecorder.onToggleRecord(requireContext())
-        Toast.makeText(requireContext(), "Recording is STOP", LENGTH_SHORT).show()
         (parentFragment as CameraFragment).recordCompleted(videoRecorder.videoPath)
         childFragmentManager.popBackStack()
     }

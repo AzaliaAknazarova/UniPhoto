@@ -39,7 +39,7 @@ class ReadyPhotoFragment: KodeinFragment<ReadyPhotoViewModel>() {
         backpressedImageView.setOnClickListener {
             findNavController().navigateUp()
         }
-        savePhotoButton.setOnClickListener { viewModel.onSavedClicked() }
+        savePhotoButton.setOnClickListener { viewModel.onSavedClicked(requireContext()) }
         shareInSocialNetworks.setOnClickListener { viewModel.onShareClicked(requireContext()) }
     }
 
