@@ -60,10 +60,40 @@
         android:focusable="true"
         android:src="@drawable/ic_record"
         tools:ignore="ContentDescription"
+        android:translationZ="1dp"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/changeModeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toTopOf="@id/cameraRelativeLayout"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/photoModeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/small_margin"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/white"
+            android:text="Фотография"/>
+
+        <TextView
+            android:id="@+id/videoModeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14"
+            android:padding="@dimen/small_margin"
+            android:text="Видео"/>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/cameraRelativeLayout"
@@ -103,7 +133,6 @@
         android:id="@+id/masksRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.8"
         android:background="@drawable/rounded_dialog_fragment"
         android:orientation="vertical"
         android:paddingBottom="10dp"

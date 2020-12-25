@@ -1,6 +1,7 @@
 package com.example.uniphoto.ui.camera
 
 import android.Manifest
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -83,6 +84,10 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
 
     private fun initViews() {
         masksRecyclerView.adapter = maskItemsAdapter
+
+        photoModeTextView.setOnClickListener { viewModel.onChangeModeClicked(CameraViewModel.RecordType.Photo) }
+        videoModeTextView.setOnClickListener { viewModel.onChangeModeClicked(CameraViewModel.RecordType.Video) }
+
         takePhotoImageView.setOnClickListener {
             Log.d("tag", "on bindViewModel takePhotoImageView.setOnClickListener $child")
             viewModel.cameraButtonClicked()
@@ -104,6 +109,18 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
             bindVisible(masksItemsRecyclerVisible, masksRecyclerView)
             bindVisible(recordingIsStart, recordImageView)
 
+            bind(mode) {
+                when (it) {
+                    CameraViewModel.RecordType.Video -> {
+                        videoModeTextView.typeface = Typeface.DEFAULT_BOLD
+                        photoModeTextView.typeface = Typeface.DEFAULT
+                    }
+                    CameraViewModel.RecordType.Photo -> {
+                        videoModeTextView.typeface = Typeface.DEFAULT
+                        photoModeTextView.typeface = Typeface.DEFAULT_BOLD
+                    }
+                }
+            }
             bind(cameraFrameVisible) {
                 if (recordingIsStart.value == true)
                     textureFragment.isVisible = true
@@ -111,9 +128,10 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
                     textureFragment.isVisible = it
                 cameraRelativeLayout.isVisible = it
                 masksRelativeLayout.isVisible = it
+                changeModeLayout.isVisible = it
             }
             bind(acceptLayoutVisible) {
-                when (mode) {
+                when (mode.value) {
                     CameraViewModel.RecordType.Video -> videoView.isVisible = it
                     CameraViewModel.RecordType.Photo -> previewImageView.isVisible = it
                 }

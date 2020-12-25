@@ -38,7 +38,7 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val setPhotoViewCommand = LiveArgEvent<Bitmap>()
 
     var videoFile = File("")
-    val mode = RecordType.Photo
+    var mode = MutableLiveData<RecordType>(RecordType.Photo)
 
     private val masksList = listOf (
         Pair(1, "sunglasses.sfb"),
@@ -59,8 +59,12 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
         Log.d("tag", "on init ${masksItemsList.value}")
     }
 
+    fun onChangeModeClicked(newMode: RecordType) {
+        mode.value = newMode
+    }
+
     fun cameraButtonClicked() {
-        when (mode) {
+        when (mode.value) {
             RecordType.Video -> {
                 startRecordCommand.call()
                 recordingIsStart.value = true
