@@ -3,16 +3,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.uniphoto.ui.activity.MainActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context="com.example.uniphoto.ui.activity.MainActivity">
+
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/background_gallery" />
+
+    <ImageView
+        android:id="@+id/backpressedImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_margin"
+        android:src="@drawable/ic_backpressed_arrow"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/toMainFragmentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:textAllCaps="true"
+        android:padding="@dimen/default_margin"
+        android:text="@string/ready_photo_to_main"
+        android:textColor="@color/dustyRose"
+        android:textSize="@dimen/text_size_18"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/previewImageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintBottom_toTopOf="@id/actionLayout"
+        android:layout_marginBottom="@dimen/default_margin"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/actionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/extra_large_margin">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/savePhotoButton"
+            style="@style/ClassicButton"
+            android:layout_width="150dp"
+            android:layout_height="42dp"
+            android:textSize="@dimen/text_size_18"
+            android:background="@drawable/ic_top_background_main"
+            android:drawableEnd="@drawable/ic_download"
+            android:drawablePadding="@dimen/small_margin"
+            android:padding="@dimen/small_margin"
+            android:text="@string/ready_photo_save"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ready_photo_share"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/default_margin"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_18"/>
+
+        <TextView
+            android:id="@+id/shareInSocialNetworks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/ready_photo_social_networks"
+            android:textColor="@color/dustyRose"
+            android:textSize="@dimen/text_size_18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+    </LinearLayout>
 
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:text="THIS IS READY PHOTO"
-    android:textStyle="bold"
-    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

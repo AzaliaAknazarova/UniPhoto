@@ -1,0 +1,61 @@
+{
+  animations: [
+    {
+      path: 'sampledata/blue_sunglasses.fbx',
+    },
+  ],
+  materials: [
+    {
+      name: 'body.004',
+      parameters: [
+        {
+          baseColor: [
+            0.071207999999999994,
+            0.29955500000000002,
+            0.981012,
+            1,
+          ],
+        },
+        {
+          baseColorMap: null,
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'TexCoord',
+      'Orientation',
+      'BoneIndices',
+      'BoneWeights',
+    ],
+    collision: {},
+    file: 'sampledata/blue_sunglasses.fbx',
+    name: 'blue_sunglasses',
+    recenter: 'root',
+  },
+  version: '0.54:2',
+}

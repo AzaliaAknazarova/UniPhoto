@@ -1,25 +1,35 @@
 package com.example.uniphoto.ui.camera
 
 import android.Manifest
+import android.graphics.Typeface
+import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.camera.core.*
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContextCompat
+import android.widget.MediaController
+import androidx.camera.core.Camera
+import androidx.camera.core.ImageCapture
+import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
 import com.example.uniphoto.model.MaskItemsListAdapter
+import com.example.uniphoto.ui.galery.GalleryFragment.Companion.galleryFragmentArg
 import kotlinx.android.synthetic.main.fragment_camera.*
+import kotlinx.android.synthetic.main.fragment_camera.backpressedImageView
+import kotlinx.android.synthetic.main.fragment_camera.videoView
+import kotlinx.android.synthetic.main.fragment_photo_view.*
+import java.io.File
+
 
 /**
  * Created by nigelhenshaw on 2018/01/23.
  */
-class CameraFragment : KodeinFragment<CameraViewModel>() {
+class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listener {
     companion object {
         private const val cameraPermissionRequestCode = 45
     }
@@ -64,11 +74,9 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
         viewModel.init()
 
         if (isAllPermissionsGranted()) {
-            // Wait for the view to be properly laid out
-//            cameraPreviewView.postDelayed({ startCamera(ImageCapture.FLASH_MODE_OFF) }, 500)
             setTextureFragment()
         } else {
-            requestPermissions(arrayOf(Manifest.permission.CAMERA),
+            requestPermissions(arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 cameraPermissionRequestCode
             )
         }
@@ -76,24 +84,95 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
 
     private fun initViews() {
         masksRecyclerView.adapter = maskItemsAdapter
+
+        photoModeTextView.setOnClickListener { viewModel.onChangeModeClicked(CameraViewModel.RecordType.Photo) }
+        videoModeTextView.setOnClickListener { viewModel.onChangeModeClicked(CameraViewModel.RecordType.Video) }
+
+        takePhotoImageView.setOnClickListener {
+            Log.d("tag", "on bindViewModel takePhotoImageView.setOnClickListener $child")
+            viewModel.cameraButtonClicked()
+        }
+        recordImageView.setOnClickListener { viewModel.completeRecordButtonClicked() }
         bottomSheetActionImageView.setOnClickListener {
             viewModel.masksItemsRecyclerVisible.value =
                 viewModel.masksItemsRecyclerVisible.value != true
         }
+
+        acceptPhotoButton.setOnClickListener { viewModel.acceptClicked() }
+        declinePhotoButton.setOnClickListener { viewModel.declineClicked() }
+
+        backpressedImageView.setOnClickListener { findNavController().navigateUp() }
     }
 
     private fun bindViewModel() {
-        bindVisible(viewModel.masksItemsRecyclerVisible, masksRecyclerView)
+        with(viewModel) {
+            bindVisible(masksItemsRecyclerVisible, masksRecyclerView)
+            bindVisible(recordingIsStart, recordImageView)
 
-        bind(viewModel.masksItemsList) {
-            Log.d("tag", "on bindViewModel $it")
+            bind(mode) {
+                when (it) {
+                    CameraViewModel.RecordType.Video -> {
+                        videoModeTextView.typeface = Typeface.DEFAULT_BOLD
+                        photoModeTextView.typeface = Typeface.DEFAULT
+                    }
+                    CameraViewModel.RecordType.Photo -> {
+                        videoModeTextView.typeface = Typeface.DEFAULT
+                        photoModeTextView.typeface = Typeface.DEFAULT_BOLD
+                    }
+                }
+            }
+            bind(cameraFrameVisible) {
+                if (recordingIsStart.value == true)
+                    textureFragment.isVisible = true
+                else
+                    textureFragment.isVisible = it
+                cameraRelativeLayout.isVisible = it
+                masksRelativeLayout.isVisible = it
+                changeModeLayout.isVisible = it
+            }
+            bind(acceptLayoutVisible) {
+                when (mode.value) {
+                    CameraViewModel.RecordType.Video -> videoView.isVisible = it
+                    CameraViewModel.RecordType.Photo -> previewImageView.isVisible = it
+                }
+                acceptPhotoLayout.isVisible = it
+            }
+            bind(masksItemsList) {
+                Log.d("tag", "on bindViewModel $it")
 
-            maskItemsAdapter.items = it
-            maskItemsAdapter.notifyDataSetChanged()
-        }
-        bindCommand(viewModel.maskSelectedCommand) {
-            Log.d("tag", "on bindViewModel $child")
-            castChild<MaskSelectedListener>()?.maskSelected(it)
+                maskItemsAdapter.items = it
+                maskItemsAdapter.notifyDataSetChanged()
+            }
+
+            bindCommand(maskSelectedCommand) {
+                Log.d("tag", "on bindViewModel $child")
+                castChild<MaskSelectedListener>()?.maskSelected(it)
+            }
+            bindCommand(takePictureCommand) {
+                castChild<ImageCaptureListener>()?.takePhotoClicked()
+            }
+            bindCommand(startRecordCommand) {
+                castChild<ImageCaptureListener>()?.startVideoClicked()
+            }
+            bindCommand(stopRecordCommand) {
+                castChild<ImageCaptureListener>()?.stopVideoClicked()
+            }
+            bindCommand(launchPhotoCompleteViewCommand) {
+                val arg = Bundle().apply { putString(galleryFragmentArg, it) }
+                navigate(R.id.action_cameraFragment_to_readyPhotoFragment, arg)
+            }
+            bindCommand(declineCommand) {
+                setTextureFragment()
+            }
+            bindCommand(setVideoViewCommand) {
+                videoView.setVideoURI(it)
+                videoView.setMediaController(MediaController(requireContext()))
+                videoView.requestFocus()
+                videoView.start()
+            }
+            bindCommand(setPhotoViewCommand) {
+                previewImageView.setImageBitmap(it)
+            }
         }
     }
 
@@ -105,87 +184,24 @@ class CameraFragment : KodeinFragment<CameraViewModel>() {
         }
     }
 
-    private fun startCamera(flashMode: Int, cameraMode: Int? = null) {
-        if (imageCapture != null) {
-            if (cameraMode == null) {
-                imageCapture!!.flashMode = flashMode
-                return
-            } else
-                camera = null
+    private fun closeArFragment() {
+        childFragmentManager.beginTransaction().apply {
+            remove(childFragmentManager.fragments.first())
+            commit()
         }
-
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-
-        cameraProviderFuture.addListener(Runnable {
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            val preview = Preview.Builder().build()
-
-            imageCapture = ImageCapture.Builder()
-                .setFlashMode(flashMode)
-                .build()
-
-            val cameraSelector =
-                if (cameraMode != CameraSelector.LENS_FACING_BACK) {
-//                    viewModel.isFrontCameraEnabled = true
-                    CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
-                        .build()
-                } else
-                    CameraSelector.Builder()
-                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                        .build()
-
-            try {
-                cameraProvider.unbindAll()
-                if (camera == null) {
-                    camera =
-                        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
-                }
-                preview.setSurfaceProvider(cameraPreviewView.surfaceProvider)
-            } catch (exc: Exception) {
-
-            } finally {
-                Handler().postDelayed({
-//                    viewModel.antiGlitchLayoutVisible.value = false
-                }, 30)
-            }
-
-        }, ContextCompat.getMainExecutor(context))
     }
 
-//    private fun takePhoto() {
-//        val imageCapture = imageCapture ?: return
-//        val file = createImageFile(requireContext())
-//
-//        if (file != null) {
-//            val outputOptions = ImageCapture.OutputFileOptions.Builder(file).build()
-//
-//            imageCapture.takePicture(
-//                outputOptions,
-//                ContextCompat.getMainExecutor(context),
-//                object : ImageCapture.OnImageSavedCallback {
-//                    override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-////                        MediaPlayer.create(requireContext(), androidx.camera.core.R.raw.camera_sound).start()
-//
-////                        viewModel.photoTaken(file) {
-////                            //dirty temp hack
-////                            if (completedPhotosList != null) {
-////                                completedPhotosList.adapter!!.notifyItemInserted(viewModel.photoPaths.lastIndex)
-////                            }
-////                        }
-//                    }
-//
-//                    override fun onError(exc: ImageCaptureException) {
-//
-//                    }
-//                })
-//        } else {
-//
-//        }
-//    }
+    override fun recordCompleted(file: File) {
+        viewModel.recordCompleted(file)
+        closeArFragment()
+    }
 
-//    private fun showSettingsDialog() = settingsAlertDialog.show()
+    override fun photoTaken(file: File) {
+        viewModel.photoTaken(file, requireContext())
+        closeArFragment()
+    }
+
     private fun isAllPermissionsGranted(): Boolean =
-        requireContext().isPermissionGranted(Manifest.permission.CAMERA)
+        requireContext().isPermissionGranted(Manifest.permission.CAMERA) && requireContext().isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
 }

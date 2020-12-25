@@ -4,15 +4,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.uniphoto.ui.activity.MainActivity"
-    android:background="@color/white">
+    android:background="@color/colorPrimaryDark">
 
+    <ImageView
+        android:id="@+id/backpressedImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_margin"
+        android:src="@drawable/ic_backpressed_arrow"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:text="THIS IS PHOTO VIEW"
-    android:textStyle="bold"
-    />
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backpressedImageView"
+        app:layout_constraintBottom_toTopOf="@id/actionsLayout"/>
+
+    <LinearLayout
+        android:id="@+id/actionsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="@dimen/large_margin"
+        android:paddingBottom="@dimen/default_margin"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/downloadImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/small_margin"
+            android:src="@drawable/ic_download"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/shareImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginStart="@dimen/extra_large_margin"
+            android:layout_marginEnd="@dimen/extra_large_margin"
+            android:padding="@dimen/small_margin"
+            android:src="@drawable/ic_share"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/deleteImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/small_margin"
+            android:src="@drawable/ic_delete"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

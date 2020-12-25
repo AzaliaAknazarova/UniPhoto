@@ -50,5 +50,11 @@
     <fragment
         android:id="@+id/readyPhotoFragment"
         android:name="com.example.uniphoto.ui.readyPhoto.ReadyPhotoFragment"
-        android:label="ReadyPhotoFragment" />
+        android:label="ReadyPhotoFragment" >
+        <action
+            android:id="@+id/action_readyPhotoFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
