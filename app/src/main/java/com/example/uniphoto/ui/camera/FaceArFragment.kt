@@ -76,6 +76,44 @@ class FaceArFragment : ArFragment(), MaskSelectedListener {
                 modelRenderable.isShadowCaster = false
                 modelRenderable.isShadowReceiver = false
             }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                "wow.sfb"))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                "purple_cat.sfb"))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                "blue.sfb"))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                "black.sfb"))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
+
+
     }
 
     private fun setMask() {
