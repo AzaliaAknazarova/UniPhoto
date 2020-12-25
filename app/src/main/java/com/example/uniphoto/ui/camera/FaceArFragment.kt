@@ -92,7 +92,7 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
             }
         ModelRenderable.builder()
             .setSource(requireContext(), Uri.parse(
-                "red_mask.sfb"))
+                "wow.sfb"))
             .build()
             .thenAccept { modelRenderable ->
                 glasses.add(modelRenderable)
@@ -101,13 +101,33 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
             }
         ModelRenderable.builder()
             .setSource(requireContext(), Uri.parse(
-                "blue_sunglasses.sfb"))
+                "purple_cat.sfb"))
             .build()
             .thenAccept { modelRenderable ->
                 glasses.add(modelRenderable)
                 modelRenderable.isShadowCaster = false
                 modelRenderable.isShadowReceiver = false
             }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                "blue.sfb"))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse(
+                "black.sfb"))
+            .build()
+            .thenAccept { modelRenderable ->
+                glasses.add(modelRenderable)
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+            }
+
+
     }
 
     private fun setMask() {
@@ -132,6 +152,7 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
                                 faceNodeMap.getValue(f).faceRegionsRenderable = faceRegionsRenderable
                             }
                         }
+                        changeModel = false
                         // Remove any AugmentedFaceNodes associated with an AugmentedFace that stopped tracking.
                         val iter = faceNodeMap.entries.iterator()
                         while (iter.hasNext()) {

@@ -1,0 +1,223 @@
+{
+  animations: [
+    {
+      clips: [
+        {
+          name: 'Empty_Mesh_1_1|Empty_Mesh_1_1|Base Stack|DefaultLayer',
+        },
+        {
+          name: 'Empty_Mesh_1_1|Empty_Mesh_1|Base Stack|DefaultLayer',
+        },
+        {
+          name: 'Empty_Mesh_1_1|Empty_Mesh|Base Stack|DefaultLayer',
+        },
+      ],
+      path: 'sampledata/blue.fbx',
+    },
+  ],
+  materials: [
+    {
+      name: 'cover_1_2_2',
+      parameters: [
+        {
+          baseColor: [
+            0.15294099999999999,
+            0.15294099999999999,
+            0.15294099999999999,
+            1,
+          ],
+        },
+        {
+          baseColorMap: null,
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'cover_2_2',
+      parameters: [
+        {
+          baseColor: [
+            0.15294099999999999,
+            0.15294099999999999,
+            0.15294099999999999,
+            1,
+          ],
+        },
+        {
+          baseColorMap: null,
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'glass',
+      parameters: [
+        {
+          baseColor: [
+            0,
+            0,
+            1,
+            1,
+          ],
+        },
+        {
+          baseColorMap: null,
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'cover_3',
+      parameters: [
+        {
+          baseColor: [
+            0.15294099999999999,
+            0.15294099999999999,
+            0.15294099999999999,
+            1,
+          ],
+        },
+        {
+          baseColorMap: null,
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+    {
+      name: 'rod_2_3_1',
+      parameters: [
+        {
+          baseColor: [
+            0.63529400000000003,
+            0.63529400000000003,
+            0.63529400000000003,
+            1,
+          ],
+        },
+        {
+          baseColorMap: null,
+        },
+        {
+          normalMap: null,
+        },
+        {
+          interpolatedColor: null,
+        },
+        {
+          metallic: 0,
+        },
+        {
+          metallicMap: null,
+        },
+        {
+          roughness: 1,
+        },
+        {
+          roughnessMap: null,
+        },
+        {
+          opacity: null,
+        },
+      ],
+      source: 'build/sceneform_sdk/default_materials/fbx_material.sfm',
+    },
+  ],
+  model: {
+    attributes: [
+      'Position',
+      'Orientation',
+      'BoneIndices',
+      'BoneWeights',
+    ],
+    collision: {},
+    file: 'sampledata/blue.fbx',
+    name: 'blue',
+    recenter: 'root',
+  },
+  version: '0.54:2',
+}

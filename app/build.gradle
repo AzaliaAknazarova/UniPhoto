@@ -97,7 +97,29 @@ sceneform.asset('sampledata/hypno_glasses.fbx',
         'sampledata/hypno_glasses.sfa',
         'src/main/assets/hypno_glasses')
 
-sceneform.asset('sampledata/red_mask.fbx',
+sceneform.asset('sampledata/wow.fbx',
         'default',
-        'sampledata/red_mask.sfa',
-        'src/main/assets/red_mask')
+        'sampledata/wow.sfa',
+        'src/main/assets/wow')
+
+sceneform.asset('sampledata/purple_cat.fbx',
+        'default',
+        'sampledata/purple_cat.sfa',
+        'src/main/assets/purple_cat')
+
+sceneform.asset('sampledata/blue.fbx',
+        'default',
+        'sampledata/blue.sfa',
+        'src/main/assets/blue')
+
+sceneform.asset('sampledata/black.fbx',
+        'default',
+        'sampledata/black.sfa',
+        'src/main/assets/black')
+
+
+
+
+
+
+

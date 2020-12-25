@@ -44,8 +44,10 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
         Pair(1, "sunglasses.sfb"),
         Pair(2, "yellow_sunglasses.sfb"),
         Pair(3, "hypno_glasses.sfb"),
-        Pair(4, "red_mask.sfb"),
-        Pair(5, "blue_sunglasses.sfb")
+        Pair(4, "wow.sfb"),
+        Pair(5, "purple_cat.sfb"),
+        Pair(6, "blue.sfb"),
+        Pair(7, "black.sfb")
     )
 
     fun init() {
