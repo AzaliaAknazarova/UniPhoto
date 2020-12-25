@@ -22,7 +22,6 @@ import com.example.uniphoto.ui.galery.GalleryFragment.Companion.galleryFragmentA
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_camera.backpressedImageView
 import kotlinx.android.synthetic.main.fragment_camera.videoView
-import kotlinx.android.synthetic.main.fragment_photo_view.*
 import java.io.File
 
 

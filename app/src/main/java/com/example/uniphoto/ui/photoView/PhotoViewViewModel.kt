@@ -2,6 +2,8 @@ package com.example.uniphoto.ui.photoView
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -20,6 +22,8 @@ import java.nio.file.Files
 class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
 
     lateinit var file : File
+
+    val setPhotoViewCommand = LiveArgEvent<Bitmap>()
     val setupVideoControllerCommand = LiveArgEvent<Uri>()
     val shareIntentCommand = LiveArgEvent<Intent>()
     val closeCommand = LiveEvent()
@@ -27,7 +31,10 @@ class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     fun init(name: String?, context: Context) {
         name?.let {
             file = File("${context.filesDir}/UniPhoto/$name")
-            setupVideoControllerCommand(Uri.fromFile(file))
+            if (it.contains(".jpg"))
+                setPhotoViewCommand(BitmapFactory.decodeFile("${context.filesDir}/UniPhoto/$name"))
+            else
+                setupVideoControllerCommand(Uri.fromFile(file))
         }
     }
 

@@ -11,11 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
-import com.example.uniphoto.ui.camera.CameraFragment
 import com.example.uniphoto.ui.galery.GalleryFragment.Companion.galleryFragmentArg
 import kotlinx.android.synthetic.main.fragment_photo_view.*
 import kotlinx.android.synthetic.main.fragment_photo_view.backpressedImageView
-import kotlinx.android.synthetic.main.fragment_ready_photo.*
 
 class PhotoViewFragment : KodeinFragment<PhotoViewViewModel>() {
     companion object {
@@ -65,6 +63,9 @@ class PhotoViewFragment : KodeinFragment<PhotoViewViewModel>() {
                 videoView.setMediaController(MediaController(requireContext()))
                 videoView.requestFocus()
                 videoView.start()
+            }
+            bindCommand(setPhotoViewCommand) {
+                previewImageView.setImageBitmap(it)
             }
             bindCommand(shareIntentCommand) {
                 startActivity(Intent.createChooser(it, "Share"))
