@@ -1,6 +1,7 @@
 package com.example.uniphoto.ui.camera
 
 import android.Manifest
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.camera.core.Camera
 import androidx.camera.core.ImageCapture
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
@@ -111,8 +113,10 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
                 masksRelativeLayout.isVisible = it
             }
             bind(acceptLayoutVisible) {
-//                previewImageView.isVisible = it
-                videoView.isVisible = it
+                when (mode) {
+                    CameraViewModel.RecordType.Video -> videoView.isVisible = it
+                    CameraViewModel.RecordType.Photo -> previewImageView.isVisible = it
+                }
                 acceptPhotoLayout.isVisible = it
             }
             bind(masksItemsList) {
@@ -134,11 +138,6 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
             }
             bindCommand(stopRecordCommand) {
                 castChild<ImageCaptureListener>()?.stopVideoClicked()
-                Log.d("tag", "on bindCommand(stopRecordCommand) ${childFragmentManager.fragments.first()}")
-                childFragmentManager.beginTransaction().apply {
-                    remove(childFragmentManager.fragments.first())
-                    commit()
-                }
             }
             bindCommand(launchPhotoCompleteViewCommand) {
                 val arg = Bundle().apply { putString(galleryFragmentArg, it) }
@@ -153,6 +152,9 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
                 videoView.requestFocus()
                 videoView.start()
             }
+            bindCommand(setPhotoViewCommand) {
+                previewImageView.setImageBitmap(it)
+            }
         }
     }
 
@@ -164,8 +166,21 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
         }
     }
 
+    private fun closeArFragment() {
+        childFragmentManager.beginTransaction().apply {
+            remove(childFragmentManager.fragments.first())
+            commit()
+        }
+    }
+
     override fun recordCompleted(file: File) {
         viewModel.recordCompleted(file)
+        closeArFragment()
+    }
+
+    override fun photoTaken(file: File) {
+        viewModel.photoTaken(file, requireContext())
+        closeArFragment()
     }
 
     private fun isAllPermissionsGranted(): Boolean =

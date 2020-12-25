@@ -7,6 +7,7 @@ import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +15,13 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import com.bumptech.glide.Glide
 import com.google.ar.core.*
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.AugmentedFaceNode
+import kotlinx.coroutines.delay
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -177,6 +180,7 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
 
     interface Listener {
         fun recordCompleted(file: File)
+        fun photoTaken(file: File)
     }
 
     override fun maskSelected(maskId: Int) {
@@ -186,7 +190,17 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
     }
 
     override fun takePhotoClicked() {
-        captureScreen(arSceneView)
+        videoRecorder.setSceneView(arSceneView)
+        val orientation = resources.configuration.orientation
+        videoRecorder.setVideoQuality(CamcorderProfile.QUALITY_HIGH, orientation)
+
+        videoRecorder.onToggleRecord(requireContext())
+
+        Handler().postDelayed({
+            videoRecorder.onToggleRecord(requireContext())
+            (parentFragment as CameraFragment).photoTaken(videoRecorder.videoPath)
+        }, 100)
+
     }
 
     override fun startVideoClicked() {
@@ -200,6 +214,5 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
     override fun stopVideoClicked() {
         videoRecorder.onToggleRecord(requireContext())
         (parentFragment as CameraFragment).recordCompleted(videoRecorder.videoPath)
-        childFragmentManager.popBackStack()
     }
 }
