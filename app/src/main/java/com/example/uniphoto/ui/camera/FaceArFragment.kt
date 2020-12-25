@@ -116,7 +116,6 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
         faceArView = sceneView
 
         scene?.addOnUpdateListener {
-            Log.d("tag", "on scene?.addOnUpdateListener ${faceRegionsRenderable != null}")
             if (faceRegionsRenderable != null) {
                 sceneView.session
                     ?.getAllTrackables(AugmentedFace::class.java)?.let {

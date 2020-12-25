@@ -1,6 +1,7 @@
 package com.example.uniphoto.ui.camera
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -24,6 +25,7 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val stopRecordCommand = LiveEvent()
     val launchPhotoCompleteViewCommand = LiveArgEvent<String>()
     val declineCommand = LiveEvent()
+    val setVideoViewCommand = LiveArgEvent<Uri>()
 
     var videoFile = File("")
     val mode = RecordType.Video
@@ -74,6 +76,7 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     fun declineClicked() {
         cameraFrameVisible.value = true
         acceptLayoutVisible.value = false
+        videoFile.delete()
         declineCommand.call()
     }
 
@@ -82,6 +85,8 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
 
         cameraFrameVisible.value = false
         acceptLayoutVisible.value = true
+
+        setVideoViewCommand(Uri.fromFile(videoFile))
     }
 
     enum class RecordType {
