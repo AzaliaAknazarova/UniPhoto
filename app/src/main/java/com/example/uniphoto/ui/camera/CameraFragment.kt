@@ -137,14 +137,11 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
                 acceptPhotoLayout.isVisible = it
             }
             bind(masksItemsList) {
-                Log.d("tag", "on bindViewModel $it")
-
                 maskItemsAdapter.items = it
                 maskItemsAdapter.notifyDataSetChanged()
             }
 
             bindCommand(maskSelectedCommand) {
-                Log.d("tag", "on bindViewModel $child")
                 castChild<MaskSelectedListener>()?.maskSelected(it)
             }
             bindCommand(takePictureCommand) {
@@ -170,7 +167,7 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
                 videoView.start()
             }
             bindCommand(setPhotoViewCommand) {
-                previewImageView.setImageBitmap(it)
+                it.into(previewImageView)
             }
         }
     }

@@ -1,29 +1,19 @@
 package com.example.uniphoto.ui.camera
 
-import android.graphics.*
-import android.graphics.ImageFormat
 import android.media.CamcorderProfile
-import android.media.Image
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
-import com.bumptech.glide.Glide
 import com.google.ar.core.*
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.AugmentedFaceNode
-import kotlinx.coroutines.delay
 import java.io.File
-import java.io.FileOutputStream
 import java.util.*
 
 class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener {
@@ -33,8 +23,6 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
     private var changeModel: Boolean = false
     private var glasses: ArrayList<ModelRenderable> = ArrayList()
     lateinit var faceArView : View
-    var session : Session? = null
-    var takePicture = false
     val videoRecorder  = VideoRecorder()
 
     override fun getSessionConfiguration(session: Session?): Config {
@@ -170,42 +158,12 @@ class FaceArFragment : ArFragment(), MaskSelectedListener, ImageCaptureListener 
         }
     }
 
-    fun saveImage(image: Image) {
-        val yuv = YuvImage(ImageConverter.YUV420toNV21(image), ImageFormat.NV21, image.width, image.height, null)
-        val path =
-            "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)}/unipic_${System.currentTimeMillis()}.jpg"
-        Log.d("tag", "on initViews $path")
-        val stream = FileOutputStream(path)
-        yuv.compressToJpeg(Rect(0, 0, image.width, image.height), 100, stream)
-        stream.close()
-    }
-
-    private fun captureScreen(view: View){
-        Log.d("tag","on captureScreen")
-        val bitmap = Bitmap.createBitmap (view.width, view.height, Bitmap.Config.ARGB_8888);
-        val canvas = Canvas(bitmap)
-        canvas.drawColor(Color.TRANSPARENT)
-        view.draw(canvas)
-        val fos = FileOutputStream(
-            File(
-                Environment
-                    .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                "unipic_${System.currentTimeMillis()}.jpg"
-            )
-        )
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-        fos.flush()
-        fos.close()
-        Toast.makeText(requireContext(), "Screen captured", LENGTH_SHORT).show()
-    }
-
     interface Listener {
         fun recordCompleted(file: File)
         fun photoTaken(file: File)
     }
 
     override fun maskSelected(maskId: Int) {
-        Log.d("tag", "on maskSelected $maskId $faceRegionsRenderable $glasses")
         changeModel = true
         faceRegionsRenderable = glasses.get(maskId - 1)
     }

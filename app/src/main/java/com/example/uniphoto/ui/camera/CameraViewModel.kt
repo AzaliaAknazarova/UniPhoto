@@ -3,13 +3,10 @@ package com.example.uniphoto.ui.camera
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import com.example.uniphoto.base.lifecycle.LiveArgEvent
@@ -19,7 +16,6 @@ import wseemann.media.FFmpegMediaMetadataRetriever
 import java.io.File
 import java.io.FileOutputStream
 import java.io.Serializable
-import java.nio.file.Files
 
 class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val masksItemsList = MutableLiveData<List<MaskListItem>>()
@@ -35,7 +31,7 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val launchPhotoCompleteViewCommand = LiveArgEvent<String>()
     val declineCommand = LiveEvent()
     val setVideoViewCommand = LiveArgEvent<Uri>()
-    val setPhotoViewCommand = LiveArgEvent<Bitmap>()
+    val setPhotoViewCommand = LiveArgEvent<RequestBuilder<Drawable>>()
 
     var videoFile = File("")
     var mode = MutableLiveData<RecordType>(RecordType.Photo)
@@ -120,18 +116,21 @@ class CameraViewModel(kodein: Kodein): KodeinViewModel(kodein) {
             internalDirectory.mkdirs()
         }
 
-        val externalFile = File(internalDirectory, "pic_" + System.currentTimeMillis() + ".jpg")
+        val externalFile = File(internalDirectory, genPictureName())
 
         val fos = FileOutputStream(externalFile)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
         fos.flush()
         fos.close()
 
-        Toast.makeText(context, "Photo saved", Toast.LENGTH_SHORT).show()
-
-        setPhotoViewCommand(bitmap)
-
+        setPhotoViewCommand( Glide.with(context)
+            .load(Uri.fromFile(file)).thumbnail(0.5f))
+        videoFile = externalFile
         file.delete()
+    }
+
+    fun genPictureName() : String {
+        return "pic_" + System.currentTimeMillis() + ".jpg"
     }
 
     enum class RecordType {

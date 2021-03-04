@@ -30,13 +30,14 @@
 
     <ImageView
         android:id="@+id/previewImageView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/extra_large_margin"
         android:translationZ="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/acceptPhotoLayout"
-        android:layout_marginBottom="@dimen/default_margin"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <VideoView
         android:id="@+id/videoView"
