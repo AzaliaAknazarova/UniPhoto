@@ -6,6 +6,9 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinActivity
+import com.example.uniphoto.model.retrofit.BASE_URL
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : KodeinActivity() {
     private lateinit var navController: NavController
@@ -18,6 +21,11 @@ class MainActivity : KodeinActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.navigateHostFragment)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     override fun onNewIntent(intent: Intent?) {

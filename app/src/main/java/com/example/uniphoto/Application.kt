@@ -1,6 +1,7 @@
 package com.example.uniphoto
 
 import android.content.Context
+import com.example.uniphoto.api.apiModule
 import com.example.uniphoto.base.kodein.KodeinApplication
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -10,6 +11,7 @@ import org.kodein.di.generic.singleton
 class Application : KodeinApplication(), KodeinAware {
     override val rootModule = Kodein.Module("Root") {
         import(module)
+        import(apiModule)
     }
 
     init {
