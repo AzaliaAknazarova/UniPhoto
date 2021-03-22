@@ -20,4 +20,6 @@
     <string name="login_invalid_email_value">Неверный формат email</string>
     <string name="login_invalid_password_value">Слабый пароль</string>
     <string name="login_requared_field">Обязательное поле</string>
+    <string name="error_timeout">Превышено время ожидания</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
 </resources>

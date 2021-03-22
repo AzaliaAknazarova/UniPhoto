@@ -1,8 +1,10 @@
 package com.example.uniphoto.base.kodein
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.uniphoto.Application
 import com.example.uniphoto.base.extensions.createLogger
 import kotlinx.coroutines.*
 import com.example.uniphoto.base.lifecycle.SingleLiveEvent
@@ -15,6 +17,7 @@ abstract class KodeinViewModel(override val kodein: Kodein) : ViewModel(), Corou
 
     private val L = createLogger()
 
+    protected val context: Context = Application.applicationContext()
     override val coroutineContext: CoroutineContext = Dispatchers.IO + SupervisorJob()
 
     override fun onCleared() = coroutineContext.cancel()

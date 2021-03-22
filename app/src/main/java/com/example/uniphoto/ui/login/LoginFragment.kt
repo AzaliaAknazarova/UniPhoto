@@ -34,7 +34,6 @@ class LoginFragment: KodeinFragment<LoginViewModel>() {
             commit()
         }
         signInTextView.setOnClickListener {
-            Log.d("tag", "on initViews ${childFragmentManager.fragments}")
             if (childFragmentManager.fragments.firstOrNull{fragment -> fragment is SignUpFragment} != null) {
                 childFragmentManager.beginTransaction().apply {
                     replace(R.id.appEntryFragment, SignInFragment())
@@ -45,7 +44,6 @@ class LoginFragment: KodeinFragment<LoginViewModel>() {
             }
         }
         signUpTextView.setOnClickListener {
-            Log.d("tag", "on initViews ${childFragmentManager.fragments}")
             if (childFragmentManager.fragments.firstOrNull{fragment -> fragment is SignInFragment} != null) {
                 childFragmentManager.beginTransaction().apply {
                     replace(R.id.appEntryFragment, SignUpFragment())

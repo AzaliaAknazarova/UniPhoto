@@ -1,12 +1,16 @@
 package com.example.uniphoto.ui.login
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinFragment
 import kotlinx.android.synthetic.main.fragment_signup.*
+import kotlinx.android.synthetic.main.fragment_signup.passwordValue
 
 class SignUpFragment : KodeinFragment<SignUpViewModel>() {
 
@@ -30,6 +34,8 @@ class SignUpFragment : KodeinFragment<SignUpViewModel>() {
     private fun initViews() {
         signUpButton.setOnClickListener {
             viewModel.onSignUpButtonClicked()
+            val manager = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            manager.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
         }
     }
 
@@ -38,6 +44,11 @@ class SignUpFragment : KodeinFragment<SignUpViewModel>() {
             bindTextTwoWay(userNameText, usernameValue)
             bindTextTwoWay(emailText, emailValue)
             bindTextTwoWay(passwordText, passwordValue)
+
+            bind(progressBarVisible) {
+                progressBar.isVisible = it
+                signUpButton.isVisible = !it
+            }
 
             bindCommand(setUserNameError) {
                 usernameValue.error = getString(R.string.login_requared_field)
