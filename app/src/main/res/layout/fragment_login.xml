@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/background_gallery"
     android:paddingStart="@dimen/default_margin"
     android:paddingEnd="@dimen/default_margin">
 
@@ -21,14 +21,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/extra_large_margin"
-                android:src="@drawable/ic_splash_logo"
+                android:src="@drawable/uniphoto_logo"
                 android:layout_gravity="center"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/large_margin"
-                android:background="@color/white"
+                android:background="@drawable/rounded_blue_background_alfa"
                 android:padding="@dimen/small_margin">
 
                 <androidx.constraintlayout.widget.Guideline

@@ -34,13 +34,10 @@ class LoginFragment: KodeinFragment<LoginViewModel>() {
             commit()
         }
         signInTextView.setOnClickListener {
+            Log.d("tag", "on initViews ${childFragmentManager.fragments}")
             if (childFragmentManager.fragments.firstOrNull{fragment -> fragment is SignUpFragment} != null) {
                 childFragmentManager.beginTransaction().apply {
-                    add(R.id.appEntryFragment, SignInFragment())
-                    commit()
-                }
-                childFragmentManager.beginTransaction().apply {
-                    remove(SignUpFragment())
+                    replace(R.id.appEntryFragment, SignInFragment())
                     commit()
                 }
                 signInIndicator.setBackgroundResource(R.drawable.ic_top_background_main)
@@ -48,13 +45,10 @@ class LoginFragment: KodeinFragment<LoginViewModel>() {
             }
         }
         signUpTextView.setOnClickListener {
+            Log.d("tag", "on initViews ${childFragmentManager.fragments}")
             if (childFragmentManager.fragments.firstOrNull{fragment -> fragment is SignInFragment} != null) {
                 childFragmentManager.beginTransaction().apply {
-                    add(R.id.appEntryFragment, SignUpFragment())
-                    commit()
-                }
-                childFragmentManager.beginTransaction().apply {
-                    remove(SignInFragment())
+                    replace(R.id.appEntryFragment, SignUpFragment())
                     commit()
                 }
                 signUpIndicator.setBackgroundResource(R.drawable.ic_top_background_main)
