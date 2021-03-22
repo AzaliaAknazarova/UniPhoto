@@ -1,5 +1,5 @@
 package com.example.uniphoto.model.dataClasses
 
-data class SignUpResponse(
+data class TokenResponse(
     val token: String
 )

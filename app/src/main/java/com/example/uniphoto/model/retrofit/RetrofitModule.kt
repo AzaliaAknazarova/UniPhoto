@@ -7,7 +7,7 @@ import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
 
 const val AUTHORIZED = "Retrofit"
-const val BASE_URL = "http://192.168.0.100:8000/"
+const val BASE_URL = "http://192.168.0.104:8000/"
 
 val retrofitModule = Kodein.Module("RetrofitModule") {
     bind<String>() with singleton { BASE_URL }

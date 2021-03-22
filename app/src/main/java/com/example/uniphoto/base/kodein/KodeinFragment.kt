@@ -24,6 +24,9 @@ abstract class KodeinFragment<T : KodeinViewModel> : Fragment(), FragmentScene, 
     protected inline fun <reified T : KodeinViewModel> viewModel(type: Class<T>): Lazy<T> = lazy { provide(type) }
     inline fun <reified T> Fragment.castChild(): T? = child as? T
 
+    override val self: Fragment
+        get() = this
+
     val Fragment.child: Any?
         get() = childFragmentManager.fragments.firstOrNull() ?: activity
 

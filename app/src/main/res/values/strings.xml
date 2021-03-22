@@ -10,4 +10,14 @@
     <string name="ready_photo_share">Или \n\n поделиться в</string>
     <string name="ready_photo_save">Сохранить</string>
     <string name="ready_photo_to_main">на главную</string>
+    <string name="login_username">Имя пользователя</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Пароль</string>
+    <string name="login_signup">Зарегистрироваться</string>
+    <string name="login_enter">Вход</string>
+    <string name="login_registration">Регистрация</string>
+    <string name="login_signin">Войти</string>
+    <string name="login_invalid_email_value">Неверный формат email</string>
+    <string name="login_invalid_password_value">Слабый пароль</string>
+    <string name="login_requared_field">Обязательное поле</string>
 </resources>

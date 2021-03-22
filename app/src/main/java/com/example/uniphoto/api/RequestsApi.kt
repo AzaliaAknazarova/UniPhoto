@@ -1,6 +1,6 @@
 package com.example.uniphoto.api
 
-import com.example.uniphoto.model.dataClasses.SignUpResponse
+import com.example.uniphoto.model.dataClasses.TokenResponse
 import com.example.uniphoto.model.dataClasses.UserData
 import retrofit2.http.*
 
@@ -9,8 +9,14 @@ interface RequestsApi {
     @Headers("Content-Type: application/json")
     @POST("/registration")
     suspend fun signUp(
-        @Body userData: UserData
-    ): SignUpResponse
+            @Body userData: UserData
+    )
+
+    @Headers("Content-Type: application/json")
+    @POST("/api-token-auth")
+    suspend fun signIn(
+            @Body userData: UserData
+    ): TokenResponse
 
 //    @POST("/poffers/v0/{uid}/ride")
 //    suspend fun getTripOffers(
