@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinFragment
-import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.progressBar
+import kotlinx.android.synthetic.main.fragment_trial.*
 
 class TrialFragment: KodeinFragment<TrialViewModel>() {
 
@@ -30,21 +31,24 @@ class TrialFragment: KodeinFragment<TrialViewModel>() {
     }
 
     private fun initViews() {
-
+        toMainButton.setOnClickListener {
+            viewModel.onToMainButtonClicked()
+        }
     }
 
     private fun bindViewModel() {
         with(viewModel) {
+            bindText(titleText, title)
+            bindText(subtitleText, subtitle)
+            bindText(toMainButtonText, toMainButton)
+
             bind(progressBarVisible) {
                 progressBar.isVisible = it
+                title.isVisible = !it
+                subtitle.isVisible = !it
+                toMainButton.isVisible = !it
             }
 
-            bindCommand(showTimeLeftLayoutCommand) {
-
-            }
-            bindCommand(showTrialPeriodEndLayoutCommand) {
-
-            }
             bindCommand(launchLoginScreenCommand) {
                 navigate(R.id.action_trialFragment_to_loginFragment)
             }

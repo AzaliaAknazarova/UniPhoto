@@ -23,4 +23,8 @@
     <string name="error_timeout">Превышено время ожидания</string>
     <string name="error_unknown">Неизвестная ошибка</string>
     <string name="trial_to_main">К приложению</string>
+    <string name="trial_timeout_title">Упс...</string>
+    <string name="trial_to_login">К регистрации</string>
+    <string name="trial_left">Осталось</string>
+    <string name="trial_days">дней</string>
 </resources>
