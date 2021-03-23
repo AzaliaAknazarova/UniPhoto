@@ -3,6 +3,7 @@ package com.example.uniphoto
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.uniphoto.base.kodein.KodeinApplication
+import com.example.uniphoto.base.utils.Utils
 import com.example.uniphoto.ui.camera.CameraViewModel
 import com.example.uniphoto.ui.login.SignInViewModel
 import com.example.uniphoto.ui.login.SignUpViewModel
@@ -24,6 +25,16 @@ class ExampleInstrumentedTest {
     private val signInViewModel by lazy { SignInViewModel(getKodeinForTest()) }
     private val signUpViewModel by lazy { SignUpViewModel(getKodeinForTest()) }
 
+
+
+    @Test
+    fun testEncoder() {
+        val testString = "Paulina123"
+        val encodeString = Utils.encodeData(testString)
+        val decodeString = Utils.decodeData(encodeString)
+        assertNotEquals(testString, encodeString)
+        assertEquals(testString, decodeString)
+    }
 
     //    SignIn tests
     @Test

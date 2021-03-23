@@ -45,11 +45,6 @@ class SignUpFragment : KodeinFragment<SignUpViewModel>() {
             bindTextTwoWay(emailText, emailValue)
             bindTextTwoWay(passwordText, passwordValue)
 
-            bind(progressBarVisible) {
-                progressBar.isVisible = it
-                signUpButton.isVisible = !it
-            }
-
             bindCommand(setUserNameError) {
                 usernameValue.error = getString(R.string.login_requared_field)
             }
@@ -59,7 +54,14 @@ class SignUpFragment : KodeinFragment<SignUpViewModel>() {
             bindCommand(setPasswordError) {
                 passwordValue.error = getString(R.string.login_invalid_password_value)
             }
+            bindCommand(signUpCommand) {
+                castParent<Listener>()?.signUp(it.first, it.second, it.third)
+            }
         }
+    }
+
+    interface Listener {
+        fun signUp(userName: String, email: String, password: String)
     }
 
 }

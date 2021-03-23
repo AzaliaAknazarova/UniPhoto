@@ -93,6 +93,16 @@
                     android:layout_marginTop="@dimen/default_margin"
                     app:layout_constraintTop_toBottomOf="@id/signInIndicator" />
 
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/large_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/appEntryFragment"
+                    app:layout_constraintBottom_toBottomOf="@id/appEntryFragment"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

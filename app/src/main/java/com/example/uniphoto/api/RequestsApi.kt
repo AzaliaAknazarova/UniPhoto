@@ -1,6 +1,7 @@
 package com.example.uniphoto.api
 
 import com.example.uniphoto.model.dataClasses.TokenResponse
+import com.example.uniphoto.model.dataClasses.TrialCheckoutResponse
 import com.example.uniphoto.model.dataClasses.UserData
 import retrofit2.http.*
 
@@ -17,6 +18,11 @@ interface RequestsApi {
     suspend fun signIn(
             @Body userData: UserData
     ): TokenResponse
+
+    @GET("/trial-license-check")
+    suspend fun checkTrial(
+        @Header("Authorization") token: String
+    ): TrialCheckoutResponse
 
 //    @POST("/poffers/v0/{uid}/ride")
 //    suspend fun getTripOffers(

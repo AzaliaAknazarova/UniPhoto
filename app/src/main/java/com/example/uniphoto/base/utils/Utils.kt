@@ -50,7 +50,7 @@ object Utils {
         return null
     }
 
-    private fun encodeData(inputString: String): String {
+    fun encodeData(inputString: String): String {
         if (inputString.isEmpty()) {
             return inputString
         }
@@ -78,7 +78,7 @@ object Utils {
         return encodedBytes
     }
 
-    private fun decodeData(encodedString: String): String {
+    fun decodeData(encodedString: String): String {
         var decodedString = ""
         val split = encodedString.split(IV_SEPARATOR.toRegex())
 
@@ -100,36 +100,36 @@ object Utils {
             decodedString = decodedString.replaceFirst("0","")
         }
 
-        return decodedString
+        return decodedString.trim()
     }
 
     @JvmStatic
-    fun getPasswordFromSharedPref(): String {
-        var password: String
+    fun getTokenFromSharedPref(): String {
+        var token: String
 
         val passwordPref = appContext.getSharedPreferences(
             Constants.APP_PREFERENCES,
             Context.MODE_PRIVATE
         )
 
-        password = passwordPref.getString(Constants.APP_PREFERENCES_ENCODED_PASSWORD, "").toString()
+        token = passwordPref.getString(Constants.APP_PREFERENCES_TOKEN, "").toString()
 
-        return if (password.isEmpty()) {
+        return if (token.isEmpty()) {
             ""
         } else {
-            decodeData(password)
+            decodeData(token)
         }
     }
 
     @JvmStatic
-    fun putPasswordInSharedPref(password: String) {
+    fun putTokenInSharedPref(token: String) {
         val passwordPref = appContext.getSharedPreferences(
             Constants.APP_PREFERENCES,
             Context.MODE_PRIVATE
         )
 
         val editor = passwordPref.edit()
-        editor.putString(Constants.APP_PREFERENCES_ENCODED_PASSWORD, encodeData(password))
+        editor.putString(Constants.APP_PREFERENCES_TOKEN, encodeData(token))
         editor.apply()
     }
 
@@ -141,7 +141,7 @@ object Utils {
         )
 
         val editor = passwordPref.edit()
-        editor.remove(Constants.APP_PREFERENCES_ENCODED_PASSWORD)
+        editor.remove(Constants.APP_PREFERENCES_TOKEN)
         editor.apply()
     }
 

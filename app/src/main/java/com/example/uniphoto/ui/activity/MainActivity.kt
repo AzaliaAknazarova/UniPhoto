@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinActivity
-import com.example.uniphoto.model.retrofit.BASE_URL
+import com.example.uniphoto.base.utils.Constants.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

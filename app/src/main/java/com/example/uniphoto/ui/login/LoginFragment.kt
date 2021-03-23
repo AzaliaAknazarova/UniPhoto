@@ -5,11 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
-class LoginFragment: KodeinFragment<LoginViewModel>() {
+class LoginFragment: KodeinFragment<LoginViewModel>(),
+    SignInFragment.Listener,
+    SignUpFragment.Listener {
 
     override val viewModel by viewModel(LoginViewModel::class.java)
 
@@ -57,8 +60,19 @@ class LoginFragment: KodeinFragment<LoginViewModel>() {
 
     private fun bindViewModel() {
         with(viewModel) {
-
+            bind(progressBarVisible) {
+                progressBar.isVisible = it
+                appEntryFragment.alpha = if (it) 0.4f else 1.0f
+            }
         }
+    }
+
+    override fun signIn(userName: String, password: String) {
+        viewModel.singIn(userName, password)
+    }
+
+    override fun signUp(userName: String, email: String, password: String) {
+        viewModel.signUp(userName, email, password)
     }
 
 }

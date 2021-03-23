@@ -43,18 +43,20 @@ class SignInFragment : KodeinFragment<SignInViewModel>() {
             bindTextTwoWay(userNameText, userNameValue)
             bindTextTwoWay(passwordText, passwordValue)
 
-            bind(progressBarVisible) {
-                progressBar.isVisible = it
-                signInButton.isVisible = !it
-            }
-
             bindCommand(setUserNameError) {
                 userNameValue.error = getString(R.string.login_requared_field)
             }
             bindCommand(setPasswordError) {
                 passwordValue.error = getString(R.string.login_requared_field)
             }
+            bindCommand(signInCommand) {
+                castParent<Listener>()?.signIn(it.first, it.second)
+            }
         }
+    }
+
+    interface Listener {
+        fun signIn(userName: String, password: String)
     }
 
 }
