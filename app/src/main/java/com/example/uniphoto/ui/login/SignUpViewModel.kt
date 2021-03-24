@@ -31,7 +31,7 @@ class SignUpViewModel(kodein: Kodein): KodeinViewModel(kodein) {
             setEmailError.call()
         }
 
-        if (!isPasswordValid(emailText.value)) {
+        if (!isPasswordValid(passwordText.value)) {
             toSignUp = false
             setPasswordError.call()
         }

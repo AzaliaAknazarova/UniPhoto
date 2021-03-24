@@ -64,6 +64,10 @@ class LoginFragment: KodeinFragment<LoginViewModel>(),
                 progressBar.isVisible = it
                 appEntryFragment.alpha = if (it) 0.4f else 1.0f
             }
+
+            bindCommand(launchTrialPeriodScreenCommand) {
+                navigate(R.id.action_loginFragment_to_trialFragment)
+            }
         }
     }
 

@@ -33,13 +33,16 @@ class LoginViewModel(kodein: Kodein): KodeinViewModel(kodein) {
                         password = password
                     )
                 ).token
-                saveAuthorizationToken(token)
+                withContext(Dispatchers.Main) {
+                    saveAuthorizationToken(token)
+                }
             } catch (exception: Exception) {
                 withContext(Dispatchers.Main) {
                     val message = when (exception) {
                         is SocketTimeoutException -> context.getString(R.string.error_timeout)
-                        else -> context.getString(R.string.error_unknown)
+                        else -> exception.message
                     }
+                    exception.printStackTrace()
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
             } finally {
@@ -50,7 +53,7 @@ class LoginViewModel(kodein: Kodein): KodeinViewModel(kodein) {
         }
     }
 
-    fun signUp(email: String, userName: String, password: String) {
+    fun signUp(userName: String, email: String, password: String) {
         progressBarVisible.value = true
         launch {
             try {
@@ -61,13 +64,16 @@ class LoginViewModel(kodein: Kodein): KodeinViewModel(kodein) {
                         password = password
                     )
                 )
-                singIn(userName, password)
+                withContext(Dispatchers.Main) {
+                    singIn(userName, password)
+                }
             } catch (exception: Exception) {
                 withContext(Dispatchers.Main) {
                     val message = when (exception) {
                         is SocketTimeoutException -> context.getString(R.string.error_timeout)
-                        else -> context.getString(R.string.error_unknown)
+                        else -> exception.message
                     }
+                    exception.printStackTrace()
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
             } finally {

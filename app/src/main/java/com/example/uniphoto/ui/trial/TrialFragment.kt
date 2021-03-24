@@ -34,19 +34,24 @@ class TrialFragment: KodeinFragment<TrialViewModel>() {
         toMainButton.setOnClickListener {
             viewModel.onToMainButtonClicked()
         }
+        toLoginButton.setOnClickListener {
+            viewModel.onToLoginButtonClicked()
+        }
     }
 
     private fun bindViewModel() {
         with(viewModel) {
             bindText(titleText, title)
             bindText(subtitleText, subtitle)
-            bindText(toMainButtonText, toMainButton)
 
             bind(progressBarVisible) {
                 progressBar.isVisible = it
                 title.isVisible = !it
                 subtitle.isVisible = !it
-                toMainButton.isVisible = !it
+            }
+            bind(navigateToMainButtonVisible) {
+                toMainButton.isVisible = it
+                toLoginButton.isVisible = !it
             }
 
             bindCommand(launchLoginScreenCommand) {

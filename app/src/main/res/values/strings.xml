@@ -25,6 +25,7 @@
     <string name="trial_to_main">К приложению</string>
     <string name="trial_timeout_title">Упс...</string>
     <string name="trial_to_login">К регистрации</string>
-    <string name="trial_left">Осталось</string>
     <string name="trial_days">дней</string>
+    <string name="trial_time_out_subtitle">К сожалению, пробный период использования приложения истек. \n Преобритите подписку, чтобы продолжить использование.</string>
+    <string name="trial_time_left_subtitle">осталось до окончания пробного периода использования приложения. \n Преобритите подписку, чтобы продолжить использование после его истечения.</string>
 </resources>
