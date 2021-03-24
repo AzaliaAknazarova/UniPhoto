@@ -1,8 +1,10 @@
 package com.example.uniphoto
 
+import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.uniphoto.base.kodein.KodeinApplication
+import com.example.uniphoto.base.utils.Constants
 import com.example.uniphoto.base.utils.Utils
 import com.example.uniphoto.ui.camera.CameraViewModel
 import com.example.uniphoto.ui.login.SignInViewModel
@@ -27,13 +29,49 @@ class ExampleInstrumentedTest {
 
 
 
+//    Utils tests
     @Test
     fun testEncoder() {
-        val testString = "Paulina123"
+        val testString = "testString123"
         val encodeString = Utils.encodeData(testString)
         val decodeString = Utils.decodeData(encodeString)
         assertNotEquals(testString, encodeString)
         assertEquals(testString, decodeString)
+    }
+
+    @Test
+    fun testEncodedTokenPrefs() {
+        val testString = "testString123"
+        Utils.putTokenInSharedPref(testString)
+
+        val pref = getContext().getSharedPreferences(
+            Constants.APP_PREFERENCES,
+            Context.MODE_PRIVATE
+        )
+        val stringFromPrefs = pref.getString(Constants.APP_PREFERENCES_TOKEN, "").toString()
+
+        assertNotEquals(testString, stringFromPrefs)
+    }
+
+    @Test
+    fun testEncodedTokenPrefsPutGet() {
+        val testToken = "testToken123"
+        Utils.putTokenInSharedPref(testToken)
+
+        val tokenFromPrefs = Utils.getTokenFromSharedPref()
+
+        assertEquals(testToken, tokenFromPrefs)
+    }
+
+    @Test
+    fun testClearPrefs() {
+        val testString = "testString123"
+        Utils.putTokenInSharedPref(testString)
+        Utils.clearSharedPreferences()
+
+        val tokenFromPrefs = Utils.getTokenFromSharedPref()
+
+        assertEquals("", tokenFromPrefs)
     }
 
     //    SignIn tests
@@ -89,5 +127,6 @@ class ExampleInstrumentedTest {
         assertEquals("com.example.uniphoto", appContext.packageName)
     }
 
+    fun getContext() = InstrumentationRegistry.getInstrumentation().targetContext
     fun getKodeinForTest() = (InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as KodeinApplication).kodein
 }

@@ -107,12 +107,12 @@ object Utils {
     fun getTokenFromSharedPref(): String {
         var token: String
 
-        val passwordPref = appContext.getSharedPreferences(
+        val pref = appContext.getSharedPreferences(
             Constants.APP_PREFERENCES,
             Context.MODE_PRIVATE
         )
 
-        token = passwordPref.getString(Constants.APP_PREFERENCES_TOKEN, "").toString()
+        token = pref.getString(Constants.APP_PREFERENCES_TOKEN, "").toString()
 
         return if (token.isEmpty()) {
             ""
@@ -123,34 +123,34 @@ object Utils {
 
     @JvmStatic
     fun putTokenInSharedPref(token: String) {
-        val passwordPref = appContext.getSharedPreferences(
+        val pref = appContext.getSharedPreferences(
             Constants.APP_PREFERENCES,
             Context.MODE_PRIVATE
         )
 
-        val editor = passwordPref.edit()
+        val editor = pref.edit()
         editor.putString(Constants.APP_PREFERENCES_TOKEN, encodeData(token))
         editor.apply()
     }
 
     @JvmStatic
-    fun removePasswordFromSharedPref() {
-        val passwordPref = appContext.getSharedPreferences(
+    fun removeTokenFromSharedPref() {
+        val pref = appContext.getSharedPreferences(
             Constants.APP_PREFERENCES,
             Context.MODE_PRIVATE
         )
 
-        val editor = passwordPref.edit()
+        val editor = pref.edit()
         editor.remove(Constants.APP_PREFERENCES_TOKEN)
         editor.apply()
     }
 
     @JvmStatic
     fun clearSharedPreferences() {
-        val passwordPref =
+        val pref =
             appContext.getSharedPreferences(Constants.APP_PREFERENCES, Context.MODE_PRIVATE)
 
-        val editor = passwordPref.edit()
+        val editor = pref.edit()
         editor.clear()
         editor.apply()
     }
