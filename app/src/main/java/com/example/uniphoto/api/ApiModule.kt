@@ -2,6 +2,7 @@ package com.example.uniphoto.api
 
 import com.example.uniphoto.base.utils.Constants.AUTHORIZED
 import com.example.uniphoto.model.repository.AuthorizationRepository
+import com.example.uniphoto.model.repository.ContentRepository
 import com.example.uniphoto.model.retrofit.retrofitModule
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -13,5 +14,6 @@ val apiModule = Kodein.Module("Api") {
     importOnce(retrofitModule)
 
     bind() from provider { AuthorizationRepository(instance()) }
+    bind() from provider { ContentRepository(instance()) }
     bind() from provider { instance<Retrofit>(AUTHORIZED).create(RequestsApi::class.java) }
 }

@@ -1,0 +1,128 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whiteAlpha"
+    tools:context="com.example.uniphoto.ui.activity.MainActivity">
+
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_top_background_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/uniPhotoLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/uniphoto_logo"
+        android:layout_marginTop="@dimen/large_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/backgroundImageView"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backgroundImageView"
+        android:layout_margin="@dimen/default_margin">
+
+        <TextView
+            android:id="@+id/userNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_username"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_size_24"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/userNameValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_all_pictures"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_size_18"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/emailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/login_email"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_size_24"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/emailValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_all_pictures"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_size_18" />
+
+        <TextView
+            android:id="@+id/myGalleryTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/main_my_gallery"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_size_24"
+            android:textStyle="bold"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toGalleryLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            app:layout_constraintStart_toStartOf="@id/myGalleryTextView"
+            app:layout_constraintTop_toBottomOf="@id/myGalleryTextView">
+
+            <ImageView
+                android:id="@+id/toGalleryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_gallery"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/allPicturesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:text="@string/main_all_pictures"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/text_size_18"
+                app:layout_constraintStart_toEndOf="@id/toGalleryButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/allPicturesValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:textColor="@color/textColorLight"
+                android:textSize="@dimen/text_size_18"
+                app:layout_constraintStart_toEndOf="@id/toGalleryButton"
+                app:layout_constraintTop_toBottomOf="@id/allPicturesTextView"
+                tools:text="5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

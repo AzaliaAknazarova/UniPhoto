@@ -45,12 +45,12 @@ class TrialViewModel(kodein: Kodein): KodeinViewModel(kodein) {
             try {
                 val trial = authorizationRepository.checkTrial()
                 withContext(Dispatchers.Main) {
-                    if (trial.timeIsOut) {
+                    if (trial.daysToEnd == 0) {
                         titleText.value = context.getString(R.string.trial_timeout_title)
                         subtitleText.value = context.getString(R.string.trial_time_out_subtitle)
                         navigateToMainButtonVisible.value = false
                     } else {
-                        titleText.value = "${trial.daysOut} " + context.getString(R.string.trial_days)
+                        titleText.value = "${trial.daysToEnd} " + context.getString(R.string.trial_days)
                         subtitleText.value = context.getString(R.string.trial_time_left_subtitle)
                         navigateToMainButtonVisible.value = true
                     }

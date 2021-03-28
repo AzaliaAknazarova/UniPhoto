@@ -14,7 +14,7 @@ class AuthorizationRepository(private val requestsApi: RequestsApi) {
             requestsApi.signIn(userData)
 
     suspend fun checkTrial() : TrialCheckoutResponse {
-        val token = Utils.getTokenFromSharedPref()
+        val token = "Token " + Utils.getTokenFromSharedPref()
         return requestsApi.checkTrial(token)
     }
 

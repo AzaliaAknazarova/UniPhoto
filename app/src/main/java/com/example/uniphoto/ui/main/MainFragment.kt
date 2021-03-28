@@ -1,14 +1,22 @@
 package com.example.uniphoto.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinFragment
+import com.example.uniphoto.ui.camera.CameraFragment
+import com.example.uniphoto.ui.feed.FeedMainTabFragment
+import com.example.uniphoto.ui.galery.GalleryFragment
+import com.example.uniphoto.ui.profile.ProfileMainTabFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment: KodeinFragment<MainViewModel>() {
+class MainFragment: KodeinFragment<MainViewModel>(),
+    CameraFragment.Listener,
+    ProfileMainTabFragment.Listener {
 
     override val viewModel by viewModel(MainViewModel::class.java)
 
@@ -24,17 +32,72 @@ class MainFragment: KodeinFragment<MainViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         initViews()
+        bindViewModel()
+    }
+
+    fun bindViewModel() {
+        with(viewModel) {
+            bindCommand(switchScreen) { index ->
+                when(index) {
+                    0 -> {
+                        childFragmentManager.beginTransaction().apply {
+                            replace(R.id.containerFrameLayout, FeedMainTabFragment())
+                            commit()
+                        }
+                    }
+                    1 -> {
+                        childFragmentManager.beginTransaction().apply {
+                            replace(R.id.containerFrameLayout, CameraFragment())
+                            commit()
+                        }
+                        bottomBarMaterialCardView.isVisible = false
+                    }
+                    2 -> {
+                        childFragmentManager.beginTransaction().apply {
+                            replace(R.id.containerFrameLayout, ProfileMainTabFragment())
+                            commit()
+                        }
+                    }
+                }
+            }
+            bindCommand(closeCameraCommand) {
+                bottomBarMaterialCardView.isVisible = true
+                bottomNavigationView.itemActiveIndex = 0
+                childFragmentManager.beginTransaction().apply {
+                    replace(R.id.containerFrameLayout, FeedMainTabFragment())
+                    commit()
+                }
+            }
+            bindCommand(launchGalleryScreen) {
+                navigate(R.id.action_mainFragment_to_galleryFragment)
+            }
+            bindCommand(launchReadyPhotoScreen) {
+                val arg = Bundle().apply { putString(GalleryFragment.galleryFragmentArg, it) }
+                navigate(R.id.action_mainFragment_to_readyPhotoFragment, arg)
+            }
+        }
     }
 
     fun initViews() {
-        addNewPhotoButton.setOnClickListener {
-            navigate(R.id.action_mainFragment_to_cameraFragment)
+        childFragmentManager.beginTransaction().apply {
+            add(R.id.containerFrameLayout, FeedMainTabFragment())
+            commit()
         }
-        toGalleryLayout.setOnClickListener {
-            navigate(R.id.action_mainFragment_to_galleryFragment)
+
+        bottomNavigationView.onItemSelected = { index ->
+            viewModel.onBottomNavigationClicked(index)
         }
-        /*toOnboardingButton.setOnClickListener {
-            navigate(R.id.action_mainFragment_to_onboardingFragment)
-        }*/
+    }
+
+    override fun cameraBackPressed() {
+        viewModel.onCameraBackPressed()
+    }
+
+    override fun onOpenReadyPhotoScreen(arg: String) {
+        viewModel.onReadyPhotoOpen(arg)
+    }
+
+    override fun galleryClicked() {
+        viewModel.onGalleryClicked()
     }
 }

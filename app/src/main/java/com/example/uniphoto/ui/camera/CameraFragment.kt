@@ -2,9 +2,7 @@ package com.example.uniphoto.ui.camera
 
 import android.Manifest
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +10,6 @@ import android.widget.MediaController
 import androidx.camera.core.Camera
 import androidx.camera.core.ImageCapture
 import androidx.core.view.isVisible
-import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
@@ -88,7 +84,6 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
         videoModeTextView.setOnClickListener { viewModel.onChangeModeClicked(CameraViewModel.RecordType.Video) }
 
         takePhotoImageView.setOnClickListener {
-            Log.d("tag", "on bindViewModel takePhotoImageView.setOnClickListener $child")
             viewModel.cameraButtonClicked()
         }
         recordImageView.setOnClickListener { viewModel.completeRecordButtonClicked() }
@@ -100,7 +95,9 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
         acceptPhotoButton.setOnClickListener { viewModel.acceptClicked() }
         declinePhotoButton.setOnClickListener { viewModel.declineClicked() }
 
-        backpressedImageView.setOnClickListener { findNavController().navigateUp() }
+        backpressedImageView.setOnClickListener {
+            castParent<Listener>()?.cameraBackPressed()
+        }
     }
 
     private fun bindViewModel() {
@@ -154,8 +151,7 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
                 castChild<ImageCaptureListener>()?.stopVideoClicked()
             }
             bindCommand(launchPhotoCompleteViewCommand) {
-                val arg = Bundle().apply { putString(galleryFragmentArg, it) }
-                navigate(R.id.action_cameraFragment_to_readyPhotoFragment, arg)
+                castParent<Listener>()?.onOpenReadyPhotoScreen(it)
             }
             bindCommand(declineCommand) {
                 setTextureFragment()
@@ -195,6 +191,11 @@ class CameraFragment : KodeinFragment<CameraViewModel>(), FaceArFragment.Listene
     override fun photoTaken(file: File) {
         viewModel.photoTaken(file, requireContext())
         closeArFragment()
+    }
+
+    interface Listener {
+        fun cameraBackPressed()
+        fun onOpenReadyPhotoScreen(arg: String)
     }
 
     private fun isAllPermissionsGranted(): Boolean =

@@ -1,9 +1,13 @@
 package com.example.uniphoto.api
 
+import com.example.uniphoto.model.dataClasses.FileItem
 import com.example.uniphoto.model.dataClasses.TokenResponse
 import com.example.uniphoto.model.dataClasses.TrialCheckoutResponse
 import com.example.uniphoto.model.dataClasses.UserData
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
+import java.io.File
 
 interface RequestsApi {
 
@@ -23,6 +27,19 @@ interface RequestsApi {
     suspend fun checkTrial(
         @Header("Authorization") token: String
     ): TrialCheckoutResponse
+
+    @Multipart
+    @POST("/post-file")
+    suspend fun postContentFile(
+        @Header("Authorization") token: String,
+        @Part filePart : MultipartBody.Part
+    )
+
+    @GET("/files/{page}")
+    suspend fun getUserContentFiles(
+        @Header("Authorization") token: String,
+        @Path("page") page: Int
+    ): List<FileItem>
 
 //    @POST("/poffers/v0/{uid}/ride")
 //    suspend fun getTripOffers(

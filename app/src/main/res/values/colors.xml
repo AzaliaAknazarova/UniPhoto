@@ -11,4 +11,5 @@
     <color name="textColorLight">#8017212D</color>
     <color name="dustyRose">#D6696B</color>
     <color name="colorPrimaryAlpha">#B3C2E6FB</color>
+    <color name="whiteAlpha">#99FFFFFF</color>
 </resources>

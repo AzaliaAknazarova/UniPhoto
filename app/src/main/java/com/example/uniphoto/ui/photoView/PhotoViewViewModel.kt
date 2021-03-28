@@ -14,12 +14,17 @@ import com.example.uniphoto.BuildConfig
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import com.example.uniphoto.base.lifecycle.LiveArgEvent
 import com.example.uniphoto.base.lifecycle.LiveEvent
+import com.example.uniphoto.model.repository.ContentRepository
+import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
+import org.kodein.di.generic.instance
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.Exception
 import java.nio.file.Files
 
 class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
+    private val contentRepository by instance<ContentRepository>()
 
     lateinit var file : File
 
@@ -58,11 +63,18 @@ class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     }
 
     fun onShareClicked(context: Context) {
-        val intent = Intent()
-        intent.action = Intent.ACTION_SEND
-        intent.type = "video/mp4"
-        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file))
-        shareIntentCommand(intent)
+            launch {
+                try {
+                    contentRepository.postContentFile(file)
+                } catch (exception: Exception) {
+                    exception.printStackTrace()
+                }
+            }
+//        val intent = Intent()
+//        intent.action = Intent.ACTION_SEND
+//        intent.type = "video/mp4"
+//        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file))
+//        shareIntentCommand(intent)
     }
 
     fun onDeleteClicked() {
