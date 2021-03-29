@@ -14,17 +14,13 @@ import com.example.uniphoto.BuildConfig
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import com.example.uniphoto.base.lifecycle.LiveArgEvent
 import com.example.uniphoto.base.lifecycle.LiveEvent
-import com.example.uniphoto.model.repository.ContentRepository
-import kotlinx.coroutines.launch
+import com.example.uniphoto.base.utils.Utils
 import org.kodein.di.Kodein
-import org.kodein.di.generic.instance
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.Exception
 import java.nio.file.Files
 
 class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
-    private val contentRepository by instance<ContentRepository>()
 
     lateinit var file : File
 
@@ -36,7 +32,7 @@ class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     fun init(name: String?, context: Context) {
         name?.let {
             file = File("${context.filesDir}/UniPhoto/$name")
-            if (it.contains(".jpg"))
+            if (Utils.isImageType(file))
                 setPhotoViewCommand(BitmapFactory.decodeFile("${context.filesDir}/UniPhoto/$name"))
             else
                 setupVideoControllerCommand(Uri.fromFile(file))
@@ -49,7 +45,6 @@ class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
             externalDirectory.mkdirs()
         }
 
-        Log.d("log", "on onSavedClicked ${file.name}")
         val externalFile = File(externalDirectory, file.name.toString())
 
         val fos = FileOutputStream(externalFile)
@@ -63,18 +58,11 @@ class PhotoViewViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     }
 
     fun onShareClicked(context: Context) {
-            launch {
-                try {
-                    contentRepository.postContentFile(file)
-                } catch (exception: Exception) {
-                    exception.printStackTrace()
-                }
-            }
-//        val intent = Intent()
-//        intent.action = Intent.ACTION_SEND
-//        intent.type = "video/mp4"
-//        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file))
-//        shareIntentCommand(intent)
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.type = if (Utils.isImageType(file)) "image/jpg" else "video/mp4"
+        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file))
+        shareIntentCommand(intent)
     }
 
     fun onDeleteClicked() {

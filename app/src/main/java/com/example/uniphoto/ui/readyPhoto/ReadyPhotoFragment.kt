@@ -37,6 +37,7 @@ class ReadyPhotoFragment: KodeinFragment<ReadyPhotoViewModel>() {
             navigate(R.id.action_readyPhotoFragment_to_mainFragment)
         }
         backpressedImageView.setOnClickListener {
+            castParent<Listener>()?.onReadyPhotoClosed()
             findNavController().navigateUp()
         }
         savePhotoButton.setOnClickListener { viewModel.onSavedClicked(requireContext()) }
@@ -52,5 +53,9 @@ class ReadyPhotoFragment: KodeinFragment<ReadyPhotoViewModel>() {
                 startActivity(Intent.createChooser(it, "Share"))
             }
         }
+    }
+
+    interface Listener {
+        fun onReadyPhotoClosed()
     }
 }

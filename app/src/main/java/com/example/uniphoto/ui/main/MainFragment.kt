@@ -1,7 +1,6 @@
 package com.example.uniphoto.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,13 @@ import com.example.uniphoto.ui.camera.CameraFragment
 import com.example.uniphoto.ui.feed.FeedMainTabFragment
 import com.example.uniphoto.ui.galery.GalleryFragment
 import com.example.uniphoto.ui.profile.ProfileMainTabFragment
+import com.example.uniphoto.ui.readyPhoto.ReadyPhotoFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment: KodeinFragment<MainViewModel>(),
     CameraFragment.Listener,
-    ProfileMainTabFragment.Listener {
+    ProfileMainTabFragment.Listener,
+    ReadyPhotoFragment.Listener {
 
     override val viewModel by viewModel(MainViewModel::class.java)
 
@@ -35,9 +36,17 @@ class MainFragment: KodeinFragment<MainViewModel>(),
         bindViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (childFragmentManager.fragments.firstOrNull{fragment -> fragment is ProfileMainTabFragment} != null)
+            bottomNavigationView.itemActiveIndex = 2
+    }
+
     fun bindViewModel() {
         with(viewModel) {
             bindCommand(switchScreen) { index ->
+                bottomBarMaterialCardView.isVisible = true
+                bottomNavigationView.itemActiveIndex = index
                 when(index) {
                     0 -> {
                         childFragmentManager.beginTransaction().apply {
@@ -60,14 +69,6 @@ class MainFragment: KodeinFragment<MainViewModel>(),
                     }
                 }
             }
-            bindCommand(closeCameraCommand) {
-                bottomBarMaterialCardView.isVisible = true
-                bottomNavigationView.itemActiveIndex = 0
-                childFragmentManager.beginTransaction().apply {
-                    replace(R.id.containerFrameLayout, FeedMainTabFragment())
-                    commit()
-                }
-            }
             bindCommand(launchGalleryScreen) {
                 navigate(R.id.action_mainFragment_to_galleryFragment)
             }
@@ -79,9 +80,11 @@ class MainFragment: KodeinFragment<MainViewModel>(),
     }
 
     fun initViews() {
-        childFragmentManager.beginTransaction().apply {
-            add(R.id.containerFrameLayout, FeedMainTabFragment())
-            commit()
+        if (childFragmentManager.fragments.firstOrNull() == null) {
+            childFragmentManager.beginTransaction().apply {
+                add(R.id.containerFrameLayout, FeedMainTabFragment())
+                commit()
+            }
         }
 
         bottomNavigationView.onItemSelected = { index ->
@@ -99,5 +102,9 @@ class MainFragment: KodeinFragment<MainViewModel>(),
 
     override fun galleryClicked() {
         viewModel.onGalleryClicked()
+    }
+
+    override fun onReadyPhotoClosed() {
+        viewModel.onReadyPhotoClosed()
     }
 }

@@ -15,7 +15,7 @@ interface RequestsApi {
     @POST("/registration")
     suspend fun signUp(
             @Body userData: UserData
-    )
+    ): UserData
 
     @Headers("Content-Type: application/json")
     @POST("/api-token-auth")
@@ -40,6 +40,11 @@ interface RequestsApi {
         @Header("Authorization") token: String,
         @Path("page") page: Int
     ): List<FileItem>
+
+    @GET("/user-details")
+    suspend fun getUserDetails(
+        @Header("Authorization") token: String
+    ): UserData
 
 //    @POST("/poffers/v0/{uid}/ride")
 //    suspend fun getTripOffers(

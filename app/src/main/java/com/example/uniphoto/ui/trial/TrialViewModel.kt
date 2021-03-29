@@ -43,7 +43,7 @@ class TrialViewModel(kodein: Kodein): KodeinViewModel(kodein) {
         progressBarVisible.value = true
         launch {
             try {
-                val trial = authorizationRepository.checkTrial()
+                val trial = authorizationRepository.checkTrial(Utils.getTokenFromSharedPref())
                 withContext(Dispatchers.Main) {
                     if (trial.daysToEnd == 0) {
                         titleText.value = context.getString(R.string.trial_timeout_title)

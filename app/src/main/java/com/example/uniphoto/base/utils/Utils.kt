@@ -6,6 +6,7 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import com.example.uniphoto.Application
+import java.io.File
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -153,6 +154,11 @@ object Utils {
         val editor = pref.edit()
         editor.clear()
         editor.apply()
+    }
+
+    @JvmStatic
+    fun isImageType(file: File) : Boolean {
+        return file.name.contains(".jpg")
     }
 
 }

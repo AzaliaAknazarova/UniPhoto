@@ -8,7 +8,6 @@ import org.kodein.di.Kodein
 class MainViewModel(kodein: Kodein): KodeinViewModel(kodein) {
 
     val switchScreen = LiveArgEvent<Int>()
-    val closeCameraCommand = LiveEvent()
     val launchGalleryScreen = LiveEvent()
     val launchReadyPhotoScreen = LiveArgEvent<String>()
 
@@ -17,7 +16,7 @@ class MainViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     }
 
     fun onCameraBackPressed() {
-        closeCameraCommand.call()
+        switchScreen(0)
     }
 
     fun onReadyPhotoOpen(arg: String) {
@@ -26,6 +25,10 @@ class MainViewModel(kodein: Kodein): KodeinViewModel(kodein) {
 
     fun onGalleryClicked() {
         launchGalleryScreen.call()
+    }
+
+    fun onReadyPhotoClosed() {
+        switchScreen(0)
     }
 
 }

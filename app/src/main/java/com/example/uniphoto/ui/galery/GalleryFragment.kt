@@ -1,6 +1,7 @@
 package com.example.uniphoto.ui.galery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,10 @@ class GalleryFragment: KodeinFragment<GalleryViewModel>() {
             val arg = Bundle().apply { putString(galleryFragmentArg, it) }
             navigate(R.id.action_galleryFragment_to_photoViewFragment, arg)
         }
+    }
+
+    interface Listener {
+        fun onGalleryBackPressed()
     }
 
     companion object {

@@ -74,7 +74,7 @@ class ReadyPhotoViewModel(kodein: Kodein): KodeinViewModel(kodein) {
             try {
                 contentRepository.postContentFile(file)
             } catch (exception: Exception) {
-
+                exception.printStackTrace()
             }
         }
     }

@@ -26,10 +26,13 @@ class ProfileMainTabFragment: KodeinFragment<ProfileMainTabViewModel>() {
 
         initViews()
         bindViewModel()
+        viewModel.init()
     }
 
     fun bindViewModel() {
         with(viewModel) {
+            bindText(emailText, emailValue)
+            bindText(userNameText, userNameValue)
 
             bindCommand(launchGalleryCommand) {
                 castParent<Listener>()?.galleryClicked()

@@ -10,11 +10,9 @@
         android:name="com.example.uniphoto.ui.main.MainFragment"
         android:label="MainFragment" >
         <action
-            android:id="@+id/action_mainFragment_to_cameraFragment"
-            app:destination="@id/cameraFragment" />
-        <action
             android:id="@+id/action_mainFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
+            app:destination="@id/galleryFragment"
+            app:launchSingleTop="false" />
         <action
             android:id="@+id/action_mainFragment_to_readyPhotoFragment"
             app:destination="@id/readyPhotoFragment" />
@@ -23,15 +21,6 @@
             app:destination="@id/onboardingFragment" />
         <action
             android:id="@+id/action_mainFragment_to_readyPhotoFragment2"
-            app:destination="@id/readyPhotoFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/cameraFragment"
-        android:name="com.example.uniphoto.ui.camera.CameraFragment"
-        android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" >
-        <action
-            android:id="@+id/action_cameraFragment_to_readyPhotoFragment"
             app:destination="@id/readyPhotoFragment" />
     </fragment>
     <fragment
@@ -75,6 +64,7 @@
         <action
             android:id="@+id/action_trialFragment_to_mainFragment"
             app:destination="@id/mainFragment"
+            app:popUpTo="@id/trialFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_trialFragment_to_loginFragment"
