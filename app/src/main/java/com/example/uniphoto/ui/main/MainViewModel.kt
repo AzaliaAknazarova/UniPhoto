@@ -11,12 +11,16 @@ class MainViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val launchGalleryScreen = LiveEvent()
     val launchReadyPhotoScreen = LiveArgEvent<String>()
 
+    fun init() {
+        switchScreen(MainFragment.MainTab.Feed.index)
+    }
+
     fun onBottomNavigationClicked(index: Int) {
         switchScreen(index)
     }
 
     fun onCameraBackPressed() {
-        switchScreen(0)
+        switchScreen(MainFragment.MainTab.Feed.index)
     }
 
     fun onReadyPhotoOpen(arg: String) {
@@ -28,7 +32,7 @@ class MainViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     }
 
     fun onReadyPhotoClosed() {
-        switchScreen(0)
+        switchScreen(MainFragment.MainTab.Feed.index)
     }
 
 }

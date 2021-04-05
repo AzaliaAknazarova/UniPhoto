@@ -13,12 +13,13 @@ import kotlinx.coroutines.withContext
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 class TrialViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     private val authorizationRepository by instance<AuthorizationRepository>()
 
     val progressBarVisible = MutableLiveData(false)
-    val navigateToMainButtonVisible = MutableLiveData(false)
+    val navigateToMainButtonVisible = MutableLiveData<Boolean>()
 
     val titleText = MutableLiveData<String>()
     val subtitleText = MutableLiveData<String>()
@@ -57,6 +58,9 @@ class TrialViewModel(kodein: Kodein): KodeinViewModel(kodein) {
                 }
             } catch (exception: Exception) {
                 withContext(Dispatchers.Main) {
+                    if (exception is UnknownHostException)
+                        launchLoginScreenCommand.call()
+
                     val message = when (exception) {
                         is SocketTimeoutException -> context.getString(R.string.error_timeout)
                         else -> context.getString(R.string.error_unknown)
@@ -64,7 +68,7 @@ class TrialViewModel(kodein: Kodein): KodeinViewModel(kodein) {
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 
                     titleText.value = context.getString(R.string.trial_timeout_title)
-                    subtitleText.value = context.getString(R.string.trial_time_out_subtitle)
+                    subtitleText.value = context.getString(R.string.trial_on_connection_error)
                 }
             } finally {
                 withContext(Dispatchers.Main) {

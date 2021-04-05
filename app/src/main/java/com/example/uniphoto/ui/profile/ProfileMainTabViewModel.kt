@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import com.example.uniphoto.base.lifecycle.LiveArgEvent
 import com.example.uniphoto.base.lifecycle.LiveEvent
+import com.example.uniphoto.base.utils.Utils
 import com.example.uniphoto.model.repository.ContentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class ProfileMainTabViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     private fun getUserData() {
         launch {
             try {
-                val userData = contentRepository.getUserData()
+                val userData = contentRepository.getUserData(Utils.getTokenFromSharedPref())
                 withContext(Dispatchers.Main) {
                     emailText.value = userData.email
                     userNameText.value = userData.username

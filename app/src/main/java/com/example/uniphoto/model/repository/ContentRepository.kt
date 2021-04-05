@@ -10,7 +10,7 @@ import java.io.File
 
 class ContentRepository(private val requestsApi: RequestsApi) {
 
-    suspend fun postContentFile(file: File) {
+    suspend fun postContentFile(file: File, token: String) {
         val filePart = MultipartBody.Part.createFormData(
             "file", file.name, file.asRequestBody(
                 if (file.name.contains(".jpg"))
@@ -19,14 +19,14 @@ class ContentRepository(private val requestsApi: RequestsApi) {
                     "video/*".toMediaType()
             )
         )
-        requestsApi.postContentFile(getToken(), filePart)
+        requestsApi.postContentFile("Token $token", filePart)
     }
 
     suspend fun getContentFiles(page: Int) =
             requestsApi.getUserContentFiles(getToken(), page)
 
-    suspend fun getUserData() =
-        requestsApi.getUserDetails(getToken())
+    suspend fun getUserData(token: String) =
+        requestsApi.getUserDetails("Token $token")
 
     private fun getToken() =
         "Token " + Utils.getTokenFromSharedPref()

@@ -14,6 +14,7 @@ import com.bumptech.glide.RequestBuilder
 import com.example.uniphoto.BuildConfig
 import com.example.uniphoto.base.kodein.KodeinViewModel
 import com.example.uniphoto.base.lifecycle.LiveArgEvent
+import com.example.uniphoto.base.utils.Utils
 import com.example.uniphoto.model.repository.AuthorizationRepository
 import com.example.uniphoto.model.repository.ContentRepository
 import kotlinx.coroutines.launch
@@ -72,7 +73,7 @@ class ReadyPhotoViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     fun postFile() {
         launch {
             try {
-                contentRepository.postContentFile(file)
+                contentRepository.postContentFile(file, Utils.getTokenFromSharedPref())
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }

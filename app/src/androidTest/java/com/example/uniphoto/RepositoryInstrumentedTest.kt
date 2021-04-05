@@ -4,12 +4,16 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.uniphoto.api.RequestsApi
 import com.example.uniphoto.base.kodein.KodeinApplication
+import com.example.uniphoto.base.utils.Utils
 import com.example.uniphoto.model.dataClasses.TokenResponse
 import com.example.uniphoto.model.dataClasses.TrialCheckoutResponse
 import com.example.uniphoto.model.dataClasses.UserData
 import com.example.uniphoto.model.repository.AuthorizationRepository
 import com.example.uniphoto.model.repository.ContentRepository
 import kotlinx.coroutines.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,6 +21,7 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
+import java.io.File
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -78,13 +83,57 @@ class RepositoryInstrumentedTest {
         }
     }
 
+    @Test
+    fun testRepositoryUserData() {
+        runBlocking {
+            val testUserData = UserData(
+                email = "Paulina123$@gmail.com",
+                username = "Paulina123$",
+                password = null)
+            val testToken = "testToken123"
 
+            launch(Dispatchers.Main) {
+                `when`(mock.getUserDetails("Token $testToken")).thenReturn(testUserData)
+                val testGetData = contentRepository.getUserData(testToken)
+                assertEquals(testUserData, testGetData)
+            }
+        }
+    }
 
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.uniphoto", appContext.packageName)
+    fun testRepositoryPostFileImage() {
+        runBlocking {
+            val testFileImage = File("${getContext().filesDir}/UniPhoto", "paulina123.jpg")
+            val filePartImage = MultipartBody.Part.createFormData(
+                "file", testFileImage.name, testFileImage.asRequestBody("image/*".toMediaType())
+            )
+            val testToken = "testToken123"
+
+            launch(Dispatchers.Main) {
+                mock.postContentFile("Token $testToken", filePartImage)
+                contentRepository.postContentFile(testFileImage, testToken)
+
+                Mockito.verify(mock).postContentFile("Token $testToken", filePartImage)
+            }
+        }
+    }
+
+    @Test
+    fun testRepositoryPostFileVideo() {
+        runBlocking {
+            val testFileVideo = File("${getContext().filesDir}/UniPhoto", "paulina123.mp4")
+            val filePartVideo = MultipartBody.Part.createFormData(
+                "file", testFileVideo.name, testFileVideo.asRequestBody("video/*".toMediaType())
+            )
+            val testToken = "testToken123"
+
+            launch(Dispatchers.Main) {
+                mock.postContentFile("Token $testToken", filePartVideo)
+                contentRepository.postContentFile(testFileVideo, testToken)
+
+                Mockito.verify(mock).postContentFile("Token $testToken", filePartVideo)
+            }
+        }
     }
 
     fun getContext() = InstrumentationRegistry.getInstrumentation().targetContext

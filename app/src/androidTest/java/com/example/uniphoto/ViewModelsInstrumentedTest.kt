@@ -1,36 +1,23 @@
 package com.example.uniphoto
 
-import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.uniphoto.api.RequestsApi
 import com.example.uniphoto.base.kodein.KodeinApplication
-import com.example.uniphoto.base.utils.Constants
-import com.example.uniphoto.base.utils.Utils
-import com.example.uniphoto.model.dataClasses.TokenResponse
-import com.example.uniphoto.model.dataClasses.UserData
-import com.example.uniphoto.model.repository.AuthorizationRepository
-import com.example.uniphoto.model.repository.ContentRepository
 import com.example.uniphoto.ui.camera.CameraViewModel
 import com.example.uniphoto.ui.login.SignInViewModel
 import com.example.uniphoto.ui.login.SignUpViewModel
-import kotlinx.coroutines.*
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
-import org.kodein.di.generic.instance
-import org.mockito.Mockito
-import org.mockito.Mockito.`when`
-import java.io.File
 
 /**
  * Instrumented test, which will execute on an Android device.
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-@RunWith(AndroidJUnit4::class)
+
 class ViewModelsInstrumentedTest {
 
     private val cameraViewModel by lazy { CameraViewModel(getKodeinForTest()) }
@@ -81,13 +68,6 @@ class ViewModelsInstrumentedTest {
             contains("pic_")
             contains(".jpg")
         })
-    }
-
-    @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.uniphoto", appContext.packageName)
     }
 
     fun getContext() = InstrumentationRegistry.getInstrumentation().targetContext
