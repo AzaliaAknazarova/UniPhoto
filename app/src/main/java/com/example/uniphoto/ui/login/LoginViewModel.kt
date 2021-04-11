@@ -87,6 +87,6 @@ class LoginViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     fun saveAuthorizationToken(token: String) {
         Log.d("tag", "on saveAuthorizationToken $token")
         Utils.putTokenInSharedPref(token)
-        launchTrialPeriodScreenCommand.call()
+        launchTrialPeriodScreenCommand.set()
     }
 }

@@ -55,6 +55,17 @@ class UtilsInstrumentedTest {
     }
 
     @Test
+    fun testClearTokenFromPrefs() {
+        val testString = "testString123"
+        Utils.putTokenInSharedPref(testString)
+        Utils.removeTokenFromSharedPref()
+
+        val tokenFromPrefs = Utils.getTokenFromSharedPref()
+
+        assertEquals("", tokenFromPrefs)
+    }
+
+    @Test
     fun testClearPrefs() {
         val testString = "testString123"
         Utils.putTokenInSharedPref(testString)

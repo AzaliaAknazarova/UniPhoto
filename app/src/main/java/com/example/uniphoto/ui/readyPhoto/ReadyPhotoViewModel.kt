@@ -65,8 +65,8 @@ class ReadyPhotoViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     fun onShareClicked(context: Context) {
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
-        intent.type = "video/mp4"
-        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",file))
+        intent.type = if (Utils.isImageType(file)) "image/jpg" else "video/mp4"
+        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file))
         shareIntentCommand(intent)
     }
 

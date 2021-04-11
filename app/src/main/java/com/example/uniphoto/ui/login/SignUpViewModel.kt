@@ -19,25 +19,29 @@ class SignUpViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val signUpCommand = LiveArgEvent<Triple<String, String, String>>()
 
     fun onSignUpButtonClicked() {
-        var toSignUp = true
-
-        if (!isUserNameValid(userNameText.value)) {
-            toSignUp = false
-            setUserNameError.call()
-        }
-
-        if (!isEmailValid(emailText.value)) {
-            toSignUp = false
-            setEmailError.call()
-        }
-
-        if (!isPasswordValid(passwordText.value)) {
-            toSignUp = false
-            setPasswordError.call()
-        }
-
+        var toSignUp = verify(userNameText.value, emailText.value, passwordText.value)
         if (toSignUp)
             signUpCommand(Triple(userNameText.value!!, emailText.value!!, passwordText.value!!))
+    }
+
+    fun verify(username: String?, email: String?, password: String?) : Boolean {
+
+        if (!isUserNameValid(username)) {
+            setUserNameError.set()
+            return false
+        }
+
+        if (!isEmailValid(email)) {
+            setEmailError.call()
+            return false
+        }
+
+        if (!isPasswordValid(password)) {
+            setPasswordError.call()
+            return false
+        }
+
+        return true
     }
 
     fun isUserNameValid(username: String?): Boolean = !username.isNullOrEmpty()

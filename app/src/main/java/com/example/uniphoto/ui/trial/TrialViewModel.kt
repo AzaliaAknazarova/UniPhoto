@@ -79,12 +79,12 @@ class TrialViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     }
 
     fun onToMainButtonClicked() {
-            launchMainScreenCommand.call()
+        launchMainScreenCommand.call()
     }
 
     fun onToLoginButtonClicked() {
         Utils.clearSharedPreferences()
-        launchLoginScreenCommand.call()
+        launchLoginScreenCommand.set()
     }
 
 }

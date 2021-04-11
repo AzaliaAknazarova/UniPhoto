@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/small_margin">
+    android:layout_marginBottom="@dimen/small_margin"
+    android:background="@drawable/rounded_blue_background_alfa">
 
     <TextView
         android:id="@+id/userNameTextView"
@@ -11,13 +12,23 @@
         android:layout_marginStart="@dimen/small_margin"
         android:textColor="@color/textColor"
         android:textSize="@dimen/text_size_14"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:padding="@dimen/small_margin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/userNameTextView"
+        android:background="@color/strokeColor"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"/>
 
     <ImageView
         android:id="@+id/photoImageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_margin="@dimen/default_margin"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/userNameTextView"
         android:scaleType="centerCrop" />
 

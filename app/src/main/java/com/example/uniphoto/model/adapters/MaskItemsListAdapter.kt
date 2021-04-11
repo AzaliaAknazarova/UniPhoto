@@ -1,4 +1,4 @@
-package com.example.uniphoto.model
+package com.example.uniphoto.model.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,9 +9,6 @@ import com.example.uniphoto.R
 import com.example.uniphoto.ui.camera.CameraViewModel
 import kotlinx.android.synthetic.main.item_mask.view.*
 
-/**
- * Created by nigelhenshaw on 2018/01/24.
- */
 class MaskItemsListAdapter: RecyclerView.Adapter<MaskItemsListViewHolder>() {
 
     var items = listOf<CameraViewModel.MaskListItem>()

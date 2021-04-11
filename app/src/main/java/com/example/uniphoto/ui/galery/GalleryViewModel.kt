@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
@@ -19,7 +18,7 @@ import java.util.*
 class GalleryViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val dateFormat =  SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
 
-    val videoItemsList = MutableLiveData<List<VideoListItem>>()
+    val galleryItemsList = MutableLiveData<List<GalleryListItem>>()
     val launchVideoViewCommand = LiveArgEvent<String>()
 
     fun init(context: Context) {
@@ -31,22 +30,22 @@ class GalleryViewModel(kodein: Kodein): KodeinViewModel(kodein) {
         val filesList = File("${context.filesDir}/UniPhoto").listFiles()
         Log.d("tag", "on loadAllFilesFromDirectory $filesList")
          filesList?.let {
-            videoItemsList.value = it.map {file ->
+            galleryItemsList.value = it.map { file ->
                 Log.d("tag", "on loadAllFilesFromDirectory ${file.name}")
-                VideoListItem(
+                GalleryListItem(
                     name = file.name,
                     file = file,
                     date = dateFormat.format(file.lastModified()).toString(),
                     imageView = Glide.with(context).load(Uri.fromFile(file)).thumbnail(0.1f),
                     onItemClicked = {position ->
-                        launchVideoViewCommand(videoItemsList.value!![position].name)
+                        launchVideoViewCommand(galleryItemsList.value!![position].name)
                     }
                 )
             }
         }
     }
 
-    data class VideoListItem(
+    data class GalleryListItem(
         val name: String,
         val file: File,
         val date: String,

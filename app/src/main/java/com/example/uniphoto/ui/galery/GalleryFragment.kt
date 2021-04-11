@@ -1,25 +1,20 @@
 package com.example.uniphoto.ui.galery
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.get
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinFragment
-import com.example.uniphoto.model.MaskItemsListAdapter
-import com.example.uniphoto.model.VideoItemsListAdapter
+import com.example.uniphoto.model.adapters.GalleryItemsListAdapter
 import kotlinx.android.synthetic.main.fragment_gallery.*
-import kotlinx.android.synthetic.main.fragment_main.*
 
 class GalleryFragment: KodeinFragment<GalleryViewModel>() {
 
     override val viewModel by viewModel(GalleryViewModel::class.java)
 
-    val videoItemsAdapter = VideoItemsListAdapter()
+    private val galleryItemsAdapter = GalleryItemsListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +33,7 @@ class GalleryFragment: KodeinFragment<GalleryViewModel>() {
     }
 
     fun initViews() {
-        galleryItemsRecyclerView.adapter = videoItemsAdapter
+        galleryItemsRecyclerView.adapter = galleryItemsAdapter
         backpressedImageView.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -46,9 +41,9 @@ class GalleryFragment: KodeinFragment<GalleryViewModel>() {
 
     fun bindViewModel() {
 
-        bind(viewModel.videoItemsList) {
-            videoItemsAdapter.items = it
-            videoItemsAdapter.notifyDataSetChanged()
+        bind(viewModel.galleryItemsList) {
+            galleryItemsAdapter.items = it
+            galleryItemsAdapter.notifyDataSetChanged()
         }
 
         bindCommand(viewModel.launchVideoViewCommand) {

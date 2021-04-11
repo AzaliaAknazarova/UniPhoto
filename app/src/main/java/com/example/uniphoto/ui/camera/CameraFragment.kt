@@ -13,8 +13,7 @@ import androidx.core.view.isVisible
 import com.example.uniphoto.R
 import com.example.uniphoto.base.extensions.isPermissionGranted
 import com.example.uniphoto.base.kodein.KodeinFragment
-import com.example.uniphoto.model.MaskItemsListAdapter
-import com.example.uniphoto.ui.galery.GalleryFragment.Companion.galleryFragmentArg
+import com.example.uniphoto.model.adapters.MaskItemsListAdapter
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_camera.backpressedImageView
 import kotlinx.android.synthetic.main.fragment_camera.videoView

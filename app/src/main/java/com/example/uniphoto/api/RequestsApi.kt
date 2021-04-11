@@ -31,28 +31,21 @@ interface RequestsApi {
         @Part filePart : MultipartBody.Part
     )
 
-    @GET("/files/{page}")
+    @GET("/user-files?page={page}")
     suspend fun getUserContentFiles(
         @Header("Authorization") token: String,
         @Path("page") page: Int
-    ): List<ContentData>
+    ): FilesPage
 
-    @GET("/all-files/{page}")
+    @GET("/all-files")
     suspend fun getAllContentFiles(
         @Header("Authorization") token: String,
-        @Path("page") page: Int
-    ): List<ContentData>
+        @Query("page") page: Int
+    ): FilesPage
 
     @GET("/user-details")
     suspend fun getUserDetails(
         @Header("Authorization") token: String
     ): UserData
-
-//    @POST("/poffers/v0/{uid}/ride")
-//    suspend fun getTripOffers(
-//        @Header("Authorization") userToken: String,
-//        @Path("uid") uId: Long,
-//        @Body request: RidePath
-//    ): List<JsonObject>
 
 }

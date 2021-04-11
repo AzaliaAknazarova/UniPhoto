@@ -10,7 +10,6 @@ import com.example.uniphoto.R
 import com.example.uniphoto.base.kodein.KodeinFragment
 import com.example.uniphoto.ui.galery.GalleryFragment
 import kotlinx.android.synthetic.main.fragment_ready_photo.*
-import kotlinx.android.synthetic.main.item_video.view.*
 
 class ReadyPhotoFragment: KodeinFragment<ReadyPhotoViewModel>() {
 

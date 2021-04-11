@@ -14,5 +14,10 @@ class LiveEvent : () -> Unit {
         liveData.value = null
     }
 
+    @MainThread
+    fun set() {
+        liveData.postValue(null)
+    }
+
     override fun invoke() = call()
 }

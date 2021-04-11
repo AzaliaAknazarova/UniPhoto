@@ -53,6 +53,6 @@
         android:paddingBottom="@dimen/extra_large_margin"
         android:orientation="vertical"
         android:layout_margin="@dimen/default_margin"
-        tools:listitem="@layout/item_video"/>
+        tools:listitem="@layout/item_gallery"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,20 +16,23 @@ class SignInViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     val signInCommand = LiveArgEvent<Pair<String, String>>()
 
     fun onSignInButtonClicked() {
-        var toSignIn = true
-
-        if (!isUserNameValid(userNameText.value)) {
-            toSignIn = false
-            setUserNameError.call()
-        }
-
-        if (!isPasswordValid(passwordText.value)) {
-            toSignIn = false
-            setPasswordError.call()
-        }
-
+        val toSignIn = verify(userNameText.value, passwordText.value)
         if (toSignIn)
             signInCommand(Pair(userNameText.value!!, passwordText.value!!))
+    }
+
+    fun verify(userName: String?, password: String?) : Boolean {
+        if (!isUserNameValid(userName)) {
+            setUserNameError.set()
+            return false
+        }
+
+        if (!isPasswordValid(password)) {
+            setPasswordError.set()
+            return false
+        }
+
+        return true
     }
 
     fun isUserNameValid(userName: String?): Boolean = !userName.isNullOrEmpty()
