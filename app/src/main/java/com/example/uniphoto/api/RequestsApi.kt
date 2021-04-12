@@ -31,10 +31,10 @@ interface RequestsApi {
         @Part filePart : MultipartBody.Part
     )
 
-    @GET("/user-files?page={page}")
+    @GET("/user-files")
     suspend fun getUserContentFiles(
         @Header("Authorization") token: String,
-        @Path("page") page: Int
+        @Query("page") page: Int
     ): FilesPage
 
     @GET("/all-files")

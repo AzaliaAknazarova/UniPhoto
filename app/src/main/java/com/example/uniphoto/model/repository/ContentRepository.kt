@@ -22,11 +22,11 @@ class ContentRepository(private val requestsApi: RequestsApi) {
         requestsApi.postContentFile("Token $token", filePart)
     }
 
-    suspend fun getUserContentFiles(page: Int) =
-            requestsApi.getUserContentFiles(getToken(), page)
+    suspend fun getUserContentFiles(token: String, page: Int) =
+        requestsApi.getUserContentFiles("Token $token", page)
 
-    suspend fun getFeedContentFiles(page: Int) =
-        requestsApi.getAllContentFiles(getToken(), page)
+    suspend fun getFeedContentFiles(token: String, page: Int) =
+        requestsApi.getAllContentFiles("Token $token", page)
 
     suspend fun getUserData(token: String) =
         requestsApi.getUserDetails("Token $token")

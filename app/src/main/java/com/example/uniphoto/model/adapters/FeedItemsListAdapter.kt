@@ -34,9 +34,5 @@ class FeedItemsListViewHolder(view: View) :
         Glide.with(applicationContext())
             .load(item.file)
             .into(itemView.photoImageView)
-
-//        itemView.setOnClickListener {
-//            item.onItemClicked?.invoke(adapterPosition)
-//        }
     }
 }

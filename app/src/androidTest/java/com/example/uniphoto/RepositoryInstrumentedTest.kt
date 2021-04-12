@@ -4,7 +4,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.uniphoto.api.RequestsApi
 import com.example.uniphoto.base.kodein.KodeinApplication
-import com.example.uniphoto.base.utils.Utils
 import com.example.uniphoto.model.dataClasses.TokenResponse
 import com.example.uniphoto.model.dataClasses.TrialCheckoutResponse
 import com.example.uniphoto.model.dataClasses.UserData
@@ -32,7 +31,7 @@ import java.io.File
 class RepositoryInstrumentedTest {
 
     private val mock = Mockito.mock(RequestsApi::class.java)
-    private val authorizationRepository = AuthorizationRepository(mock)
+    private val authorizationRepositoryMock = AuthorizationRepository(mock)
     private val contentRepository = ContentRepository(mock)
 
     @Test
@@ -46,7 +45,7 @@ class RepositoryInstrumentedTest {
 
             launch(Dispatchers.Main) {
                 `when`(mock.signIn(testUserData)).thenReturn(TokenResponse(token = testToken))
-                val testSignIn = authorizationRepository.signIn(testUserData).token
+                val testSignIn = authorizationRepositoryMock.signIn(testUserData).token
                 assertEquals(testToken, testSignIn)
             }
         }
@@ -63,7 +62,7 @@ class RepositoryInstrumentedTest {
 
             launch(Dispatchers.Main) {
                 `when`(mock.signUp(testUserData)).thenReturn(testUserData)
-                val testSignUp = authorizationRepository.signUp(testUserData)
+                val testSignUp = authorizationRepositoryMock.signUp(testUserData)
                 assertEquals(testUserData, testSignUp)
             }
         }
@@ -77,7 +76,7 @@ class RepositoryInstrumentedTest {
 
             launch(Dispatchers.Main) {
                 `when`(mock.checkTrial("Token $testToken")).thenReturn(testTrialCheckoutResponse)
-                val testCheckTrial = authorizationRepository.checkTrial(testToken)
+                val testCheckTrial = authorizationRepositoryMock.checkTrial(testToken)
                 assertEquals(testTrialCheckoutResponse, testCheckTrial)
             }
         }

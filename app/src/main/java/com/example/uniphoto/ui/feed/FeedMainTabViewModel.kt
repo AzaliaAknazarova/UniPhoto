@@ -2,6 +2,7 @@ package com.example.uniphoto.ui.feed
 
 import androidx.lifecycle.MutableLiveData
 import com.example.uniphoto.base.kodein.KodeinViewModel
+import com.example.uniphoto.base.utils.Utils
 import com.example.uniphoto.model.dataClasses.ContentData
 import com.example.uniphoto.model.repository.ContentRepository
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,7 @@ class FeedMainTabViewModel(kodein: Kodein): KodeinViewModel(kodein) {
     fun getContentPage(pageNumber: Int) {
         launch {
             try {
-                val page = contentRepository.getFeedContentFiles(pageNumber)
+                val page = contentRepository.getFeedContentFiles(Utils.getTokenFromSharedPref(), pageNumber)
                 currentPage++
                 nextPageExist = !page.nextPage.isNullOrEmpty()
                 val newItemsList = (feedItemsList.value ?: emptyList()).toMutableList()
