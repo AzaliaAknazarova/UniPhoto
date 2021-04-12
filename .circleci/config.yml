@@ -1,3 +1,10 @@
+name: Android CI
+
+on:
+  push:
+    branches:
+      - 'ci*'
+
 version: 2
 reference:
   ## Paths
