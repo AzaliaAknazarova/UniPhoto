@@ -47,6 +47,12 @@ android {
         }
     }
 }
+android {
+    // Fixed build error : Duplicate files copied in APK META-INF/LICENSE.txt
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -95,6 +101,9 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    configurations {
+        all*.exclude group: 'cglib', module: 'cglib'
+    }
 
     implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.15'
     implementation 'com.github.wseemann:FFmpegMediaMetadataRetriever-native:1.0.15'
@@ -106,6 +115,9 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
 
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.6'
+    implementation 'io.appium:java-client:4.0.0'
+    implementation "com.google.guava:guava:26.0-android"
+    implementation "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava"
 
 }
 
