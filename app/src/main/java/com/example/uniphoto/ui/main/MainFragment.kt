@@ -75,6 +75,9 @@ class MainFragment: KodeinFragment<MainViewModel>(),
                 val arg = Bundle().apply { putString(GalleryFragment.galleryFragmentArg, it) }
                 navigate(R.id.action_mainFragment_to_readyPhotoFragment, arg)
             }
+            bindCommand(launchLoginScreen) {
+                navigate(R.id.action_mainFragment_to_loginFragment)
+            }
         }
     }
 
@@ -98,6 +101,10 @@ class MainFragment: KodeinFragment<MainViewModel>(),
 
     override fun onReadyPhotoClosed() {
         viewModel.onReadyPhotoClosed()
+    }
+
+    override fun navigateToLogin() {
+        viewModel.navigateToLogin()
     }
 
     enum class MainTab(

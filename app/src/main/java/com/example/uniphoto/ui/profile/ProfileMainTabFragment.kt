@@ -37,6 +37,9 @@ class ProfileMainTabFragment: KodeinFragment<ProfileMainTabViewModel>() {
             bindCommand(launchGalleryCommand) {
                 castParent<Listener>()?.galleryClicked()
             }
+            bindCommand(launchLoginScreenCommand) {
+                castParent<Listener>()?.navigateToLogin()
+            }
         }
     }
 
@@ -44,9 +47,13 @@ class ProfileMainTabFragment: KodeinFragment<ProfileMainTabViewModel>() {
         toGalleryLayout.setOnClickListener {
             viewModel.onToGalleryLayoutClicked()
         }
+        logoutTextView.setOnClickListener {
+            viewModel.onLogOutButtonClicked()
+        }
     }
 
     interface Listener {
         fun galleryClicked()
+        fun navigateToLogin()
     }
 }

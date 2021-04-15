@@ -21,6 +21,8 @@ class ProfileMainTabViewModel(kodein: Kodein): KodeinViewModel(kodein) {
 
     val launchGalleryCommand = LiveEvent()
 
+    val launchLoginScreenCommand = LiveEvent()
+
     fun init() {
         getUserData()
     }
@@ -41,6 +43,10 @@ class ProfileMainTabViewModel(kodein: Kodein): KodeinViewModel(kodein) {
 
     fun onToGalleryLayoutClicked() {
         launchGalleryCommand.call()
+    }
+
+    fun onLogOutButtonClicked() {
+        launchLoginScreenCommand.set()
     }
 
 }

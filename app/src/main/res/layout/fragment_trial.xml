@@ -100,18 +100,18 @@
         android:textColor="@color/dustyRose"
         android:textAlignment="center"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/trial_try_again"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="@dimen/large_margin"
-        android:textColor="@color/colorAccent"
-        android:textSize="@dimen/text_size_18"
-        android:drawableStart="@drawable/ic_refresh"
-        android:drawablePadding="@dimen/small_margin"/>
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/trial_try_again"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:layout_marginBottom="@dimen/large_margin"-->
+<!--        android:textColor="@color/colorAccent"-->
+<!--        android:textSize="@dimen/text_size_18"-->
+<!--        android:drawableStart="@drawable/ic_refresh"-->
+<!--        android:drawablePadding="@dimen/small_margin"/>-->
 
     <ProgressBar
         android:id="@+id/progressBar"
