@@ -8,6 +8,9 @@ jobs:
       resource-class: large
     steps:
       - checkout
+      - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
       - android/create-avd:
           avd-name: myavd
           install: true
