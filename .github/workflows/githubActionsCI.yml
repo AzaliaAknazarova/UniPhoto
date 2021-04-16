@@ -1,0 +1,41 @@
+name: Android Build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+
+      - name: Build Project
+        run: ./gradlew assembl
+        
+        
+  tests:
+    runs-on: [ macos-latest ]
+    steps:
+      - uses: actions/checkout@v2
+          
+      - name: Test Coverage
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew build jacocoReport
+          
+      - name: Upload reports
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: code-coverage-report
+          path: ./app/build/reports/
