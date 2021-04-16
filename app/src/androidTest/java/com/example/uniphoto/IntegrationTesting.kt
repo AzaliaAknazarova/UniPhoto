@@ -35,9 +35,6 @@ import kotlin.test.assertFailsWith
 @RunWith(AndroidJUnit4::class)
 class IntegrationTesting {
 
-    @Rule @JvmField
-    var permissionRule = GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
     private val authorizationRepository by getKodeinForTest().instance<AuthorizationRepository>()
     private val contentRepository by getKodeinForTest().instance<ContentRepository>()
 
