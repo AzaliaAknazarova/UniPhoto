@@ -33,7 +33,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew build jacocoReport
+          script: ./gradlew build jacocoTestReport
           
       - name: Upload reports
         uses: actions/upload-artifact@v2
