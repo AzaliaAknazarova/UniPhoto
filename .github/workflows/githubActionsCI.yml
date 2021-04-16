@@ -2,8 +2,6 @@ name: Android Build
 
 on: push
 
-# string test
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,12 +21,14 @@ jobs:
       - name: Build Project
         run: ./gradlew assembl
         
-        
   tests:
     runs-on: [ macos-latest ]
     steps:
       - uses: actions/checkout@v2
-          
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Test Coverage
         uses: reactivecircus/android-emulator-runner@v2
         with:
