@@ -22,7 +22,7 @@ jobs:
         run: ./gradlew assembl
         
   tests:
-    runs-on: [ macos-latest ]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
