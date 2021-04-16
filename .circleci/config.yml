@@ -10,9 +10,6 @@ jobs:
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
-      - run:
-          name: Mkdir test-results
-          command: sudo mkdir test-results
       - android/create-avd:
           avd-name: myavd
           install: true
@@ -25,12 +22,16 @@ jobs:
           test-command: ./gradlew connectedAndroidTest
       - android/save-gradle-cache:
           cache-prefix: v1a
-      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: test-results
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
           when: always
-#      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-#          path: app/build/reports
-#          destination: reports
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
 workflows:
   test:
     jobs:
