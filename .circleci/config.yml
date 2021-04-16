@@ -5,7 +5,6 @@ jobs:
   test:
     executor:
       name: android/android-machine
-#      resource-class: large
     steps:
       - checkout
       - run:
@@ -27,7 +26,8 @@ jobs:
       - android/save-gradle-cache:
           cache-prefix: v1a
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: test-results
+          path: /test-results
+          when: always
 #      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
 #          path: app/build/reports
 #          destination: reports
