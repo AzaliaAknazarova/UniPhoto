@@ -241,6 +241,23 @@ class IntegrationTest {
     }
 
     @Test
+    fun testGetUserContentPageSuccessEmpty() {
+        runBlocking {
+            val testUserData = UserData(
+                email = "test_user1@gmail.com",
+                username = "test_user1",
+                password = "test_user1"
+            )
+
+            launch(Dispatchers.Main) {
+                val newUserToken = authorizationRepository.signIn(testUserData).token
+                val contentPage = contentRepository.getUserContentFiles(newUserToken, 1)
+                assertTrue(contentPage.content.isEmpty())
+            }
+        }
+    }
+
+    @Test
     fun testGetUserContentPageFail() {
         runBlocking {
             val testToken = "testToken123"
