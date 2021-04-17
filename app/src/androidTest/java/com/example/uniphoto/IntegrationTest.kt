@@ -33,10 +33,7 @@ import kotlin.test.assertFailsWith
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class IntegrationTesting {
-
-    @Rule @JvmField
-    var permissionRule = GrantPermissionRule.grant(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+class IntegrationTest {
 
     private val authorizationRepository by getKodeinForTest().instance<AuthorizationRepository>()
     private val contentRepository by getKodeinForTest().instance<ContentRepository>()
@@ -47,14 +44,14 @@ class IntegrationTesting {
     fun testSignUpSuccess() {
         runBlocking {
             val testUserData = UserData(
-                email = "PaulinaPaulina@gmail.com",
-                username = "PaulinaPaulina",
-                password = "Paulina123$"
+                email = "test_user1@gmail.com",
+                username = "test_user1",
+                password = "test_user1"
             )
 
             launch(Dispatchers.Main) {
                 val testSignUp = authorizationRepository.signUp(testUserData)
-                assertEquals(UserData(email = "PaulinaPaulina@gmail.com", username = "PaulinaPaulina"), testSignUp)
+                assertEquals(UserData(email = "test_user1@gmail.com", username = "test_user1"), testSignUp)
             }
         }
     }
@@ -63,8 +60,8 @@ class IntegrationTesting {
     fun testSignUpFailUserExist() {
         runBlocking {
             val testUserData = UserData(
-                email = "PaulinaPaulina@gmail.com",
-                username = "PaulinaPaulina",
+                email = "paulina123@co.eu",
+                username = "paulina123",
                 password = "Paulina123$"
             )
 
@@ -93,7 +90,7 @@ class IntegrationTesting {
     fun testSignInSuccess() {
         runBlocking {
             val testUserData = UserData(
-                username = "PaulinaPaulina",
+                username = "Paulina123",
                 password = "Paulina123$"
             )
 
@@ -108,7 +105,7 @@ class IntegrationTesting {
     fun testSignInFailWrongPassword() {
         runBlocking {
             val testUserData = UserData(
-                username = "Paulina123$",
+                username = "test_user1",
                 password = "P"
             )
 
@@ -137,9 +134,9 @@ class IntegrationTesting {
         runBlocking {
             tokenSuccess = ""
             val testUserData = UserData(
-                email = "PaulinaPaulina@gmail.com",
-                username = "PaulinaPaulina",
-                password = "Paulina123$"
+                email = "test_user2@gmail.com",
+                username = "test_user2",
+                password = "test_user2"
             )
 
             launch(Dispatchers.Main) {
@@ -152,7 +149,7 @@ class IntegrationTesting {
 
     @Test
     fun testCheckTrialSuccess() {
-        //        testSignInSuccess()
+        testSignInSuccess()
         runBlocking {
             launch(Dispatchers.Main) {
                 val testCheckTrial = authorizationRepository.checkTrial(tokenSuccess)
@@ -177,8 +174,8 @@ class IntegrationTesting {
         testSignInSuccess()
         runBlocking {
             val testUserData = UserData(
-                email = "PaulinaPaulina@gmail.com",
-                username = "PaulinaPaulina")
+                email = "paulina123@co.eu",
+                username = "Paulina123")
 
             launch(Dispatchers.Main) {
                 val testGetData = contentRepository.getUserData(tokenSuccess)
@@ -238,7 +235,24 @@ class IntegrationTesting {
         runBlocking {
             launch(Dispatchers.Main) {
                 val contentPage = contentRepository.getUserContentFiles(tokenSuccess, 1)
-                assertTrue(contentPage.content.isNullOrEmpty())
+                assertTrue(contentPage.content.isNotEmpty())
+            }
+        }
+    }
+
+    @Test
+    fun testGetUserContentPageSuccessEmpty() {
+        runBlocking {
+            val testUserData = UserData(
+                email = "test_user1@gmail.com",
+                username = "test_user1",
+                password = "test_user1"
+            )
+
+            launch(Dispatchers.Main) {
+                val newUserToken = authorizationRepository.signIn(testUserData).token
+                val contentPage = contentRepository.getUserContentFiles(newUserToken, 1)
+                assertTrue(contentPage.content.isEmpty())
             }
         }
     }

@@ -4,9 +4,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.uniphoto.api.RequestsApi
 import com.example.uniphoto.base.kodein.KodeinApplication
-import com.example.uniphoto.model.dataClasses.TokenResponse
-import com.example.uniphoto.model.dataClasses.TrialCheckoutResponse
-import com.example.uniphoto.model.dataClasses.UserData
+import com.example.uniphoto.model.dataClasses.*
 import com.example.uniphoto.model.repository.AuthorizationRepository
 import com.example.uniphoto.model.repository.ContentRepository
 import kotlinx.coroutines.*
@@ -28,7 +26,7 @@ import java.io.File
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class RepositoryInstrumentedTest {
+class RepositoryTest {
 
     private val mock = Mockito.mock(RequestsApi::class.java)
     private val authorizationRepositoryMock = AuthorizationRepository(mock)
@@ -131,6 +129,40 @@ class RepositoryInstrumentedTest {
                 contentRepository.postContentFile(testFileVideo, testToken)
 
                 Mockito.verify(mock).postContentFile("Token $testToken", filePartVideo)
+            }
+        }
+    }
+
+    @Test
+    fun testRepositoryGetAllFiles() {
+        runBlocking {
+            val testFile = File("${getContext().filesDir}/UniPhoto", "paulina123.mp4")
+            val contentPage = FilesPage(contentCount = 1, content = listOf(ContentData(testFile.path, "10-10-2019")))
+            val testToken = "testToken123"
+
+            launch(Dispatchers.Main) {
+                `when`(mock.getAllContentFiles("Token $testToken", 1)).thenReturn(contentPage)
+                val contentTest = contentRepository.getFeedContentFiles(testToken, 1)
+
+                assertEquals(contentTest, contentPage)
+                Mockito.verify(mock).getAllContentFiles("Token $testToken", 1)
+            }
+        }
+    }
+
+    @Test
+    fun testRepositoryGetUserFiles() {
+        runBlocking {
+            val testFile = File("${getContext().filesDir}/UniPhoto", "paulina123.mp4")
+            val contentPage = FilesPage(contentCount = 1, content = listOf(ContentData(testFile.path, "10-10-2019")))
+            val testToken = "testToken123"
+
+            launch(Dispatchers.Main) {
+                `when`(mock.getUserContentFiles("Token $testToken", 1)).thenReturn(contentPage)
+                val contentTest = contentRepository.getUserContentFiles(testToken, 1)
+
+                assertEquals(contentTest, contentPage)
+                Mockito.verify(mock).getUserContentFiles("Token $testToken", 1)
             }
         }
     }

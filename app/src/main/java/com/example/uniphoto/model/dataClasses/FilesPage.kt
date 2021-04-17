@@ -6,9 +6,9 @@ data class FilesPage(
     @SerializedName("count")
     val contentCount: Int,
     @SerializedName("next")
-    val nextPage: String?,
+    val nextPage: String? = null,
     @SerializedName("previous")
-    val previousPage: String?,
+    val previousPage: String? = null,
     @SerializedName("results")
     val content: List<ContentData>,
 )
