@@ -31,7 +31,4 @@ class ContentRepository(private val requestsApi: RequestsApi) {
     suspend fun getUserData(token: String) =
         requestsApi.getUserDetails("Token $token")
 
-    private fun getToken() =
-        "Token " + Utils.getTokenFromSharedPref()
-
 }

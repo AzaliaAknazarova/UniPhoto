@@ -33,7 +33,7 @@ import kotlin.test.assertFailsWith
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
-class IntegrationTesting {
+class IntegrationTest {
 
     private val authorizationRepository by getKodeinForTest().instance<AuthorizationRepository>()
     private val contentRepository by getKodeinForTest().instance<ContentRepository>()
